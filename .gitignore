@@ -1,0 +1,13 @@
+.DS_Store
+.env.local
+.venv/
+__pycache__/
+.pytest_cache/
+
+# Raw logs may be selectively ignored later if large.
+# Do not ignore processed evidence by default.
+
+# External EDA tools and PDKs must not be vendored here.
+OpenROAD-flow-scripts/
+pdks/
+tools/

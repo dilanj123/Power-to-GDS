@@ -1,0 +1,29 @@
+{
+  "generated": "2026-09-20",
+  "files": {
+    "00_MASTER_PROJECT_PLAN.md": {
+      "bytes": 34929,
+      "sha256": "05621849790f93be81d6c226f89db6962a8d9aeba80acf3e9ed5e8dcd6c81212"
+    },
+    "01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md": {
+      "bytes": 9332,
+      "sha256": "703fe0821a297eccd25b6c4fd320ecdfa5b24b309ee34f1e2d06a48f526a4df7"
+    },
+    "02_PHASE0_BOOTSTRAP_TASK.md": {
+      "bytes": 11027,
+      "sha256": "37937d5b97ec835fa74bc54a8300aa282778bf921a53c25b1242d0e27111ab90"
+    },
+    "03_START_NEW_CHATGPT_PROJECT.md": {
+      "bytes": 3202,
+      "sha256": "1378452718a0a7e58c041bb978e243176a4ce609d355aea5fe2af1f406a75fd2"
+    },
+    "04_MASTER_CHECKLIST.md": {
+      "bytes": 8878,
+      "sha256": "e156dbe795d007a18af0adaa4fa65d88e1166ef42e175d6f2e59ebd25bfde623"
+    },
+    "MASTER_CHATGPT_HANDOFF_PROMPT.md": {
+      "bytes": 6267,
+      "sha256": "aab6c039a3f4bf3a8d8eea7629bdf61ccf1f30146216e41de7c2cd6c83ac2c2d"
+    }
+  }
+}
