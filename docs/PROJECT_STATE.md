@@ -131,3 +131,34 @@ It does NOT yet qualify:
 
 The Apple-Silicon Mac therefore remains a candidate container host.
 It is not yet the frozen canonical ASIC backend.
+
+## ORFS native-arm64 build attempt 1
+
+Pinned ORFS source:
+`3a964e13f11a4e435aac01ffa14db0a7d2853720`
+
+Host build preflight:
+PASS
+
+First Docker-source-build attempt:
+FAIL before Docker image construction.
+
+Observed failure:
+`build_openroad.sh` terminated while expanding the empty
+`OPENROAD_APP_USER_ARGS` array under nounset handling.
+
+This is currently classified as a host Bash compatibility failure.
+It is NOT evidence of an OpenROAD, Yosys, SKY130HD, or Linux/arm64
+execution failure.
+
+No ORFS builder image was produced, so the subsequent tool smoke
+correctly failed with "No such image".
+
+Remediation:
+qualify a modern Homebrew Bash and retry the unchanged pinned source.
+Do not patch the ORFS source tree.
+
+Evidence:
+- `results/raw/phase0-orfs-native-build-preflight.log`
+- `results/raw/phase0-orfs-native-arm64-build-attempt1-host-bash.log`
+- `results/raw/phase0-orfs-native-arm64-tool-smoke-attempt1-no-image.log`
