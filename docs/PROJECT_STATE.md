@@ -162,3 +162,29 @@ Evidence:
 - `results/raw/phase0-orfs-native-build-preflight.log`
 - `results/raw/phase0-orfs-native-arm64-build-attempt1-host-bash.log`
 - `results/raw/phase0-orfs-native-arm64-tool-smoke-attempt1-no-image.log`
+
+## ORFS native-arm64 build attempt 2
+
+Result:
+FAIL
+
+The modern-Bash remediation passed the previous host-wrapper blocker.
+The build progressed into native linux/arm64 dependency-image
+construction and compiled KLayout 0.30.12.
+
+The build then failed due to Docker/BuildKit memory exhaustion while
+compiling KLayout:
+`ResourceExhausted: cannot allocate memory`.
+
+Classification:
+`RESOURCE-LIMITED DEPENDENCY BUILD FAILURE`
+
+This is not an OpenROAD, Yosys, SKY130HD, UPF or physical-flow result.
+
+Next controlled change:
+limit Docker Desktop to 2 CPUs while holding its memory allocation
+constant, then repeat the same pinned native-arm64 build.
+
+Evidence:
+- `results/raw/phase0-orfs-native-arm64-build-attempt2.log`
+- `results/processed/phase0-native-arm64-attempt2-summary.md`
