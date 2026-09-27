@@ -1,0 +1,5 @@
+puts "PTG_PRE_FLOORPLAN_UPF=ENTER"
+
+set_domain_area PD_SW -area {30 30 60 60}
+
+puts "PTG_PRE_FLOORPLAN_UPF=DOMAIN_AREA_SET"

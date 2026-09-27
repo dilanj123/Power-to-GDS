@@ -4,8 +4,12 @@
 __pycache__/
 .pytest_cache/
 
-# Raw logs may be selectively ignored later if large.
-# Do not ignore processed evidence by default.
+# Generated implementation logs, databases, and work directories are retained
+# locally as raw evidence but are not repository contents.
+/results/raw/
+
+# Processed evidence remains versionable.
+# Do not ignore /results/processed/.
 
 # External EDA tools and PDKs must not be vendored here.
 OpenROAD-flow-scripts/

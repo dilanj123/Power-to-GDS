@@ -77,20 +77,31 @@ Proven:
 - planned ORFS/OpenROAD/Yosys source revisions match exactly.
 
 Not proven:
-- Docker/container flow
-- OpenROAD execution
-- Yosys execution through ORFS
-- KLayout execution
-- SKY130HD availability
+- complete ASIC implementation flow
+- Yosys execution through a complete production flow
+- KLayout sign-off flow
 - ibex reference implementation
-- UPF execution
-- isolation-cell insertion
 - physical power-switch mapping
 - scan insertion
 - timing cleanliness
 - DRC/LVS cleanliness
 - power reduction
 - GDS generation
+
+Qualified in a bounded smoke only:
+- Linux/arm64 Docker execution on the native Apple-Silicon host
+- pinned OpenROAD upstream SKY130HD UPF isolation regression
+- project-owned two-domain UPF isolation intent through synthesis,
+  floorplan, placement, CTS, global route, and detailed-route smoke
+- one legally placed `sky130_fd_sc_hd__lpflow_inputiso0n_1` isolation cell
+
+Evidence:
+`results/processed/phase0-upf-isolation-qualification.md`
+
+This does not complete Gate 0 or establish production/foundry sign-off,
+timing cleanliness, PDN cleanliness, physical power gating, PMU behavior,
+DFT/scan, activity-based power reduction, or complete industrial IEEE 1801
+support.
 
 ## Gate-0 container qualification update — 2026-09-20
 
@@ -188,3 +199,44 @@ constant, then repeat the same pinned native-arm64 build.
 Evidence:
 - `results/raw/phase0-orfs-native-arm64-build-attempt2.log`
 - `results/processed/phase0-native-arm64-attempt2-summary.md`
+
+## Gate-0 UPF isolation qualification — bounded milestone
+
+Environment:
+- native Apple-Silicon host
+- Linux/arm64 Docker
+- SKY130HD
+- OpenROAD no-GUI flow
+
+Pinned revisions:
+- ORFS: `3a964e13f11a4e435aac01ffa14db0a7d2853720`
+- OpenROAD: `4a7cf9b22a5f24f32ce4f4eb1448fef4d2a367ca`
+
+The pinned upstream SKY130HD UPF isolation regression passed and generated
+19 `sky130_fd_sc_hd__lpflow_inputiso0n_1` isolation cells. In the
+project-owned two-domain qualification, `POST_SYNTH_TCL` successfully
+executed `read_upf`; the UPF intent persisted in `1_synth.odb`; the
+`PD_SW` power-domain area was `30 30 60 60 um`; and isolation materialized
+during floorplan initialization.
+
+The project smoke contained one
+`sky130_fd_sc_hd__lpflow_inputiso0n_1` isolation instance. It was legally
+detailed-placed, survived CTS and global route, and detailed route passed
+for this qualification smoke. Final TritonRoute violations were `0`.
+Functional isolation pins `A`, `SLEEP_B`, and `X` all had routed dbWire
+geometry (`3 / 3`). Final antenna violations were `0` net and `0` pin.
+The SKY130HD default `DONT_USE_CELLS` setting was unchanged throughout.
+
+This milestone is bounded. DRT-0349 reports unsupported
+LEF58_ENCLOSURE-without-CUTCLASS constructs, so this is not a
+production/foundry sign-off DRC claim. The tiny smoke has incomplete I/O
+timing constraints and is not timing-clean. An earlier smoke PDN generation
+emitted PDN-0110 and must not be called PDN-clean. Physical power-switch-cell
+realization, project PMU behavior, DFT/scan, and activity-based power
+reduction remain unproven. Full industrial IEEE 1801 support is not
+established, and OpenROAD hierarchical mode reports a development-status
+warning.
+
+This evidence does not claim tapeout, silicon measurement, production
+sign-off, timing closure, full UPF support, physical power gating, power
+reduction, or scan/ATPG success.

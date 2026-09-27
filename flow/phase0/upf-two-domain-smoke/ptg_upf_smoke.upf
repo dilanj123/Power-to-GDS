@@ -1,0 +1,26 @@
+create_power_domain PD_TOP \
+  -elements { . }
+
+create_power_domain PD_SW \
+  -elements { u_sw }
+
+set_isolation iso_sw \
+  -domain PD_SW \
+  -applies_to outputs \
+  -clamp_value 0
+
+set_isolation iso_sw \
+  -domain PD_SW \
+  -update \
+  -isolation_signal iso_en \
+  -isolation_sense low
+
+set_isolation iso_sw \
+  -domain PD_SW \
+  -update \
+  -location parent
+
+use_interface_cell PD_SW \
+  -domain PD_SW \
+  -strategy iso_sw \
+  -lib_cells {sky130_fd_sc_hd__lpflow_inputiso0n_1}
