@@ -23,9 +23,18 @@
 | Gate-0 UPF isolation qualification | `results/processed/phase0-upf-isolation-qualification.md` | PROCESSED EVIDENCE — BOUNDED |
 | POWER-000 power-switch capability capture | `results/raw/phase0-power-switch-capability.log` | CLASSIFICATION B — RAW CAPTURE |
 | POWER-000 power-switch qualification | `results/processed/phase0-power-switch-qualification.md` | CLASSIFICATION B — PROCESSED EVIDENCE |
+| POWER-000 DFT one-cell regression | `results/raw/phase0-dft-one-cell-regression.log` | PASS — scan replacement and SCANCHAINS |
+| POWER-000 DFT scan-architecture regression | `results/raw/phase0-dft-scan-architect-regression.log` | PASS — four chains, 20 scan cells |
+| POWER-000 DFT/scan qualification | `results/processed/phase0-dft-qualification.md` | CLASSIFICATION A — PROCESSED EVIDENCE |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
 POWER-000 separately closes the switch-feasibility branch as a pinned
 physical-library limitation; it does not establish physical power gating or
 complete Gate-0 sign-off.
+
+POWER-000 DFT/scan closes the capability branch as classification A: the
+pinned OpenROAD DFT regressions pass and the actual pinned ORFS SKY130HD
+platform contains usable scan-cell views and Liberty metadata. This does not
+establish ATPG, fault simulation, test coverage, manufacturing qualification,
+production DFT sign-off, or main-design scan integration.

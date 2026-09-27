@@ -82,7 +82,7 @@ Not proven:
 - KLayout sign-off flow
 - ibex reference implementation
 - real SKY130HD physical power-switch implementation
-- scan insertion
+- project-owned scan integration into the main design
 - timing cleanliness
 - DRC/LVS cleanliness
 - power reduction
@@ -134,6 +134,40 @@ Evidence:
 
 Gate 0 remains open because other backend qualification items remain
 unresolved.
+
+## POWER-000 DFT/scan qualification — classification A
+
+POWER-000 DFT/scan capability is qualified as **A** for the pinned
+ORFS/OpenROAD/SKY130HD combination.
+
+The pinned OpenROAD build executes `scan_replace`, `report_dft_plan`, and
+`execute_dft_plan`; `scan_opt` remains an implemented no-op. The actual pinned
+ORFS SKY130HD platform contains 24 Liberty `test_cell` scan masters, including
+`sky130_fd_sc_hd__sdfsbp_1`, with compatible Liberty, merged LEF, and CDL
+views. The scan masters are not in the effective SKY130HD `DONT_USE_CELLS`
+list, which was not modified.
+
+The pinned one-cell regression and multi-cell no-mix scan-architecture
+regression both returned `0` with `No differences found.` The one-cell test
+replaced `sky130_fd_sc_hd__dfstp_1` with
+`sky130_fd_sc_hd__sdfsbp_1`, created one one-bit chain, and emitted scan ports
+and `SCANCHAINS 1` in DEF. The multi-cell test previewed four five-bit chains;
+the preview netlists were identical, while the executed plan stitched scan
+connections. A disposable smoke using the actual ORFS SKY130HD Liberty and
+LEF reproduced the one-cell replacement and DEF scan-chain metadata.
+
+This proves scan-cell replacement, scan-chain architecture, scan-chain
+stitching, scan ports, and database scan-chain metadata. It does not prove
+ATPG, fault simulation, any test coverage, pattern generation, tester or
+manufacturing qualification, production DFT sign-off, scan optimization, or
+physical survival of a project scan experiment. No project RTL or main design
+was modified. The DFT capability branch is closed with classification A, but
+Gate 0 remains open.
+
+Evidence:
+- `results/raw/phase0-dft-one-cell-regression.log`
+- `results/raw/phase0-dft-scan-architect-regression.log`
+- `results/processed/phase0-dft-qualification.md`
 
 ## Gate-0 container qualification update — 2026-09-20
 
