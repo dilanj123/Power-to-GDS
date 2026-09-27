@@ -21,6 +21,11 @@
 | Project two-domain UPF global route | `results/raw/phase0-upf-two-domain-global-route-smoke.log` | GLOBAL ROUTE SURVIVAL PASS |
 | Project two-domain UPF detailed route | `results/raw/phase0-upf-two-domain-detailed-route-smoke.log` | QUALIFICATION SMOKE PASS |
 | Gate-0 UPF isolation qualification | `results/processed/phase0-upf-isolation-qualification.md` | PROCESSED EVIDENCE — BOUNDED |
+| POWER-000 power-switch capability capture | `results/raw/phase0-power-switch-capability.log` | CLASSIFICATION B — RAW CAPTURE |
+| POWER-000 power-switch qualification | `results/processed/phase0-power-switch-qualification.md` | CLASSIFICATION B — PROCESSED EVIDENCE |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
+POWER-000 separately closes the switch-feasibility branch as a pinned
+physical-library limitation; it does not establish physical power gating or
+complete Gate-0 sign-off.

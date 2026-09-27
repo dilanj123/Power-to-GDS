@@ -81,7 +81,7 @@ Not proven:
 - Yosys execution through a complete production flow
 - KLayout sign-off flow
 - ibex reference implementation
-- physical power-switch mapping
+- real SKY130HD physical power-switch implementation
 - scan insertion
 - timing cleanliness
 - DRC/LVS cleanliness
@@ -102,6 +102,38 @@ This does not complete Gate 0 or establish production/foundry sign-off,
 timing cleanliness, PDN cleanliness, physical power gating, PMU behavior,
 DFT/scan, activity-based power reduction, or complete industrial IEEE 1801
 support.
+
+## POWER-000 power-switch qualification — classification B
+
+POWER-000 is qualified as **B** for the pinned ORFS/OpenROAD/SKY130HD
+combination.
+
+Pinned OpenROAD supports UPF power-switch intent, library-cell mapping, and
+physical PDN insertion. The pinned upstream `power_switch_upf_daisy`
+regression passed with return code `0` and reported `No differences found.`
+Its generated DEF contained `751` components and `140` fixed
+`POWER_SWITCH` instances with `VDDG`, `VPWR`, `VGND`, `SLEEP`, and
+`SLEEP_OUT` connectivity.
+
+That regression uses a synthetic test-only `POWER_SWITCH` macro from the
+OpenROAD test tree. The macro is not present in the actual pinned SKY130HD
+platform. All `33` exact SKY130HD `lpflow` cells have Liberty, LEF, and CDL
+views, but none has evidence establishing it as a physical header/footer
+power-switch cell. All `33` remain in the unchanged SKY130HD
+`DONT_USE_CELLS` list.
+
+Therefore the switch-feasibility branch is closed with classification B:
+OpenROAD supports the mechanism, but the selected open SKY130HD platform does
+not contain a valid physical power-switch master. This is a physical-library
+limitation, not a failure of UPF support. No synthetic physical-switch
+implementation was added and no physical power gating is claimed.
+
+Evidence:
+- `results/raw/phase0-power-switch-capability.log`
+- `results/processed/phase0-power-switch-qualification.md`
+
+Gate 0 remains open because other backend qualification items remain
+unresolved.
 
 ## Gate-0 container qualification update — 2026-09-20
 
