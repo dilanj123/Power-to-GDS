@@ -169,7 +169,7 @@ Evidence:
 - `results/raw/phase0-dft-scan-architect-regression.log`
 - `results/processed/phase0-dft-qualification.md`
 
-## POWER-000 project-owned ORFS scan-integration smoke — PASS
+## POWER-000 project-owned ORFS scan-integration placement smoke — PASS
 
 The separate project-owned `flow/phase0/dft-scan-smoke/` design passed the
 pinned ORFS scan-integration smoke without changing imported portfolio RTL,
@@ -198,6 +198,44 @@ Evidence:
 - `results/raw/phase0-dft-project-scan-smoke.log`
 - `results/raw/phase0-dft-scan-work/`
 - `results/processed/phase0-dft-project-integration.md`
+
+## POWER-000 project-owned scan physical-routing qualification — PASS
+
+The follow-on project-owned scan smoke explicitly placed the scan BTerms after
+`execute_dft_plan` using the pinned ORFS operation:
+
+```tcl
+place_pins -hor_layers met3 -ver_layers met2 \
+  {*}[env_var_or_empty PLACE_PINS_ARGS]
+```
+
+The reopened `3_3_place_gp.odb` and `3_5_place_dp.odb` showed all three scan
+BTerms physically placed: `scan_in_0` on `met2`, and `scan_enable_0` and
+`scan_out_0` on `met3`. DPL-0387 was absent after explicit scan-port
+placement. All 12 scan cells remained placed, and all detailed-placement
+violation categories were zero.
+
+CTS passed with 12 functional clock sinks and 3 inserted clock buffers. Global
+route passed with zero congestion overflow and zero antenna violations.
+Detailed route passed with final TritonRoute violations `0`; final antenna net
+and pin violations were both `0`.
+
+The final routed ODB proved one scan chain, 12 scan cells, 3/3 routed scan-port
+nets, and 11/11 routed internal scan nets. The final DEF emitted `SCANCHAINS
+1`, spanning `scan_in_0` to `scan_out_0`.
+
+This is a bounded PASS for supported project-owned scan physical integration.
+Scan-shift-mode timing remains unqualified. No ATPG, fault simulation, fault
+coverage, tester qualification, production DFT sign-off, or foundry-signoff
+routing/DRC claim is made.
+
+Evidence:
+- `results/raw/phase0-dft-scan-route-smoke.log`
+- `results/raw/phase0-dft-scan-route-work/`
+- `results/processed/phase0-dft-scan-route-qualification.md`
+
+Gate 0 remains open because other backend qualification items remain
+unresolved.
 
 ## Gate-0 container qualification update — 2026-09-20
 

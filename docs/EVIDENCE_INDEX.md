@@ -29,6 +29,9 @@
 | POWER-000 project-owned scan-integration raw capture | `results/raw/phase0-dft-project-scan-smoke.log` | PASS — bounded integration smoke |
 | POWER-000 project-owned scan-integration work data | `results/raw/phase0-dft-scan-work/` | IGNORED RAW IMPLEMENTATION DATA |
 | POWER-000 project-owned scan-integration qualification | `results/processed/phase0-dft-project-integration.md` | PASS — bounded, DPL-0387 limitation |
+| POWER-000 scan physical-routing raw capture | `results/raw/phase0-dft-scan-route-smoke.log` | PASS — raw capture, ignored |
+| POWER-000 scan physical-routing work data | `results/raw/phase0-dft-scan-route-work/` | IGNORED RAW IMPLEMENTATION DATA |
+| POWER-000 scan physical-routing qualification | `results/processed/phase0-dft-scan-route-qualification.md` | PASS — bounded physical integration |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
@@ -47,3 +50,12 @@ placement: replacement persisted in `1_synth.odb`, one 12-cell chain and scan
 ports persisted in `3_3_place_gp.odb`, and the same topology persisted in
 `3_5_place_dp.odb`. DPL-0387 reported unplaced scan BTerms, so no scan-I/O
 placement/routability or scan-mode timing claim is made. Gate 0 remains open.
+
+The follow-on project-owned scan physical-routing qualification explicitly
+placed the three scan BTerms, removed the DPL-0387 unplaced-BTerm condition,
+and preserved one 12-cell chain through CTS, global route, and detailed route.
+The final routed ODB contained dbWire geometry for 3/3 scan-port nets and
+11/11 internal scan nets; detailed-route and antenna violations were zero.
+This remains bounded to physical integration and does not establish scan-mode
+timing, ATPG, fault simulation, fault coverage, tester qualification,
+production DFT sign-off, or foundry-signoff routing/DRC.
