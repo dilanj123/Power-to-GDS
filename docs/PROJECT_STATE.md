@@ -135,6 +135,30 @@ Evidence:
 Gate 0 remains open because other backend qualification items remain
 unresolved.
 
+## POWER-000 Ibex conventional timing baselines
+
+The preserved 10.000 ns Ibex result remains a non-closing stress point, not a
+timing-clean baseline. The separately run 10.200 ns and 10.300 ns experiments
+both failed routed setup timing. The 10.300 ns run used only the clock-period
+change from 10.200 ns and completed detailed route with zero route and antenna
+violations, but final extracted STA reported WNS `-0.14 ns`, TNS `-7.83 ns`,
+and `96` setup violations with `0` hold violations. Its worst path remained an
+instruction-stage-to-register-file cone. Therefore no timing-clean
+conventional A/B/C/D baseline is established by these experiments, and no
+GDS/DRC/LVS run was performed for 10.300 ns.
+
+The 10.300 ns report gives `core_clock period_min = 10.44 ns` and `95.80 MHz`
+as an analytical estimate for that exact implementation only. No period sweep
+or implementation workaround was performed. The next period is not selected
+automatically.
+
+Evidence:
+- `results/processed/phase0-ibex-timing-qualification.md`
+- `results/processed/phase0-ibex-10p2ns-baseline.md`
+- `results/processed/phase0-ibex-10p3ns-baseline.md`
+
+Gate 0 remains open.
+
 ## POWER-000 DFT/scan qualification — classification A
 
 POWER-000 DFT/scan capability is qualified as **A** for the pinned

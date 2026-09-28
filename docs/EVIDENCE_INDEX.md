@@ -43,6 +43,8 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Ibex 10 ns timing qualification | `results/processed/phase0-ibex-timing-qualification.md` | KEEP_10NS_AS_NONCLOSING_STRESS_POINT — MIXED |
 | Ibex 10.20 ns comparison baseline raw implementation | `results/raw/phase0-ibex-10p2ns-baseline/` | IGNORED RAW IMPLEMENTATION DATA |
 | Ibex 10.20 ns comparison baseline | `results/processed/phase0-ibex-10p2ns-baseline.md` | FAIL_TIMING — not a clean baseline |
+| Ibex 10.30 ns comparison baseline raw implementation | `results/raw/phase0-ibex-10p3ns-baseline/` | IGNORED RAW IMPLEMENTATION DATA |
+| Ibex 10.30 ns comparison baseline | `results/processed/phase0-ibex-10p3ns-baseline.md` | FAIL_TIMING — not a clean baseline |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
@@ -83,3 +85,13 @@ physical flow. This is
 `PASS_WITH_KNOWN_TOOL_WARNING`: ABC did not succeed without error, the
 underlying ABC algorithmic defect remains in the pinned toolchain, and no
 warning-free synthesis or ABC-fix claim is made. Gate 0 remains open.
+
+The 10.300 ns conventional Ibex experiment changed only the clock-period
+setting from the 10.200 ns run. It completed through final extraction and
+detailed routing, with final detailed-route violations `0` and final antenna
+net/pin violations `0`, but final STA remained failing: WNS `-0.14 ns`, TNS
+`-7.83 ns`, `96` setup violations, and `0` hold violations. The same
+instruction-stage-to-register-file cone remained critical. The run is
+`FAIL_TIMING`; it is not a timing-clean comparison baseline, and no GDS,
+KLayout DRC, or KLayout LVS was run. The report's `10.44 ns` period-minimum
+value is analytical only. Gate 0 remains open.
