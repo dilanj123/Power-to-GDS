@@ -237,6 +237,43 @@ Evidence:
 Gate 0 remains open because other backend qualification items remain
 unresolved.
 
+## POWER-000 Ibex conventional synthesis qualification — PASS_WITH_KNOWN_TOOL_WARNING
+
+The pinned conventional Ibex SKY130HD synthesis result is reproducible and
+fully technology mapped, but the pinned ABC9 flow emits a deterministic
+internal assertion/abort that Yosys tolerates because a valid `output.aig` is
+present.
+
+The `yosys-abc -s -f <tempdir>/abc.script` invocation failed while mapping
+`ibex_core` with return code `134` in both the original and synthesis-only
+reproduction. Direct execution aborted at `giaTim.c:799` on assertion
+`Gia_ObjIsAnd(pObj)`, preceded by repeated `Tim_ManGetCiArrival()` messages.
+No OOM evidence was found; container OOM counters were zero.
+
+Pinned Yosys treats this nonzero ABC exit as a warning when `output.aig`
+exists, then continues through XAIGER2, mapping, checks, and Verilog
+generation. The synthesis target returned `0`; the reproduced `1_2_yosys.v`
+was byte-identical to the original; generic/unmapped cell types were `0` and
+SKY130HD-mapped cell lines numbered `15,658`. The resulting `1_synth.odb`
+contained `14,043` total instances, all `14,043` using SKY130HD masters, and
+the physical flow consumed that exact checkpoint.
+
+This is **PASS_WITH_KNOWN_TOOL_WARNING**, not a warning-free synthesis claim
+and not a claim that ABC succeeded. The underlying ABC algorithmic defect
+remains in the pinned toolchain. Pinned revisions were ORFS
+`3a964e13f11a4e435aac01ffa14db0a7d2853720`, OpenROAD
+`4a7cf9b22a5f24f32ce4f4eb1448fef4d2a367ca`, and Yosys
+`a5af9d690a43744bf6b2cc3dea2717c16b54621c`, using
+`openroad/flow-ubuntu22.04-builder-nogui:26Q3-2276-g4a7cf9b22a-35f109` on
+`aarch64`.
+
+Evidence:
+- `results/raw/phase0-ibex-abc-reproduction.log`
+- `results/raw/phase0-ibex-abc-debug/`
+- `results/processed/phase0-ibex-abc-qualification.md`
+
+Gate 0 remains open until the remaining non-ABC qualifications are resolved.
+
 ## Gate-0 container qualification update — 2026-09-20
 
 Docker Desktop:

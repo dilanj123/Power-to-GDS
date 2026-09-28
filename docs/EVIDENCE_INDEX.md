@@ -32,6 +32,9 @@
 | POWER-000 scan physical-routing raw capture | `results/raw/phase0-dft-scan-route-smoke.log` | PASS — raw capture, ignored |
 | POWER-000 scan physical-routing work data | `results/raw/phase0-dft-scan-route-work/` | IGNORED RAW IMPLEMENTATION DATA |
 | POWER-000 scan physical-routing qualification | `results/processed/phase0-dft-scan-route-qualification.md` | PASS — bounded physical integration |
+| Ibex SKY130HD ABC synthesis reproduction | `results/raw/phase0-ibex-abc-reproduction.log` | PASS_WITH_KNOWN_TOOL_WARNING — deterministic ABC9 assertion, mapped output retained |
+| Ibex ABC9 debug inputs and direct reproduction | `results/raw/phase0-ibex-abc-debug/` | RAW — direct return 134 and `giaTim.c:799` assertion |
+| Ibex ABC synthesis qualification | `results/processed/phase0-ibex-abc-qualification.md` | PASS_WITH_KNOWN_TOOL_WARNING — reproducible, fully technology mapped |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
@@ -59,3 +62,16 @@ The final routed ODB contained dbWire geometry for 3/3 scan-port nets and
 This remains bounded to physical integration and does not establish scan-mode
 timing, ATPG, fault simulation, fault coverage, tester qualification,
 production DFT sign-off, or foundry-signoff routing/DRC.
+
+The conventional Ibex SKY130HD synthesis result is reproducible and fully
+technology mapped, but the pinned ABC9 flow emits a deterministic internal
+assertion/abort that Yosys tolerates because a valid `output.aig` is present.
+The affected module is `ibex_core`; both original and reproduced ABC return
+code `134`, while the direct helper aborts at `giaTim.c:799` on assertion
+`Gia_ObjIsAnd(pObj)`. No OOM evidence was found. The synthesis target returned
+`0`, the reproduced `1_2_yosys.v` was byte-identical, and the resulting
+`1_synth.odb` was fully SKY130HD mapped and was the checkpoint consumed by the
+physical flow. This is
+`PASS_WITH_KNOWN_TOOL_WARNING`: ABC did not succeed without error, the
+underlying ABC algorithmic defect remains in the pinned toolchain, and no
+warning-free synthesis or ABC-fix claim is made. Gate 0 remains open.
