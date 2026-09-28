@@ -274,6 +274,36 @@ Evidence:
 
 Gate 0 remains open until the remaining non-ABC qualifications are resolved.
 
+## POWER-000 Ibex 10 ns timing diagnosis — non-closing stress point
+
+The conventional Ibex SKY130HD reference retains `10.000 ns` as a
+non-closing stress point inherited from the ORFS Ibex example. It is not a
+timing-clean baseline and is not a demonstrated hard Power-to-GDS requirement.
+The corresponding virtual I/O clock is also `10.000 ns`; the existing SDC has
+157 input delays and 106 output delays, all `2.000 ns`, with no false paths,
+multicycle paths, or other timing exceptions.
+
+Final routed timing was WNS `-0.1068 ns`, TNS `-1.93 ns`, with 38 setup and
+zero hold violations. Thirty-six failing reg-to-reg paths converge on one
+register-file endpoint and two are reg-to-output paths. The failure is
+dominated by one deep logic/cell-delay cone. Routed parasitics are the primary
+stage at which closure is lost; CTS is essentially clean at 10 ns, with setup
+skew `0.142 ns`, so skew is secondary. The 24 max-slew and 2 max-cap
+violations are concentrated on two high-fanout data nets.
+
+An analytical zero-slack estimate is approximately `10.11 ns` (`98.94 MHz`).
+This is an estimate only and is not a timing-closure result. No SDC changes,
+false paths, or multicycle workarounds were used.
+
+The project authority documents `docs/REQUIREMENTS.md`,
+`docs/MICROARCHITECTURE.md`, and `docs/TIMING.md` are currently absent; their
+contents and intended requirements were not fabricated. The bounded
+disposition is `KEEP_10NS_AS_NONCLOSING_STRESS_POINT`. Gate 0 remains open.
+
+Evidence:
+- `results/raw/phase0-ibex-timing-diagnosis.log`
+- `results/processed/phase0-ibex-timing-qualification.md`
+
 ## Gate-0 container qualification update — 2026-09-20
 
 Docker Desktop:

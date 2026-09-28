@@ -39,6 +39,8 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Ibex SKY130HD ABC synthesis reproduction | `results/raw/phase0-ibex-abc-reproduction.log` | PASS_WITH_KNOWN_TOOL_WARNING — deterministic ABC9 assertion, mapped output retained |
 | Ibex ABC9 debug inputs and direct reproduction | `results/raw/phase0-ibex-abc-debug/` | RAW — direct return 134 and `giaTim.c:799` assertion |
 | Ibex ABC synthesis qualification | `results/processed/phase0-ibex-abc-qualification.md` | PASS_WITH_KNOWN_TOOL_WARNING — reproducible, fully technology mapped |
+| Ibex 10 ns timing diagnosis raw capture | `results/raw/phase0-ibex-timing-diagnosis.log` | DIAGNOSTIC RAW — ignored |
+| Ibex 10 ns timing qualification | `results/processed/phase0-ibex-timing-qualification.md` | KEEP_10NS_AS_NONCLOSING_STRESS_POINT — MIXED |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
