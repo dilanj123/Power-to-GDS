@@ -41,6 +41,8 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Ibex ABC synthesis qualification | `results/processed/phase0-ibex-abc-qualification.md` | PASS_WITH_KNOWN_TOOL_WARNING — reproducible, fully technology mapped |
 | Ibex 10 ns timing diagnosis raw capture | `results/raw/phase0-ibex-timing-diagnosis.log` | DIAGNOSTIC RAW — ignored |
 | Ibex 10 ns timing qualification | `results/processed/phase0-ibex-timing-qualification.md` | KEEP_10NS_AS_NONCLOSING_STRESS_POINT — MIXED |
+| Ibex 10.20 ns comparison baseline raw implementation | `results/raw/phase0-ibex-10p2ns-baseline/` | IGNORED RAW IMPLEMENTATION DATA |
+| Ibex 10.20 ns comparison baseline | `results/processed/phase0-ibex-10p2ns-baseline.md` | FAIL_TIMING — not a clean baseline |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.

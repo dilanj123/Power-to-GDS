@@ -304,6 +304,32 @@ Evidence:
 - `results/raw/phase0-ibex-timing-diagnosis.log`
 - `results/processed/phase0-ibex-timing-qualification.md`
 
+## POWER-000 Ibex 10.20 ns comparison baseline — FAIL_TIMING
+
+A separate conventional Ibex/SKY130HD implementation changed only the copied
+SDC clock-period variable from `10.000 ns` to `10.200 ns`; the virtual I/O
+clock and derived delays followed that variable. The pinned RTL, library,
+toolchain, flow settings, floorplan, utilization, DONT_USE policy, and timing
+exceptions were otherwise held constant.
+
+The run completed through extraction and final STA, with final WNS `-0.10 ns`,
+TNS `-2.74 ns`, 31 setup violations, and zero hold violations. Max-slew
+violations were `12` and max-capacitance violations `0`. Detailed route
+completed with zero final TritonRoute violations and zero final antenna net or
+pin violations, but the timing acceptance failed. The same register-file
+critical cone remained dominant. The final report estimates approximately
+`10.30 ns` for zero slack; that is a proposed next experiment, not a closure
+result.
+
+Classification is **FAIL_TIMING**. The 10.20 ns run is not a timing-clean
+conventional A/B/C/D comparison target, and no GDS, KLayout DRC, or KLayout
+LVS was run after the failed timing acceptance. The 10 ns result remains the
+documented non-closing stress point. Gate 0 remains open.
+
+Evidence:
+- `results/raw/phase0-ibex-10p2ns-baseline/`
+- `results/processed/phase0-ibex-10p2ns-baseline.md`
+
 ## Gate-0 container qualification update — 2026-09-20
 
 Docker Desktop:
