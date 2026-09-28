@@ -1,5 +1,9 @@
 # Power-to-GDS Evidence Index
 
+Raw tool logs and implementation databases are retained locally under
+`results/raw/` and intentionally excluded from Git. Reproducible processed
+evidence and bounded conclusions are stored under `results/processed/`.
+
 | Evidence | File | Classification |
 |---|---|---|
 | Host/path/tool bootstrap inventory | `results/raw/phase0-bootstrap-inventory.log` | EXECUTION OBSERVATION |
