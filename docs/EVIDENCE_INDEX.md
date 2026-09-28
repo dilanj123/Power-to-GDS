@@ -26,6 +26,9 @@
 | POWER-000 DFT one-cell regression | `results/raw/phase0-dft-one-cell-regression.log` | PASS — scan replacement and SCANCHAINS |
 | POWER-000 DFT scan-architecture regression | `results/raw/phase0-dft-scan-architect-regression.log` | PASS — four chains, 20 scan cells |
 | POWER-000 DFT/scan qualification | `results/processed/phase0-dft-qualification.md` | CLASSIFICATION A — PROCESSED EVIDENCE |
+| POWER-000 project-owned scan-integration raw capture | `results/raw/phase0-dft-project-scan-smoke.log` | PASS — bounded integration smoke |
+| POWER-000 project-owned scan-integration work data | `results/raw/phase0-dft-scan-work/` | IGNORED RAW IMPLEMENTATION DATA |
+| POWER-000 project-owned scan-integration qualification | `results/processed/phase0-dft-project-integration.md` | PASS — bounded, DPL-0387 limitation |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
@@ -38,3 +41,9 @@ pinned OpenROAD DFT regressions pass and the actual pinned ORFS SKY130HD
 platform contains usable scan-cell views and Liberty metadata. This does not
 establish ATPG, fault simulation, test coverage, manufacturing qualification,
 production DFT sign-off, or main-design scan integration.
+
+The project-owned ORFS scan-integration smoke passed through detailed
+placement: replacement persisted in `1_synth.odb`, one 12-cell chain and scan
+ports persisted in `3_3_place_gp.odb`, and the same topology persisted in
+`3_5_place_dp.odb`. DPL-0387 reported unplaced scan BTerms, so no scan-I/O
+placement/routability or scan-mode timing claim is made. Gate 0 remains open.

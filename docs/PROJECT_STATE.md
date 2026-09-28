@@ -169,6 +169,36 @@ Evidence:
 - `results/raw/phase0-dft-scan-architect-regression.log`
 - `results/processed/phase0-dft-qualification.md`
 
+## POWER-000 project-owned ORFS scan-integration smoke — PASS
+
+The separate project-owned `flow/phase0/dft-scan-smoke/` design passed the
+pinned ORFS scan-integration smoke without changing imported portfolio RTL,
+the UPF qualification, PDK/library settings, or `DONT_USE_CELLS`.
+
+The original mapped netlist contained 12
+`sky130_fd_sc_hd__dfxtp_1` flops. `POST_SYNTH_TCL` applied `scan_replace`
+before `1_synth.odb`; reopening that checkpoint found 12
+`sky130_fd_sc_hd__sdfxtp_1` scan flops. After global placement,
+`POST_GLOBAL_PLACE_TCL` reported and executed one 12-cell chain. The reopened
+`3_3_place_gp.odb` contained `scan_in_0`, `scan_enable_0`, and `scan_out_0`,
+and DEF `SCANCHAINS 1` metadata. The reopened `3_5_place_dp.odb` retained the
+same topology with all 12 scan cells placed.
+
+Detailed placement returned `0` with zero wrong-region, row-alignment,
+site-alignment, overlap, edge-spacing, and padding violations. DPL-0387 did
+report the three scan BTerms as unplaced. Therefore this smoke does not claim
+scan-I/O physical placement or routability, routed scan connectivity, scan-mode
+timing, ATPG, fault coverage, or production DFT sign-off. The SDC used only the
+functional clock and added no broad false paths.
+
+This closes the project-owned scan-integration smoke as a bounded PASS, but
+Gate 0 remains open.
+
+Evidence:
+- `results/raw/phase0-dft-project-scan-smoke.log`
+- `results/raw/phase0-dft-scan-work/`
+- `results/processed/phase0-dft-project-integration.md`
+
 ## Gate-0 container qualification update — 2026-09-20
 
 Docker Desktop:
