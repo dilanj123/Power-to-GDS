@@ -44,3 +44,12 @@ Later A/B/C/D work must keep source RTL, pinned toolchain/platform, analysis
 corner, evaluation period, geometry, utilization, constraints, activity
 stimulus, and reporting stage constant unless the experiment explicitly
 documents a necessary delta.
+
+## D-007 — 10.50 ns baseline hard stop
+
+The fresh 10.50 ns conventional experiment completed the physical flow but
+failed final extracted STA: WNS/TNS were `-0.0588205 ns` with one setup
+violation. It is not a frozen comparison baseline. Period-only experiments are
+stopped; no 10.6 ns run or period sweep is authorized. The next timing
+decision must explicitly choose implementation margin or timing-repair
+configuration before A/B/C/D work can begin.

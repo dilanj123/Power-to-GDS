@@ -45,6 +45,13 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Ibex 10.20 ns comparison baseline | `results/processed/phase0-ibex-10p2ns-baseline.md` | FAIL_TIMING — not a clean baseline |
 | Ibex 10.30 ns comparison baseline raw implementation | `results/raw/phase0-ibex-10p3ns-baseline/` | IGNORED RAW IMPLEMENTATION DATA |
 | Ibex 10.30 ns comparison baseline | `results/processed/phase0-ibex-10p3ns-baseline.md` | FAIL_TIMING — not a clean baseline |
+| Project completion audit and execution plan | `results/processed/project-completion-audit-and-plan.md` | PLAN — revised after adversarial review |
+| Runtime and platform freeze manifest | `results/processed/runtime-platform-manifest.md` | EXECUTION FREEZE — image/platform hashes recorded |
+| Immutable imported RTL acceptance | `results/processed/imported-rtl-acceptance.md` | PASS — clean checkout and documented regressions |
+| Gate-0 bounded reproducibility bundle | `results/processed/gate0-reproducibility-bundle.md` | PASS — capability bundle only |
+| Pinned report_power capability | `results/processed/phase0-power-analysis-qualification.md` | QUALIFIED — vectorless estimate methodology |
+| Ibex 10.50 ns conventional baseline | `results/processed/phase0-ibex-10p5ns-baseline.md` | FAIL_TIMING — hard stop, not frozen |
+| Gate-0 closure disposition | `results/processed/gate0-closure-report.md` | NOT CLOSED — timing baseline failed |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
@@ -95,3 +102,12 @@ instruction-stage-to-register-file cone remained critical. The run is
 `FAIL_TIMING`; it is not a timing-clean comparison baseline, and no GDS,
 KLayout DRC, or KLayout LVS was run. The report's `10.44 ns` period-minimum
 value is analytical only. Gate 0 remains open.
+
+Prompt A added the runtime/platform manifest, immutable RTL acceptance,
+bounded reproducibility bundle, and vectorless power-report qualification. The
+fresh 10.50 ns experiment changed only the clock-period setting from 10.30 ns
+and completed through extraction, but final STA failed with WNS/TNS
+`-0.0588205 ns`, one setup violation, and zero hold violations. It is not a
+frozen conventional baseline. No further period-only experiment, GDS/DRC/LVS
+run for this candidate, or A/B/C/D implementation is authorized until a new
+timing strategy is approved.

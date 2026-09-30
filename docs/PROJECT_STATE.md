@@ -6,6 +6,12 @@ Gate 0 — backend qualification.
 
 Gate 0 is NOT complete.
 
+Prompt A completed the runtime/platform freeze, minimum authority documents,
+immutable RTL acceptance, bounded reproducibility bundle, and vectorless
+`report_power` capability qualification. The fresh 10.50 ns conventional
+experiment completed the physical flow but failed final extracted STA, so no
+timing-clean baseline is frozen and no A/B/C/D work is authorized.
+
 ## Workspace
 
 Power-to-GDS repository:
@@ -50,7 +56,9 @@ Yosys submodule:
 Classification:
 `SOURCE REVISION VERIFIED`
 
-Tool execution is NOT yet qualified.
+Tool execution is qualified only for the bounded capabilities recorded in the
+processed evidence below. Runtime identity and canonical platform-input
+hashes are recorded in `results/processed/runtime-platform-manifest.md`.
 
 Evidence:
 `results/processed/phase0-toolchain-freeze.txt`
@@ -65,9 +73,11 @@ An earlier planning observation recorded:
 
 Therefore the RTL-to-Pixels project has advanced.
 
-No Power-to-GDS input RTL commit has been selected or imported yet.
-The future IP-selection gate must freeze an exact known-good commit and
-associated regression evidence before import.
+The immutable source baseline
+`ad35514c990f6e1c9eb9fa18aee9d906f9df7721` was accepted from a fresh detached
+clone. Its documented lint, unit, integration, real-image, and formal targets
+all returned `0`. This accepts a source baseline for later work; it does not
+claim ASIC suitability or physical implementation success.
 
 ## Current claims
 
@@ -88,6 +98,14 @@ Not proven:
 - power reduction
 - GDS generation
 
+The fresh 10.50 ns baseline attempt additionally failed final STA: WNS/TNS
+were `-0.0588205 ns`, with one setup violation, zero hold violations, two
+max-slew violations, and zero max-capacitance violations. Its worst failing
+path was a `vclk_core_clock` reg-to-output path ending at `instr_addr_o[31]`.
+The final report retained `STA-0450` for virtual-clock propagation. The run is
+`GATE0_BASELINE_TIMING = FAIL`; no further period-only experiment or A/B/C/D
+implementation is authorized until a new timing strategy is approved.
+
 Qualified in a bounded smoke only:
 - Linux/arm64 Docker execution on the native Apple-Silicon host
 - pinned OpenROAD upstream SKY130HD UPF isolation regression
@@ -97,6 +115,14 @@ Qualified in a bounded smoke only:
 
 Evidence:
 `results/processed/phase0-upf-isolation-qualification.md`
+
+Prompt-A evidence:
+- `results/processed/runtime-platform-manifest.md`
+- `results/processed/imported-rtl-acceptance.md`
+- `results/processed/gate0-reproducibility-bundle.md`
+- `results/processed/phase0-power-analysis-qualification.md`
+- `results/processed/phase0-ibex-10p5ns-baseline.md`
+- `results/processed/gate0-closure-report.md`
 
 This does not complete Gate 0 or establish production/foundry sign-off,
 timing cleanliness, PDN cleanliness, physical power gating, PMU behavior,
