@@ -27,7 +27,7 @@ not a claim that every later experiment has passed.
 | Yosys source SHA | `a5af9d690a43744bf6b2cc3dea2717c16b54621c` |
 | OpenROAD executable | `/OpenROAD-flow-scripts/tools/install/OpenROAD/bin/openroad` |
 | Yosys executable | `/OpenROAD-flow-scripts/tools/install/yosys/bin/yosys` |
-| KLayout | To be captured from the same image before open-deck execution; absence is recorded rather than substituted |
+| KLayout | Not present in the pinned image (`command -v klayout` and `klayout -v` unavailable); no host substitution was used |
 | OpenROAD self-identification | `unknown` in this image; source SHA above is authoritative |
 | Yosys self-identification | `Yosys 0.68+post`, embedded git SHA reported as `UNKNOWN`; source SHA above is authoritative |
 
