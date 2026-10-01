@@ -52,12 +52,20 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Pinned report_power capability | `results/processed/phase0-power-analysis-qualification.md` | QUALIFIED — vectorless estimate methodology |
 | Ibex 10.50 ns conventional baseline | `results/processed/phase0-ibex-10p5ns-baseline.md` | FAIL_TIMING — hard stop, not frozen |
 | Gate-0 closure disposition | `results/processed/gate0-closure-report.md` | NOT CLOSED — timing baseline failed |
+| Re-established 10.30 ns implementation artifacts | `results/raw/phase0-ibex-10p3ns-reestablished/artifacts/` | IGNORED RAW — retained ODB/SPEF/SDC/DEF and SHA256SUMS |
+| Re-established 10.30 ns margin baseline | `results/processed/phase0-ibex-10p3ns-reestablished.md` | TIMING-CLEAN WITH ELECTRICAL RESIDUALS — 10.50 ns mission STA |
 
 No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
 documented two-domain isolation qualification smoke and its stated limitations.
 POWER-000 separately closes the switch-feasibility branch as a pinned
 physical-library limitation; it does not establish physical power gating or
 complete Gate-0 sign-off.
+
+Gate-defining physical experiments must retain their synthesis ODB, final
+routed ODB, SPEF, final SDC, DEF, major timing reports, full flow log, exact
+configuration, and SHA-256 manifest locally under `results/raw/`. These raw
+artifacts are intentionally excluded from Git; processed summaries must point
+to the retained directory and manifest.
 
 POWER-000 DFT/scan closes the capability branch as classification A: the
 pinned OpenROAD DFT regressions pass and the actual pinned ORFS SKY130HD
@@ -111,3 +119,10 @@ and completed through extraction, but final STA failed with WNS/TNS
 frozen conventional baseline. No further period-only experiment, GDS/DRC/LVS
 run for this candidate, or A/B/C/D implementation is authorized until a new
 timing strategy is approved.
+
+The re-established 10.30 ns implementation passed precise 10.50 ns mission
+STA with WNS `+0.061130657792 ns`, TNS `0`, and zero setup/hold violations.
+One slew and one capacitance violation remain. The exact physical artifacts
+and manifest are retained locally, but the pinned image has no KLayout, so the
+ORFS `gds` target failed before GDS generation and no open-deck DRC/LVS result
+exists. Gate 0 remains open.

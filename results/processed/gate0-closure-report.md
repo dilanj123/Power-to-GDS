@@ -1,7 +1,8 @@
 # Gate-0 closure disposition
 
-Status: **NOT CLOSED**. The required 10.50 ns conventional baseline failed
-final routed STA, so the project remains at a qualified-but-open Gate 0.
+Status: **NOT CLOSED**. The re-established 10.30 ns implementation passes
+10.50 ns mission STA with electrical residuals, but the pinned runtime cannot
+generate GDS or run the required KLayout open-deck checks.
 
 ## Proven in Prompt A
 
@@ -36,6 +37,18 @@ this failed timing candidate.
 
 Therefore 10.50 ns is **not** frozen as the conventional A/B/C/D baseline.
 Period-only experiments are hard-stopped. A/B/C/D work is not authorized.
+
+The explicitly re-established 10.30 ns implementation is a candidate
+implementation-margin baseline. At 10.50 ns mission STA it achieved WNS
+`+0.061130657792 ns`, TNS `0`, zero setup violations, and zero hold
+violations. One max-slew and one max-capacitance residual remain. Its exact
+physical artifacts and SHA-256 manifest are retained locally under
+`results/raw/phase0-ibex-10p3ns-reestablished/artifacts/`.
+
+The ORFS `gds` target was attempted against that exact work directory but
+failed because KLayout is absent from the pinned image. Consequently no GDS,
+open-deck DRC, or open-deck LVS result exists for this candidate, so Gate 0
+cannot close yet.
 
 ## Existing bounded limitations
 

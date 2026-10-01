@@ -12,6 +12,14 @@ immutable RTL acceptance, bounded reproducibility bundle, and vectorless
 experiment completed the physical flow but failed final extracted STA, so no
 timing-clean baseline is frozen and no A/B/C/D work is authorized.
 
+The explicitly authorized re-established 10.30 ns implementation now provides
+the retained physical database required for margin analysis. Exact read-only
+mission STA at 10.50 ns passed with WNS `+0.061130657792 ns`, TNS `0`, zero
+setup violations, and zero hold violations. One max-slew and one
+max-capacitance violation remain. The candidate is therefore timing-clean with
+electrical residuals at the mission period, but Gate 0 remains open because
+the pinned image lacks KLayout and GDS/open-deck DRC/LVS could not be run.
+
 ## Workspace
 
 Power-to-GDS repository:
@@ -105,6 +113,14 @@ path was a `vclk_core_clock` reg-to-output path ending at `instr_addr_o[31]`.
 The final report retained `STA-0450` for virtual-clock propagation. The run is
 `GATE0_BASELINE_TIMING = FAIL`; no further period-only experiment or A/B/C/D
 implementation is authorized until a new timing strategy is approved.
+
+The later re-established 10.30 ns implementation is a separate retained
+candidate, not a correction of the historical run. Its exact artifacts and
+SHA-256 manifest are under
+`results/raw/phase0-ibex-10p3ns-reestablished/artifacts/`. It passes the
+10.50 ns mission STA using the implementation-margin methodology, but it is
+not yet a complete Gate-0 baseline because GDS/DRC/LVS remain unavailable in
+the pinned runtime.
 
 Qualified in a bounded smoke only:
 - Linux/arm64 Docker execution on the native Apple-Silicon host

@@ -20,6 +20,12 @@ Observed results are recorded separately in `docs/PROJECT_STATE.md` and
 6. Report timing, physical implementation, DFT, UPF, power-estimation, DRC,
    and LVS results only at the evidence level actually executed.
 
+For every gate-defining physical experiment, local raw retention must include,
+at minimum, the synthesis ODB, final routed ODB, SPEF, final SDC, final DEF,
+major timing reports, complete flow log, exact configuration, and a SHA-256
+artifact manifest. Raw artifacts remain ignored by Git; processed evidence
+must name the raw directory and artifact manifest.
+
 ## Experimental objectives
 
 The planned study compares a conventional design (A), clock-gated design (B),
