@@ -1,8 +1,8 @@
 # Gate-1 engineering contract
 
-Status: **PASS — engineering intent frozen, with later scope amendment D-011**. This authorizes Prompt B to
-begin by implementing conventional Configuration A. It does not authorize
-skipping A's baseline acceptance and beginning B/C/D transformations early.
+Status: **PASS — engineering intent frozen, with later scope amendments
+D-011 through D-013**. It authorizes conventional Configuration A work only;
+it does not authorize B/C/D before A is accepted.
 No PMU, clock-gated, power-domain, or scan-enabled portfolio implementation
 was run in this task.
 

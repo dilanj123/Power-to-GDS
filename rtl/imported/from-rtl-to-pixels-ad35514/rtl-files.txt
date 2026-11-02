@@ -1,0 +1,12 @@
+pixel_pkg.sv
+rgb_to_gray.sv
+elastic_stage.sv
+apb_regs.sv
+pixel_control.sv
+line_buffer.sv
+window_3x3.sv
+sobel_compact.sv
+magnitude_clamp.sv
+threshold_stage.sv
+output_control.sv
+rtl_to_pixels_top_pipelined.sv

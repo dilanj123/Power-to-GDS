@@ -61,13 +61,19 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Gate-1 verification plan | `docs/VERIFICATION_PLAN.md` | FROZEN TEST PLAN — execution pending |
 | Gate-1 formal contract | `docs/FORMAL.md` | SPECIFIED — no formal proof claimed |
 | Gate-1 DFT contract | `docs/DFT.md` | FROZEN BOUNDED SCOPE — no ATPG/coverage claim |
+| CV-ready scope amendment and 32x24 qualification | `results/processed/config-a-scope-qualification.md` | 640x480 source retained; 32x24 parameterized tests PASS |
+| Configuration A source/configuration | `rtl/imported/from-rtl-to-pixels-ad35514/`, `flow/phase1/`, `constraints/config-a-mission.sdc` | Immutable imported source and parameter-only wrapper |
+| Configuration A conventional baseline | `results/processed/config-a-baseline.md` | FAIL_TIMING — not accepted; GDS generated, no DRC/LVS run |
+| Configuration A raw physical artifacts | `results/raw/phase1-config-a/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS and SHA256SUMS |
+| Configuration A raw simulation | `results/raw/phase1-config-a/sim-runner-verify.log` | Existing tests 4/4 + 5/5 PASS at 32x24 |
 
 Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
-LIMITATION** and Gate 1 is **PASS**. These are project-gate results, not
-foundry or production sign-off. The UPF milestone remains limited to its
-documented two-domain isolation smoke. POWER-000 classification B records the
-pinned physical-library limitation and does not establish physical power
-gating.
+LIMITATION** and Gate 1 is **PASS**. Configuration A is **FAIL_TIMING** and
+is not accepted as the conventional A/B/C/D baseline. B/C/D have not run and
+remain blocked. These are project-gate results, not foundry or production
+sign-off. The UPF milestone remains limited to its documented two-domain
+isolation smoke. POWER-000 classification B records the pinned physical-
+library limitation and does not establish physical power gating.
 
 Gate-defining physical experiments must retain their synthesis ODB, final
 routed ODB, SPEF, final SDC, DEF, major timing reports, full flow log, exact

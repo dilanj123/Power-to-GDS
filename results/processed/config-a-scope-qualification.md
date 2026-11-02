@@ -10,8 +10,11 @@ only to make the repeated physical study manageable and preserves stream,
 Sobel, APB, and frame-boundary behavior.
 
 The 640x480 source regression does not define the ASIC comparison activity
-workload. A deterministic generated 32x24 RGB frame is to be frozen with A
-(generator, seed, and frame hash) and replayed identically for A/B/C/D.
+workload. Configuration A freezes the source test's deterministic `rgb(f)`
+formula at `f=0` as row-major RGB888 (2,304 bytes), SHA-256
+`849d123431b6d407345ffc82b34a426016b5b333058ad874e26d850bfb527f25`.
+This exact frame is retained under `results/raw/phase1-config-a/artifacts/`
+for identical replay in A/B/C/D.
 
 ## Immutable source regression
 

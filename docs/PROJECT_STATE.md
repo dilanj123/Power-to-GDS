@@ -15,15 +15,25 @@ reported `Netlists match`. These are not foundry/production sign-off.
 clock-gating mapping, UPF/isolation subset, DFT scope, timing methodology,
 metrics, fairness controls, and verification/formal plan are recorded in
 `results/processed/gate1-engineering-contract.md` and the Gate-1 authority
-documents. Prompt B may start with conventional Configuration A. B/C/D
-transformations remain gated on A acceptance and preceding evidence review.
+documents. Scope amendments D-011 through D-013 set the ASIC study to 32x24,
+clarify frame-boundary sleep handling, and keep the D scan-chain length
+provisional until A's mapped flop count is known.
+
+**Configuration A: FAIL_TIMING; not accepted as the A/B/C/D baseline.** The
+immutable portfolio source passed the accepted source regression and 32x24
+parameterized functional tests, and its pinned SKY130HD implementation
+completed detailed route and generated GDS. Exact 10.50 ns mission STA failed:
+WNS `-0.847352445126 ns`, TNS `-6.786191463470 ns`, 16 setup endpoints and no
+hold violations. Open-deck DRC/LVS were not run for this timing-failed design.
+Do not begin B/C/D until a new timing strategy is approved.
 
 Current limits: physical SKY130HD power switching, physical power gating,
 PMU execution/formal proof, activity-based power reduction, scan ATPG/fault
 coverage, production timing/DFT sign-off, and foundry sign-off are unproven or
 out of scope. The pinned power-switch qualification remains classification B;
 power reporting is vectorless only. The ABC9 deterministic assertion remains
-`PASS_WITH_KNOWN_TOOL_WARNING`.
+`PASS_WITH_KNOWN_TOOL_WARNING`. Configuration A's actual vectorless power
+report is an estimate only and provides no reduction evidence.
 
 ## Workspace
 
@@ -102,8 +112,15 @@ and vectorless `report_power` execution.
 
 Not proven: foundry sign-off, physical SKY130HD power switching, PMU
 implementation/formal results, activity-based power reduction, ATPG/fault
-coverage, scan-shift timing closure, production timing sign-off, or any later
-A/B/C/D implementation result.
+coverage, scan-shift timing closure, production timing sign-off, an accepted
+portfolio Configuration A, or any B/C/D implementation result.
+
+The first portfolio Configuration A run used the immutable source at 32x24.
+It passed the existing functional test groups but failed the frozen 10.50 ns
+mission timing acceptance on a deep input-to-register arithmetic path. Its
+GDS exists, but no DRC/LVS was run because timing failed. The run is documented
+in `results/processed/config-a-baseline.md`; its locally retained artifacts
+and hash manifest are under `results/raw/phase1-config-a/artifacts/`.
 
 The dated evidence notes below preserve what was known at each earlier stage.
 Statements that Gate 0 was open, KLayout was unavailable, or GDS/DRC/LVS had
