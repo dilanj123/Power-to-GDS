@@ -133,3 +133,26 @@ The historical Gate-1 DFT default remains `-max_length 8 -clock_mixing no_mix`.
 For D, evaluate a maximum chain length of 64 only if supported by the pinned
 tool after Configuration A's mapped flop count is known. Freeze the actual D
 policy before scan insertion. No DFT configuration has changed in A.
+
+## D-014 — portfolio mission-period amendment to 12.00 ns
+
+The earlier Gate-1 contract selected 10.50 ns as the portfolio mission
+evaluation period; no external product requirement mandates that value. The
+first conventional portfolio A implementation, built at the unchanged 10.30 ns
+implementation target, failed read-only 10.50 ns mission STA with WNS
+`-0.847352445126 ns`, TNS `-6.786191463470 ns`, and 16 setup endpoints. On the
+same final ODB and SPEF, evaluation at the single proposed 12.00 ns period
+passes with WNS `+0.652646839619 ns`, TNS `0`, zero setup/hold violations, and
+zero slew/capacitance violations. Its existing GDS passed the pinned open-deck
+DRC (zero items) and LVS (`Netlists match`).
+
+Therefore, for the portfolio A/B/C/D comparison only, retain the 10.30 ns
+implementation target and amend the common mission/evaluation period to
+12.00 ns (83.33 MHz). Preserve 2.06 ns input/output delays, 1.095 ns
+virtual-clock latency, all other constraints, implementation settings, and
+the physical database. This is a reviewed comparison-method decision based on
+the measured A result, not an external product specification, an optimization
+claim, or a claim that A passed at 10.50 ns. The historical 10.50 ns failure
+and the separate Gate-0 Ibex 10.30/10.50 evidence remain unchanged. All later
+variants must independently pass mission STA at 12.00 ns; the change does not
+claim any B/C/D result. Evidence: `results/processed/config-a-timing-recovery.md`.

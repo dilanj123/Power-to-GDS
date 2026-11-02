@@ -1,10 +1,10 @@
 # Gate-1 engineering contract
 
 Status: **PASS — engineering intent frozen, with later scope amendments
-D-011 through D-013**. It authorizes conventional Configuration A work only;
-it does not authorize B/C/D before A is accepted.
-No PMU, clock-gated, power-domain, or scan-enabled portfolio implementation
-was run in this task.
+D-011 through D-014**. Configuration A is now accepted at the D-014 12.00 ns
+mission evaluation period. The next sequential B-gate task may begin; C/D
+remain gated on their preceding configuration reviews. None was implemented
+as part of the timing-recovery work.
 
 ## Frozen source and boundary
 
@@ -79,9 +79,10 @@ for these smaller physical comparisons. See `docs/DECISIONS.md` D-011.
   `-max_length 8 -clock_mixing no_mix`. `scan_opt` is a no-op.
   ATPG, fault simulation/coverage, compression, tester qualification, and
   production DFT sign-off are excluded.
-- Mission and scan timing are separate. The accepted source timing contract
-  is implementation target `10.30 ns`, mission evaluation `10.50 ns`; scan
-  shift has no timing-closure claim.
+- Mission and scan timing are separate. The portfolio implementation target
+  is `10.30 ns`; the reviewed common mission evaluation period is `12.00 ns`
+  under D-014. The earlier 10.50 ns A failure remains documented. Scan shift
+  has no timing-closure claim.
 
 ## Frozen comparison controls
 
@@ -90,21 +91,21 @@ for these smaller physical comparisons. See `docs/DECISIONS.md` D-011.
 | Functional RTL | Same immutable source commit for A/B/C/D |
 | ORFS/OpenROAD/Yosys/image | Exact revisions and image digest in `results/processed/runtime-platform-manifest.md` |
 | Platform/library | SKY130HD `sky130_fd_sc_hd`; compare platform-input hashes before every run |
-| Implementation/evaluation timing | 10.30 ns implementation target; 10.50 ns mission evaluation |
+| Implementation/evaluation timing | 10.30 ns implementation target; 12.00 ns mission evaluation under D-014; 10.50 ns A failure retained historically |
 | I/O timing | 2.06 ns input/output delay from the frozen 10.30 ns / 20% convention; virtual I/O clock latency 1.095 ns; propagated core clock; no exceptions; port mapping recorded in A and copied unchanged |
-| Core geometry | Set by conventional A and frozen before B/C/D; primary variants cannot resize the core. Any capacity rescue is separately labeled and excluded from the primary comparison |
+| Core geometry | Frozen from accepted A: DIEAREA 263.770 x 263.770 um; core area 67,514.752 um^2; row extent 261.28 x 258.40 um. Primary variants cannot resize it. Any capacity rescue is separately labeled and excluded from the primary comparison |
 | Density controls | `CORE_UTILIZATION=50`, `PLACE_DENSITY_LB_ADDON=0.25`, pinned SKY130HD default `PLACE_DENSITY=0.60`; record resolved A settings and copy them unchanged to B/C/D |
 | Synthesis/placement/CTS/routing | Pinned ORFS defaults and platform settings; only documented experiment deltas |
 | Random seed | `FLOW_DEFAULT / UNCONTROLLED`; do not invent a seed after baseline |
 | PDN and pins | Pinned `sky130hd/pdn.tcl`; platform horizontal/vertical pin layers met3/met2; any scan BTerms follow the already qualified explicit placement operation |
 | Activity workload | D-011 amendment: deterministic generated 32x24 RGB frame (768 pixels), APB control `0x00=1`, threshold `0x04=128`, bypass `0`; exact generator/seed/frame hash are frozen with A, then 1,000 drained idle cycles. The 640x480 image workload remains source-regression evidence only. Archive the emitted waveform and annotation coverage before comparative power claims |
-| Power analysis | SKY130HD TT 0.025 C / 1.80 V library, 10.50 ns evaluation, final extracted stage. Create and hash one project report script/parser during A before power comparison, then reuse unchanged. Until common VCD/SAIF annotation is qualified, vectorless results are estimates and cannot support a reduction claim |
+| Power analysis | SKY130HD TT 0.025 C / 1.80 V library, 12.00 ns mission evaluation, final extracted stage. Create and hash one project report script/parser before power comparison, then reuse unchanged. Until common VCD/SAIF annotation is qualified, vectorless results are estimates and cannot support a reduction claim |
 | Metrics | Cell/sequence/ICG/isolation counts, area/utilization, stage and final WNS/TNS/setup/hold/slew/cap, CTS sinks/buffers/skew, wire/vias, route/antenna, GDS/open-deck DRC/LVS, and bounded power report fields |
 
-The effective core dimensions are intentionally selected from A's conventional
-floorplan and must be recorded/hash-frozen before any B/C/D run. The table
-freezes the control rule, not an unmeasured pixel-block geometry. No silently
-resized primary comparison is permitted.
+The effective core dimensions and resolved floorplan controls are now recorded
+and frozen from accepted A. No silently resized primary comparison is
+permitted. A's exact ODB/DEF/SPEF/GDS hashes and read-only 12.00 ns acceptance
+are in `results/processed/config-a-timing-recovery.md`.
 
 ## Configuration sequence and gate decision
 

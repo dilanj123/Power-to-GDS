@@ -26,10 +26,11 @@ technology clock gate open through its wrapper test-mode enable.
 
 ## Timing and exclusions
 
-Mission and scan-shift timing are separate analyses. The mission 10.50 ns
-acceptance does not imply scan-shift timing closure. Later D configuration
-must report scan ports, chain count/length, scan-cell count, BTerm placement,
-routing, and mission/scan timing separately.
+Mission and scan-shift timing are separate analyses. Under D-014, portfolio
+mission evaluation is 12.00 ns; the historical A failure at 10.50 ns remains
+recorded. Passing mission timing does not imply scan-shift timing closure.
+Later D configuration must report scan ports, chain count/length, scan-cell
+count, BTerm placement, routing, and mission/scan timing separately.
 
 Out of scope: ATPG, fault simulation, fault coverage, compression, tester
 qualification, manufacturing test qualification, and production DFT sign-off.

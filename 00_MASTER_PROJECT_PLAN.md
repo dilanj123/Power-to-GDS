@@ -2,8 +2,11 @@
 ## 00 — Master Project Plan
 
 **Planning research snapshot:** 2026-09-20; execution status updated 2026-11-02.
-**Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1 **PASS**. No A/B/C/D portfolio implementation has been run.
-**Readiness:** **READY TO BEGIN GATE-2 CONFIGURATION A**. Low-power variants remain gated on A baseline acceptance.
+**Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1
+**PASS**; conventional portfolio Configuration A **PASS at the amended 12.00 ns
+mission evaluation period**. B/C/D have not been implemented.
+**Readiness:** **Configuration A accepted; later variants may proceed in
+ordered gates under the amended timing contract.**
 
 ---
 
@@ -781,8 +784,12 @@ still verify the mapped behavior where indicated:
 1. Source/top: immutable `ad35514c990f6e1c9eb9fa18aee9d906f9df7721`,
    `rtl_to_pixels_top_pipelined`.
 2. Backend: frozen native Linux/arm64 Docker image on Apple Silicon; not GUI.
-3. Mission timing: 10.30 ns implementation target and 10.50 ns evaluation;
-   port-specific constraint mapping is recorded and held constant in A.
+3. Historical Gate-1 timing contract: 10.30 ns implementation target and
+   10.50 ns evaluation. Following Configuration A's measured 10.50 ns failure,
+   decision D-014 explicitly amends the portfolio A/B/C/D mission evaluation
+   period to 12.00 ns while retaining the 10.30 ns implementation target.
+   The 10.50 ns failure and the Gate-0 Ibex evidence remain historical and
+   unchanged. Port-specific I/O constraints remain fixed.
 4. Quiesce: block new ready/valid accepts and drain accepted pixels plus
    pipeline/frame-completion state. Exact RTL accounting is to be reviewed
    before implementation, with no timeout under fairness.
@@ -807,10 +814,13 @@ still verify the mapped behavior where indicated:
 
 ## 23. Next engineering task
 
-Begin Gate 2 with conventional Configuration A using the immutable accepted
-RTL and Gate-1 controls. Freeze A's core dimensions before any B/C/D
-transformation. Low-power work remains gated on A acceptance. See
-`results/processed/gate1-engineering-contract.md`.
+Configuration A is accepted at the reviewed 12.00 ns mission evaluation
+period using the existing 10.30 ns-built database. Its geometry and resolved
+comparison controls are frozen in
+`results/processed/config-a-baseline.md` and
+`results/processed/gate1-engineering-contract.md`. Later configurations may
+proceed in order under D-014; this readiness statement does not claim that
+B/C/D have run. Preserve the 10.50 ns A failure as historical evidence.
 
 ---
 

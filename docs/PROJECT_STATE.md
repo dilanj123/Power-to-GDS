@@ -10,22 +10,26 @@ capacitance check. GDS was generated from the accepted final database; the
 pinned SKY130HD open-deck DRC returned zero violations, and open-deck LVS
 reported `Netlists match`. These are not foundry/production sign-off.
 
-**Gate 1: PASS — engineering contract frozen.** The accepted immutable
-`rtl_to_pixels_top_pipelined` source, domain boundary, logical PMU sequence,
+**Gate 1: PASS — engineering contract frozen and amended by D-014.** The
+accepted immutable `rtl_to_pixels_top_pipelined` source, domain boundary, logical PMU sequence,
 clock-gating mapping, UPF/isolation subset, DFT scope, timing methodology,
 metrics, fairness controls, and verification/formal plan are recorded in
 `results/processed/gate1-engineering-contract.md` and the Gate-1 authority
-documents. Scope amendments D-011 through D-013 set the ASIC study to 32x24,
-clarify frame-boundary sleep handling, and keep the D scan-chain length
-provisional until A's mapped flop count is known.
+documents. D-011 through D-013 set the ASIC study to 32x24, clarify
+frame-boundary sleep handling, and keep the D scan-chain length provisional
+until A's mapped flop count is known. D-014 sets the portfolio mission
+evaluation period to 12.00 ns while retaining the 10.30 ns implementation
+target and all other comparison controls.
 
-**Configuration A: FAIL_TIMING; not accepted as the A/B/C/D baseline.** The
-immutable portfolio source passed the accepted source regression and 32x24
-parameterized functional tests, and its pinned SKY130HD implementation
-completed detailed route and generated GDS. Exact 10.50 ns mission STA failed:
-WNS `-0.847352445126 ns`, TNS `-6.786191463470 ns`, 16 setup endpoints and no
-hold violations. Open-deck DRC/LVS were not run for this timing-failed design.
-Do not begin B/C/D until a new timing strategy is approved.
+**Configuration A: PASS_AT_12NS_MISSION.** The immutable portfolio source
+passed the accepted source regression and 32x24 parameterized tests. The
+existing implementation database, built at 10.30 ns, passes exact read-only
+STA at 12.00 ns: WNS `+0.652646839619 ns`, TNS `0`, setup `0`, hold `0`, and
+zero slew/capacitance violations. The same GDS passed the pinned open-deck
+DRC with zero items and open-deck LVS with `Netlists match`. A's geometry and
+resolved comparison settings are frozen for later variants. The earlier
+10.50 ns failure remains visible in `results/processed/config-a-baseline.md`.
+B/C/D have not yet been implemented.
 
 Current limits: physical SKY130HD power switching, physical power gating,
 PMU execution/formal proof, activity-based power reduction, scan ATPG/fault
@@ -107,34 +111,39 @@ claim ASIC suitability or physical implementation success.
 Proven at the bounded evidence level: conventional Ibex physical flow through
 GDS; 10.50 ns mission timing acceptance for the exact margin-built database;
 zero-violation pinned open-deck DRC and matching open-deck LVS; immutable
-source regression acceptance; bounded UPF isolation and routed scan smokes;
-and vectorless `report_power` execution.
+source regression acceptance; portfolio Configuration A accepted at its
+amended 12.00 ns mission period with open-deck DRC/LVS; bounded UPF isolation
+and routed scan smokes; and vectorless `report_power` execution.
 
 Not proven: foundry sign-off, physical SKY130HD power switching, PMU
 implementation/formal results, activity-based power reduction, ATPG/fault
-coverage, scan-shift timing closure, production timing sign-off, an accepted
-portfolio Configuration A, or any B/C/D implementation result.
+coverage, scan-shift timing closure, production timing sign-off, or any B/C/D
+implementation result.
 
-The first portfolio Configuration A run used the immutable source at 32x24.
-It passed the existing functional test groups but failed the frozen 10.50 ns
-mission timing acceptance on a deep input-to-register arithmetic path. Its
-GDS exists, but no DRC/LVS was run because timing failed. The run is documented
-in `results/processed/config-a-baseline.md`; its locally retained artifacts
-and hash manifest are under `results/raw/phase1-config-a/artifacts/`.
+The portfolio Configuration A history includes an initial 10.50 ns mission
+failure on a deep input-to-register arithmetic path and the subsequent
+read-only 12.00 ns mission pass on the exact same physical database. The
+existing GDS was then checked: open-deck DRC zero items and LVS `Netlists
+match`. The current disposition is D-014 and the full record is
+`results/processed/config-a-timing-recovery.md`; the raw logs and hashes are
+under `results/raw/phase1-config-a/`.
 
 The dated evidence notes below preserve what was known at each earlier stage.
 Statements that Gate 0 was open, KLayout was unavailable, or GDS/DRC/LVS had
 not yet run are historical and are superseded by the current snapshot above.
 
-The fresh 10.50 ns baseline attempt additionally failed final STA: WNS/TNS
+Historical note: the fresh 10.50 ns baseline attempt additionally failed final STA: WNS/TNS
 were `-0.0588205 ns`, with one setup violation, zero hold violations, two
 max-slew violations, and zero max-capacitance violations. Its worst failing
 path was a `vclk_core_clock` reg-to-output path ending at `instr_addr_o[31]`.
 The final report retained `STA-0450` for virtual-clock propagation. The run is
-`GATE0_BASELINE_TIMING = FAIL`; no further period-only experiment or A/B/C/D
-implementation is authorized until a new timing strategy is approved.
+`GATE0_BASELINE_TIMING = FAIL`. At that historical snapshot, further
+period-only work and portfolio implementation awaited a reviewed timing
+strategy. D-014 later amends the portfolio Configuration A/B/C/D mission
+evaluation method; A now passes at 12.00 ns and the next sequential B-gate
+task may begin. No further Ibex period experiment is authorized.
 
-The later re-established 10.30 ns implementation is a separate retained
+The later re-established 10.30 ns Ibex implementation is a separate retained
 candidate, not a correction of the historical run. Its exact artifacts and
 SHA-256 manifest are under
 `results/raw/phase0-ibex-10p3ns-reestablished/artifacts/`. It passes the

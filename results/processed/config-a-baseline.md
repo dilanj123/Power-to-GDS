@@ -1,9 +1,10 @@
 # Configuration A — conventional ASIC baseline
 
-Status: **FAIL_TIMING — Configuration A is not accepted or frozen as the
-A/B/C/D comparison baseline.** Gate 0 and Gate 1 remain PASS; the first
-portfolio Configuration A failed the frozen mission timing requirement.
-Configurations B/C/D are not authorized by this result.
+Current status: **PASS_AT_12NS_MISSION — Configuration A is accepted and
+frozen as the conventional portfolio baseline at the reviewed 12.00 ns mission
+evaluation period.** Its earlier 10.50 ns evaluation failure remains
+historical and is detailed below. Gate 0 and Gate 1 remain PASS. No B/C/D
+implementation was run in the timing-recovery task.
 
 ## Scope, source, and functional acceptance
 
@@ -45,7 +46,9 @@ Configurations B/C/D are not authorized by this result.
 - Platform/library: pinned ORFS SKY130HD, `sky130_fd_sc_hd`, TT 0.025 C,
   1.80 V. Platform input hashes are in
   `results/processed/runtime-platform-manifest.md`.
-- Implementation target: 10.30 ns. Mission evaluation period: 10.50 ns.
+- Implementation target: 10.30 ns. Current mission evaluation period:
+  12.00 ns under reviewed decision D-014. The prior 10.50 ns mission failure
+  is retained as historical evidence.
 - SDC: physical `core_clock` and virtual `vclk_core_clock`; 2.06 ns input and
   output delays; 1.095 ns virtual-clock latency; 72 constrained input ports,
   46 constrained output ports; no exceptions.
@@ -53,16 +56,17 @@ Configurations B/C/D are not authorized by this result.
   platform; no DONT_USE override was added.
 - Floorplan policy: `CORE_UTILIZATION=50`,
   `PLACE_DENSITY_LB_ADDON=0.25`. Generated DIEAREA is 263.770 x 263.770 um;
-  placement rows span 261.28 x 258.40 um (core area 67,514.752 um^2).
-  Geometry is recorded for this failed A run and is not frozen for B/C/D.
+  core area is 67,514.752 um^2 and its row extent is 261.28 x 258.40 um.
+  Freeze this exact geometry and resolved settings for B/C/D.
 - Random seed: `FLOW_DEFAULT / UNCONTROLLED`.
 - Common generated input frame: source test's `rgb(f)` formula with `f=0`,
   row-major RGB888 bytes (2,304 bytes), SHA-256
   `849d123431b6d407345ffc82b34a426016b5b333058ad874e26d850bfb527f25`.
   The exact binary is retained as
   `results/raw/phase1-config-a/artifacts/activity_frame_32x24_rgb888.bin`.
-- No RTL, SDC, library/PDK, tool, timing, or optimization correction was
-  applied after the failure.
+- No RTL, implementation SDC, library/PDK, tool, or optimization setting was
+  changed after the failure. The later read-only mission evaluation SDC
+  changes only the two clock periods as documented below.
 
 The exact project config, wrapper, mission SDC, source hashes, generated
 checkpoints, reports, GDS and raw logs are retained in
@@ -96,63 +100,76 @@ completed without rerunning synthesis, placement, CTS or routing.
 | Vectorless report_power total | 0.0140082 W (estimate only) |
 
 Final DEF die area is 263.770 x 263.770 um. The final count/area includes
-physical timing repair; these are measured outputs, not fixed inputs for later
-comparisons because A failed.
+physical timing repair. This exact geometry and all resolved comparison
+settings are frozen for B/C/D.
 
 ## Timing
 
 At the 10.30 ns implementation target, ORFS final report recorded WNS
 `-1.04735 ns`, TNS `-10.1545 ns`, 18 setup violations and zero hold
-violations. At the 10.50 ns mission evaluation period, read-only STA on the
-exact final ODB/SPEF recorded:
+violations. The original 10.50 ns mission evaluation on the exact final
+ODB/SPEF failed with WNS/TNS `-0.847352445126 / -6.786191463470 ns`, 16 setup
+endpoints, and zero hold violations. The worst path is input-to-register from
+`s_tdata[12]` to `u_functional_top.u_arithmetic_elastic.m_data[22]$_DFFE_PP_`,
+in path group `core_clock`; the other failing endpoints are in the same
+arithmetic elastic-register cone.
 
-- WNS: `-0.847352445126 ns`
-- TNS: `-6.786191463470 ns`
-- setup violations: 16 distinct endpoints
-- hold violations: 0
-- max-slew violations: 0
-- max-capacitance violations: 0
+Detailed path reporting attributes approximately 8.605 ns to cell arcs and
+0.0097 ns to net increments, in addition to the unchanged 2.06 ns external
+input delay. This is a real setup failure dominated by arithmetic logic depth
+and cell delay, not a missing or disabled input constraint.
 
-The worst path is input-to-register from `s_tdata[12]` to
-`u_functional_top.u_arithmetic_elastic.m_data[22]$_DFFE_PP_`, in path group
-`core_clock`. The other failing endpoints are in the same arithmetic elastic
-register cone. This is a measured logic-depth/cell-delay failure, not an I/O
-path that was removed from analysis. The read-only mission SDC differs from
-`6_final.sdc` only in the two clock periods (10.30 to 10.50 ns); I/O delays,
-latency, propagated physical core clock, and exceptions are unchanged. The STA
-report includes timed reg-to-output paths to `m_tdata`, `m_tvalid`, and `prdata`
-in `vclk_core_clock`.
+The reviewed D-014 read-only mission STA changes only the physical
+`core_clock` and virtual `vclk_core_clock` periods from 10.30 to 12.00 ns in a
+temporary evaluation SDC. On the same final ODB and SPEF it records:
 
-ORFS logged `STA-0450 virtual clock vclk_core_clock can not be propagated`.
-This is expected for a virtual clock with no physical network. It does not
-remove I/O constraints: both input-to-register paths and reg-to-output paths
-are reported. No false paths or multicycle paths were used.
+- WNS: `+0.652646839619 ns`
+- TNS: `0.000000000000 ns`
+- setup/hold violations: `0 / 0`
+- worst hold slack: `+0.417005389929 ns`
+- max-slew/max-capacitance violations: `0 / 0`
+- worst max-slew/max-capacitance margins: `+0.302656680346 ns` and
+  `+0.015018520877 pF`
+
+The evaluated SDC retains 72 input delays at 2.06 ns, 46 output delays at
+2.06 ns, virtual-clock latency 1.095 ns, propagated physical `core_clock`,
+and no exceptions. `check_setup -verbose` reports no constraint-setup
+findings. The previously failing input-to-register path remains present and
+has +0.652646839619 ns slack. Register-to-output paths remain timed; the
+checked `m_tdata[0]` path has +9.642111778259 ns slack. No functional path
+class was removed to obtain timing acceptance.
+
+The A flow's `STA-0450 virtual clock vclk_core_clock can not be propagated`
+warning is expected for a virtual clock with no physical network. It does not
+remove the virtual I/O constraints. A retains active virtual-clock input and
+output delays.
 
 ## Physical finishing and power boundary
 
-The ORFS `all` target's `finish` dependency generated
-`results/raw/phase1-config-a/artifacts/6_final.gds` before the separate 10.50 ns
-mission STA was run. This was an automatic make-target consequence; the GDS is
-retained as raw evidence and is not accepted as successful baseline finishing.
-Its SHA-256 is
+The ORFS `all` target generated
+`results/raw/phase1-config-a/artifacts/6_final.gds` before the original 10.50 ns
+mission STA. After the 12.00 ns timing evaluation passed, the same GDS was
+checked with the pinned SKY130HD open-source decks without rerunning any
+implementation stage. GDS SHA-256 is
 `f1b206d44b83de2751b649c701e8a2e4beb0609c37161b657017ea180121c9b6` and file
-size is 4,125,536 bytes. Since mission timing failed, KLayout DRC and LVS were
-not run. GDS existence is not a physical-clean or sign-off claim.
+size is 4,125,536 bytes. Open-deck DRC returned 0 with zero report items;
+open-deck LVS returned 0 and reported `Netlists match`. These are not foundry
+or production sign-off.
 
-The 14.0082 mW `report_power` result uses default/vectorless activity at the
-flow's TT/1.80 V corner. No VCD/SAIF was supplied. It is an estimate, not
-measured power and not evidence of power reduction.
+The 14.0082 mW `report_power` result was generated during the 10.30 ns
+implementation flow using default/vectorless activity at TT/1.80 V. No
+VCD/SAIF was supplied. It is an estimate, not measured power or evidence of
+power reduction, and is not a 12.00 ns comparative power result.
 
 ## Disposition
 
-Configuration A **fails the frozen 10.50 ns mission timing acceptance** and is
-not the comparison baseline. The route itself completed with zero detailed
-route and antenna violations, and the functional tests pass, but those facts
-do not override setup timing failure. No clearly justified project-owned
-integration/configuration correction can fix the measured deep datapath path
-without changing a frozen constraint/implementation control or the imported
-RTL, so no correction was attempted. Stop before B/C/D and return for a new
-engineering decision on an allowed timing strategy.
+Configuration A **passes the reviewed 12.00 ns mission evaluation** on its
+existing implementation. The 10.50 ns failure remains visible. Decision D-014
+sets 12.00 ns as the common portfolio mission period and retains 10.30 ns as
+the implementation target; all absolute I/O constraints and physical settings
+remain unchanged. A is accepted, and its geometry/settings are frozen for
+later comparisons. No implementation, RTL, or timing-repair change was made
+during this read-only evaluation; B/C/D were not run.
 
 The physical SKY130HD switch-master limitation, PMU behavior, activity-based
 power reduction, DFT/ATPG, scan-mode timing, and production/foundry sign-off
