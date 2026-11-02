@@ -68,11 +68,15 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Configuration A raw physical artifacts | `results/raw/phase1-config-a/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS and SHA256SUMS |
 | Configuration A 12 ns recovery raw logs | `results/raw/phase1-config-a/timing-recovery-12ns/` | IGNORED RAW — evaluation SDC, STA, DRC/LVS logs and reports |
 | Configuration A raw simulation | `results/raw/phase1-config-a/sim-runner-verify.log` | Existing tests 4/4 + 5/5 PASS at 32x24 |
+| Configuration B clock-gating implementation and simulation | `flow/phase1/config-b/`, `constraints/config-b-mission.sdc`, `scripts/run_config_b_*.sh` | ONE mapped ICG; source and directed frame/gating tests PASS |
+| Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
+| Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
 
 Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
 LIMITATION** and Gate 1 is **PASS with D-014 timing amendment**.
 Configuration A is **PASS_AT_12NS_MISSION** and its geometry/settings are
-frozen. B/C/D have not run. These project results are not foundry or
+frozen. Configuration B is **PASS_AT_12NS_MISSION** for the bounded
+clock-gating scope. C and D have not run. These project results are not foundry or
 production sign-off. The UPF milestone remains limited to its documented
 two-domain isolation smoke. POWER-000 classification B records the pinned
 physical-library limitation and does not establish physical power gating.

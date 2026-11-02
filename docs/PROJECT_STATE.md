@@ -29,7 +29,22 @@ zero slew/capacitance violations. The same GDS passed the pinned open-deck
 DRC with zero items and open-deck LVS with `Netlists match`. A's geometry and
 resolved comparison settings are frozen for later variants. The earlier
 10.50 ns failure remains visible in `results/processed/config-a-baseline.md`.
-B/C/D have not yet been implemented.
+
+**Configuration B: PASS_AT_12NS_MISSION — clock-gating only.** One
+`sky130_fd_sc_hd__dlclkp_1` mapped from the qualified `OPENROAD_CLKGATE`
+flow. Functional/reference tests pass (4/4 frame, 5/5 streaming, 1/1 directed
+clock-gate test); a mid-frame sleep request drains all 24 lines and output
+transfers before gating, and wake processes a second frame. At 12.00 ns
+mission STA: WNS `+1.492426633835 ns`, TNS `0`, setup/hold `0/0`, slew/cap
+violations `0/0`. At its 10.30 ns implementation target B is non-closing
+(WNS `-0.207571744919 ns`, TNS `-0.905369162560 ns`) and this remains
+reported. Detailed-route violations are zero; GDS was generated; pinned
+open-deck DRC returned zero and open-deck LVS reported `Netlists match`.
+Vectorless power is estimated at 14.5 mW and is not activity-qualified.
+Evidence: `results/processed/config-b-clock-gating.md`; raw artifacts and
+hashes are retained under `results/raw/phase1-config-b/artifacts/`.
+
+Configuration C and D have not started.
 
 Current limits: physical SKY130HD power switching, physical power gating,
 PMU execution/formal proof, activity-based power reduction, scan ATPG/fault
