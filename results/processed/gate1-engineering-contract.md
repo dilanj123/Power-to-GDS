@@ -1,6 +1,6 @@
 # Gate-1 engineering contract
 
-Status: **PASS — engineering intent frozen**. This authorizes Prompt B to
+Status: **PASS — engineering intent frozen, with later scope amendment D-011**. This authorizes Prompt B to
 begin by implementing conventional Configuration A. It does not authorize
 skipping A's baseline acceptance and beginning B/C/D transformations early.
 No PMU, clock-gated, power-domain, or scan-enabled portfolio implementation
@@ -18,6 +18,13 @@ was run in this task.
 - Switchable boundary: selected functional pixel-processing top (`PD_SW`).
   Source RTL is identical in A/B/C/D. Configuration is reinitialized after
   logical off; no retention is provided.
+
+Scope amendment D-011 retains the source's 640x480 defaults and regression,
+but parameterizes the ASIC A/B/C/D study to 32x24 (768 pixels; 512 bits in
+the two 8-bit line buffers before mapping). Existing parameterized top and
+streaming tests pass at this size. The ASIC activity workload is a deterministic
+generated 32x24 frame; the historical 640x480 activity workload is not used
+for these smaller physical comparisons. See `docs/DECISIONS.md` D-011.
 
 ## Frozen low-power contract
 
@@ -90,7 +97,7 @@ was run in this task.
 | Synthesis/placement/CTS/routing | Pinned ORFS defaults and platform settings; only documented experiment deltas |
 | Random seed | `FLOW_DEFAULT / UNCONTROLLED`; do not invent a seed after baseline |
 | PDN and pins | Pinned `sky130hd/pdn.tcl`; platform horizontal/vertical pin layers met3/met2; any scan BTerms follow the already qualified explicit placement operation |
-| Activity workload | Commit-pinned real image `Tokinokane2005-1-4.jpg` (SHA-256 `8331a2d0edb64057fdf31b1b1385430c58b2698942ef7d29e00e392b7350d5e4`), 640x480, APB control `0x00=1`, threshold `0x04=128`, bypass `0`; same driver, then 1,000 drained idle cycles. Archive the emitted waveform and annotation coverage before comparative power claims |
+| Activity workload | D-011 amendment: deterministic generated 32x24 RGB frame (768 pixels), APB control `0x00=1`, threshold `0x04=128`, bypass `0`; exact generator/seed/frame hash are frozen with A, then 1,000 drained idle cycles. The 640x480 image workload remains source-regression evidence only. Archive the emitted waveform and annotation coverage before comparative power claims |
 | Power analysis | SKY130HD TT 0.025 C / 1.80 V library, 10.50 ns evaluation, final extracted stage. Create and hash one project report script/parser during A before power comparison, then reuse unchanged. Until common VCD/SAIF annotation is qualified, vectorless results are estimates and cannot support a reduction claim |
 | Metrics | Cell/sequence/ICG/isolation counts, area/utilization, stage and final WNS/TNS/setup/hold/slew/cap, CTS sinks/buffers/skew, wire/vias, route/antenna, GDS/open-deck DRC/LVS, and bounded power report fields |
 

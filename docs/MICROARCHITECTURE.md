@@ -96,3 +96,22 @@ streaming pipeline and prove that the scoreboard sees no dropped, duplicated,
 or reordered output transactions across a sleep/wake boundary.
 
 These properties are specified, not formally checked by this document.
+
+## ASIC experiment sizing
+
+Per D-011, the original 640x480 source remains unchanged and is retained as
+source-regression evidence. The A/B/C/D ASIC experiments parameterize this
+same top as 32x24. This reduces the image to 768 pixels and the two 8-bit
+line buffers to 512 storage bits before synthesis, while retaining the full
+streaming, Sobel, APB, and frame-boundary behavior. Configuration A simulation
+at 32x24 is required before the physical baseline is accepted.
+
+## Frame-boundary sleep clarification (D-012)
+
+A sleep request received during `PROCESS`, `DRAIN`, or `WAIT_SOF` is latched.
+The current accepted frame is allowed to finish, including its final output
+transfer. The wrapper then prevents admission of a new frame and begins PMU
+`QUIESCE`; from that point, no new functional input is accepted. This avoids
+stranding a partial frame when the source top stops accepting pixels only at
+frame boundaries. This clarification defines later PMU behavior; it does not
+claim that PMU logic exists or has been verified.

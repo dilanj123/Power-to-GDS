@@ -103,3 +103,33 @@ is qualified and coverage is reported. The planned workload is the pinned
 `docs/POWER_INTENT.md`,
 `docs/VERIFICATION_PLAN.md`, `docs/FORMAL.md`, `docs/DFT.md`, and
 `results/processed/gate1-engineering-contract.md`.
+
+## D-011 — reduced ASIC experiment dimensions
+
+Keep the accepted source's 640x480 defaults, RTL, and full-size regression
+unchanged. For the physical A/B/C/D study, instantiate the same parameterized
+top at 32x24 (768 pixels and 512 pre-mapping line-buffer storage bits). The
+existing source regression was run from a clean detached checkout and passed;
+the existing top and streaming tests also pass at 32x24 with reference-exact
+outputs. This is an ASIC study scope amendment, not a claim that 32x24 is the
+source product's intended/default resolution. Use the same deterministic
+32x24 activity frame for each configuration; the prior 640x480 power-workload
+contract is superseded for this experiment only. Gate-1 history is retained.
+Evidence: `results/raw/phase0-config-a/source-regression.log` and
+`results/raw/phase0-config-a/sim-32x24/`.
+
+## D-012 — sleep request at frame boundaries
+
+Latch a sleep request while a frame is active, let that accepted frame and its
+final output transfer complete, prevent admission of the next frame, and only
+then enter PMU QUIESCE. No functional input is accepted after QUIESCE begins.
+This clarifies the frozen PMU contract to match the selected streaming top's
+frame-completion behavior. It defines future implementation intent only; no
+PMU is implemented or proven by this decision.
+
+## D-013 — provisional scan chain length for reduced design
+
+The historical Gate-1 DFT default remains `-max_length 8 -clock_mixing no_mix`.
+For D, evaluate a maximum chain length of 64 only if supported by the pinned
+tool after Configuration A's mapped flop count is known. Freeze the actual D
+policy before scan insertion. No DFT configuration has changed in A.

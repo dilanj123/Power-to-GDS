@@ -796,8 +796,10 @@ still verify the mapped behavior where indicated:
    switch master exists in the selected pinned platform, so no physical
    switch implementation is planned.
 8. DFT: `scan_replace`/planning/stitching and routed physical integration;
-   scan `max_length=8`, `clock_mixing=no_mix`; ATPG remains out of scope.
-9. Power activity: use VCD from the common deterministic image workload if
+   historical Gate-1 scan `max_length=8`, `clock_mixing=no_mix`; reduced-study
+   chain length is provisional until A's mapped flop count is known; ATPG
+   remains out of scope.
+9. Power activity: use VCD from the common deterministic 32x24 ASIC workload if
    annotation is comparable; otherwise report vectorless estimates only and
    make no reduction claim.
 
@@ -812,7 +814,27 @@ transformation. Low-power work remains gated on A acceptance. See
 
 ---
 
-## 24. Research sources used for this planning snapshot
+## 24. CV-ready ASIC scope amendment (D-011 through D-013)
+
+The immutable `rtl_to_pixels_top_pipelined` source remains unchanged with its
+640x480 defaults and full source regression. To keep repeated physical runs
+manageable, the ASIC A/B/C/D experiment uses that same parameterized top at
+32x24 (768 pixels and 512 bits of two-line-buffer storage before mapping).
+This supersedes only the earlier 640x480 ASIC activity-workload selection;
+that image regression remains source acceptance evidence. A 32x24 parameterized
+simulation must pass before Configuration A is accepted. All four variants
+share its dimensions, deterministic activity frame, core geometry, and frozen
+tool/platform inputs.
+
+PMU sleep requests during a frame are latched until the current frame and its
+final output transfer complete; next-frame admission is blocked before PMU
+QUIESCE begins. The historical Gate-1 DFT chain maximum of 8 remains unchanged
+for that capability evidence. A maximum length of 64 is only proposed for the
+future D implementation, conditional on the mapped flop count from A and
+pinned-tool support. See `docs/DECISIONS.md` D-011 through D-013. These are
+scope/contract amendments, not claims that PMU or DFT transformations have run.
+
+## 25. Research sources used for this planning snapshot
 
 Primary/current sources checked on 2026-09-20:
 

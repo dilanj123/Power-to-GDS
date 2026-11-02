@@ -10,8 +10,11 @@ The pinned OpenROAD flow supports and the project has exercised:
 - `scan_replace`;
 - `report_dft_plan`;
 - `execute_dft_plan`;
-- project policy `-max_length 8 -clock_mixing no_mix` for the first accepted
-  scan experiment;
+- project policy `-max_length 8 -clock_mixing no_mix` remains the historical
+  Gate-1 default. For the smaller ASIC scope, a maximum chain length of 64 is
+  proposed for D only if the pinned tool accepts it. Final D chain policy is
+  frozen only after Configuration A's mapped flop count is known; no scan
+  insertion policy has changed and no D implementation is claimed;
 - generated scan input, enable, and output ports;
 - explicit physical scan BTerm placement;
 - a stitched scan chain with routed connectivity through detailed route.

@@ -40,6 +40,16 @@ switchable functional domain, with quiescence, clock gating, isolation, and
 supported OpenROAD UPF intent. Physical power switching is conditional on a
 valid platform cell and is not assumed.
 
+## ASIC experiment sizing amendment (D-011)
+
+The immutable source project's original 640x480 configuration and regression
+remain intact. The physical A/B/C/D study uses the same source top parameterized
+to `IMG_WIDTH=32`, `IMG_HEIGHT=24` (768 pixels; 512 bits of line-buffer state
+before mapping). This is an experiment-size choice, not a change to the source
+design's canonical dimensions or RTL. The 32x24 setting is accepted only after
+the existing parameterized source testbench passes at those dimensions. All
+variants use the same dimensions and activity workload.
+
 ## Explicit out-of-scope work
 
 The project does not require or claim tapeout, fabrication, silicon

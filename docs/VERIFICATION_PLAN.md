@@ -43,12 +43,13 @@ not be discarded to force shutdown.
 
 ## Activity workload and power stimulus
 
-The common functional activity source is the accepted source regression's
-640x480 real-image workload, using
-`tb/images/Tokinokane2005-1-4.jpg` at SHA-256
-`8331a2d0edb64057fdf31b1b1385430c58b2698942ef7d29e00e392b7350d5e4` and the
-documented `run_real_image_regression.sh` driver. The same APB setup and stream
-sequence is used for all variants. A fixed drained idle interval of 1,000
+The source project's accepted 640x480 real-image regression remains a source
+acceptance test, not the ASIC activity workload. The ASIC experiment uses a
+deterministic 32x24 generated RGB frame (768 pixels) driven through the same
+existing reference scoreboard and parameterized top test. Its generator,
+seed, and frame SHA-256 are recorded with Configuration A before power data is
+collected. The same exact frame, APB setup, and stream sequence are used for
+all A/B/C/D variants. A fixed drained idle interval of 1,000
 functional-clock cycles follows the frame for the clock/power experiment; the
 stimulus harness, APB values, waveform, hashes, and annotation coverage must
 be archived before power numbers are accepted. Sleep/wake directed cases use
@@ -57,6 +58,12 @@ separate named tests and are not mixed into the active-frame power window.
 Configuration D's primary power report is mission mode with scan enable
 inactive. Scan-shift activity/timing is a separate mode and must be labeled
 separately.
+
+The required 32x24 A-baseline simulation reuses the immutable source project's
+existing parameterized top and streaming tests. It checks complete-frame
+reference equality, input/output transaction counts and metadata, final-output
+backpressure, reset, APB setup, and source gaps. It is not a second
+verification framework.
 
 ## Power report admissibility
 
