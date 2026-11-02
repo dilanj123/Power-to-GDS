@@ -27,7 +27,7 @@ not a claim that every later experiment has passed.
 | Yosys source SHA | `a5af9d690a43744bf6b2cc3dea2717c16b54621c` |
 | OpenROAD executable | `/OpenROAD-flow-scripts/tools/install/OpenROAD/bin/openroad` |
 | Yosys executable | `/OpenROAD-flow-scripts/tools/install/yosys/bin/yosys` |
-| KLayout | Not present in the pinned image (`command -v klayout` and `klayout -v` unavailable); no host substitution was used |
+| KLayout | `/usr/local/klayout` is present in the pinned image but not on the default `PATH`; KLayout `0.30.12`, AArch64 ELF, dependencies resolved by `ldd`; no host substitution was used |
 | OpenROAD self-identification | `unknown` in this image; source SHA above is authoritative |
 | Yosys self-identification | `Yosys 0.68+post`, embedded git SHA reported as `UNKNOWN`; source SHA above is authoritative |
 
@@ -53,6 +53,10 @@ checkout is the frozen ORFS tree at the ORFS SHA above.
 | `flow/platforms/sky130hd/drc/sky130hd.lydrc` | `029722ea1fc2cf8c48f09fc670c0b72efb295f799c4eb236b7e9767930ecf772` |
 | `flow/platforms/sky130hd/lvs/sky130hd.lylvs` | `d2d231d7cd00a8261d6653c5f3757badefb1dc0aba29441d8406272e75cd8b90` |
 | `flow/platforms/sky130hd/setRC.tcl` | `6aeade350bf498177ea61506db8849a064a71848b05c18ad6a6e1fc5d62c962a` |
+| `flow/platforms/sky130hd/pdn.tcl` | `d2244586d860af05157a2555a49602a5dfff178f636a797a7c892e8d395b74a8` |
+| `flow/platforms/sky130hd/cells_clkgate_hd.v` | `d61aafde83ce8fa4b5a946095f8d4037caa1804564da157f9db521f495671d3b` |
+| `flow/platforms/sky130hd/gds/sky130_fd_sc_hd.gds` | `15240e34c50e42419336c0f3f498aaeac1e1e403c62134c0eee088225b69dc13` |
+| `flow/scripts/klayout.sh` | `0073b8046e4a7a13a03732694e2016b225e2ca4476e911e2b2deabef8b8915c4` |
 
 ### SHA-256 of flow-defining scripts
 
@@ -70,3 +74,9 @@ checkout is the frozen ORFS tree at the ORFS SHA above.
 This manifest hashes the physical platform inputs rather than generated ODB,
 GDS, or SPEF outputs. A future run must compare these hashes before treating
 results as like-for-like.
+
+The exact KLayout executable/path and pinned-image finishing commands used to
+generate the accepted Ibex GDS and run open-deck DRC/LVS are recorded in
+`results/raw/phase0-ibex-10p3ns-reestablished/pinned-image-klayout-runtime.log`
+and `pinned-image-{gds,drc,lvs}.log`. The executable was not absent; only the
+shell's default `PATH` lookup failed in the original attempt.
