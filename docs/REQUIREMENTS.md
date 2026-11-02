@@ -29,9 +29,11 @@ must name the raw directory and artifact manifest.
 ## Experimental objectives
 
 The planned study compares a conventional design (A), clock-gated design (B),
-power-domain/isolation design (C), and scan-enabled design (D). The exact
-transformation, interface, and comparison period are frozen only after the
-conventional baseline is accepted.
+power-domain/isolation design (C), and scan-enabled design (D). Gate 1 freezes
+the source boundary, transformation semantics, and mission/evaluation timing
+method. Configuration A then establishes and freezes its concrete core
+geometry, resolved implementation settings, and port constraints before any
+B/C/D transformation. Later configurations must use those same values.
 
 The minimum low-power contract is one always-on control domain and one logical
 switchable functional domain, with quiescence, clock gating, isolation, and

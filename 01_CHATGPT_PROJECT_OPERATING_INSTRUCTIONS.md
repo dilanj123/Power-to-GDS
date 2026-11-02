@@ -2,7 +2,16 @@
 ## 01 — ChatGPT Project Operating Instructions
 
 **Applies to:** all future ChatGPT planning/review work for this repository.  
-**Research snapshot:** 2026-09-20.
+**Research snapshot:** 2026-09-20; execution status updated 2026-11-02.
+
+## Current execution status
+
+Gate 0 is **PASS WITH DECLARED SWITCH-INTENT LIMITATION** and Gate 1 is
+**PASS**. The pinned runtime, conventional Ibex margin baseline, GDS,
+open-deck DRC/LVS, immutable RTL source, and engineering contract are recorded
+in the current project state and linked processed evidence. No portfolio
+A/B/C/D implementation has run. Prompt B starts with conventional A; no B/C/D
+transformation may begin until A is accepted and frozen.
 
 ---
 
@@ -104,7 +113,8 @@ Current bootstrap snapshot:
 - `sky130_fd_sc_hd`
 - nominal timing library `sky130_fd_sc_hd__tt_025C_1v80.lib`
 
-This is a planning freeze pending Gate-0 execution. Do not silently move to a newer master. If the snapshot must change:
+The snapshot was execution-qualified for the bounded Gate-0 scope. Do not
+silently move to a newer master. If the snapshot must change:
 1. explain why;
 2. record old/new SHAs;
 3. update `docs/DECISIONS.md`;

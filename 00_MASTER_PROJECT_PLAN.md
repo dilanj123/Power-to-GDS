@@ -1,9 +1,9 @@
 # Power-to-GDS — Multi-Domain Low-Power ASIC Implementation Study
 ## 00 — Master Project Plan
 
-**Planning research snapshot:** 2026-09-20  
-**Status:** planning only; no portfolio RTL has been modified and no project ASIC flow has been executed.  
-**Readiness:** **READY WITH PHASE-0 CONDITIONS**.
+**Planning research snapshot:** 2026-09-20; execution status updated 2026-11-02.
+**Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1 **PASS**. No A/B/C/D portfolio implementation has been run.
+**Readiness:** **READY TO BEGIN GATE-2 CONFIGURATION A**. Low-power variants remain gated on A baseline acceptance.
 
 ---
 
@@ -97,7 +97,9 @@ Do not collapse one state into another.
 
 ### 3.1 ORFS / OpenROAD / Yosys / OpenSTA
 
-Current upstream material supports the project concept, but execution remains unqualified.
+Upstream source research is retained below. Bounded execution qualification is
+recorded in `docs/PROJECT_STATE.md` and the processed evidence index; the
+limitations in that evidence remain binding.
 
 - ORFS remains an RTL-to-GDS flow using Yosys and OpenROAD, with floorplanning, placement, CTS, routing and finishing stages. Its official tutorial currently uses **ibex on `sky130hd`** and recommends Docker for an efficient setup.
 - OpenROAD's UPF utility documents commands for power domains, logic ports, power switches, isolation, interface cells, domain area, switch mapping and domain voltage. This is a **supported subset**, not a basis for claiming full IEEE 1801 coverage.
@@ -118,14 +120,19 @@ SKY130HD is the primary platform candidate because it has:
 - KLayout DRC/LVS collateral in the ORFS platform;
 - a clock-gate technology mapping file in the ORFS platform.
 
-**Critical qualification issue:** the current ORFS `sky130hd/config.mk` explicitly places the `sky130_fd_sc_hd__lpflow_*` multi-power-domain cells, including isolation and level-shifter-related cells, in `DONT_USE_CELLS`. The project must therefore prove a deliberate, controlled way to enable only the required isolation cells without corrupting synthesis/placement/routing assumptions.
+**Qualified limitation:** the current ORFS `sky130hd/config.mk` places
+`sky130_fd_sc_hd__lpflow_*` cells, including the qualified isolation cell, in
+`DONT_USE_CELLS`. The bounded project smoke materialized and routed
+`sky130_fd_sc_hd__lpflow_inputiso0n_1` without changing the platform-wide
+policy. A future C implementation must use only a documented scoped mechanism
+and re-verify the resulting design.
 
 ### 3.3 Apple Silicon
 
-Upstream code contains macOS paths, but 2026 issues show recent Apple-Silicon build/setup failures. Therefore:
-- Apple Silicon is a **developer-host candidate**, not an assumed canonical implementation backend.
-- Gate 0 time-boxes a native/container qualification.
-- If the complete required smoke-test set does not pass reproducibly, the canonical backend becomes x86-64 Linux.
+The project qualified the pinned native Linux/arm64 Docker image on an
+Apple-Silicon host for the bounded Gate-0 capabilities. This does not qualify
+GUI use or other host/container versions. The image digest and platform hashes
+are frozen in `results/processed/runtime-platform-manifest.md`.
 
 ### 3.4 Optional fabrication
 
@@ -175,9 +182,10 @@ Tiny Tapeout and similar shuttles remain a possible future extension. Fabricatio
 
 ---
 
-## 6. Configuration-control freeze for bootstrap
+## 6. Configuration-control freeze
 
-The planning package freezes an **exact bootstrap snapshot** so Phase 0 is reproducible. It is not yet an execution-qualified toolchain.
+The project freezes this exact snapshot for controlled work; bounded execution
+qualification is recorded in the Gate-0 evidence.
 
 | Item | Bootstrap freeze |
 |---|---|
@@ -309,13 +317,12 @@ The exact encoding is an implementation decision, but the observable semantics a
 - A stuck in-flight transaction must have a documented timeout/error policy; timeout must not silently discard accepted work.
 - If no physically meaningful power-switch implementation exists, the RTL/UPF model may still exercise sequencing, but the project must label the switch as **intent/abstraction**, not a physically inserted switch network.
 
-### Initial timeout policy
+### Frozen timeout policy
 
-Before RTL implementation, `docs/MICROARCHITECTURE.md` must choose one:
-1. no timeout, requiring environment fairness that all accepted operations complete; or
-2. a timeout that enters an explicit `ERROR_SAFE` state with isolation/power kept safe.
-
-Do not implement a timeout that silently forces power-off.
+`docs/MICROARCHITECTURE.md` selects no shutdown timeout. The environment
+assumes fairness so accepted work eventually drains; if it does not, the PMU
+stays in `QUIESCE` and cannot force power-off. Do not add a timeout that
+silently discards accepted work.
 
 ---
 
@@ -766,29 +773,42 @@ Power-to-GDS/
 
 ---
 
-## 22. Open decisions
+## 22. Decisions frozen at Gate 1 and implementation checks still required
 
-These are intentionally not guessed during planning:
+Gate 1 has resolved the following planning decisions; implementation must
+still verify the mapped behavior where indicated:
 
-1. exact source portfolio IP and commit;
-2. exact Apple-Silicon host model/macOS/resources;
-3. whether Mac can be canonical or only a frontend;
-4. exact clock period and I/O assumptions, to be frozen after baseline feasibility work;
-5. exact quiesce accounting mechanism for chosen IP;
-6. timeout vs fairness-only shutdown policy;
-7. exact SKY130 ICG cell produced by synthesis mapping;
-8. exact supported isolation-cell override needed in ORFS;
-9. whether a real SKY130 physical power-switch cell can be mapped and routed in the frozen flow;
-10. scan chain target length/count for the chosen design;
-11. whether VCD or SAIF activity is the preferred primary dynamic-power estimate.
+1. Source/top: immutable `ad35514c990f6e1c9eb9fa18aee9d906f9df7721`,
+   `rtl_to_pixels_top_pipelined`.
+2. Backend: frozen native Linux/arm64 Docker image on Apple Silicon; not GUI.
+3. Mission timing: 10.30 ns implementation target and 10.50 ns evaluation;
+   port-specific constraint mapping is recorded and held constant in A.
+4. Quiesce: block new ready/valid accepts and drain accepted pixels plus
+   pipeline/frame-completion state. Exact RTL accounting is to be reviewed
+   before implementation, with no timeout under fairness.
+5. Clock gate: pinned `OPENROAD_CLKGATE` map to
+   `sky130_fd_sc_hd__dlclkp_1`; A/B must verify the mapped cell, gated-clock
+   STA representation, and CTS treatment.
+6. Isolation: parent-side zero clamp, active-low assertion, qualified
+   `sky130_fd_sc_hd__lpflow_inputiso0n_1` selected through UPF
+   `use_interface_cell` with the platform-wide DONT_USE list unchanged.
+7. Physical switch: POWER-000 classification B closes feasibility; no valid
+   switch master exists in the selected pinned platform, so no physical
+   switch implementation is planned.
+8. DFT: `scan_replace`/planning/stitching and routed physical integration;
+   scan `max_length=8`, `clock_mixing=no_mix`; ATPG remains out of scope.
+9. Power activity: use VCD from the common deterministic image workload if
+   annotation is comparable; otherwise report vectorless estimates only and
+   make no reduction claim.
 
 ---
 
-## 23. Next smallest engineering task
+## 23. Next engineering task
 
-Execute `02_PHASE0_BOOTSTRAP_TASK.md`.
-
-Do not modify portfolio RTL. Do not draft final UPF for the portfolio block. Do not add scan to the portfolio block. First turn documentary feasibility into execution evidence.
+Begin Gate 2 with conventional Configuration A using the immutable accepted
+RTL and Gate-1 controls. Freeze A's core dimensions before any B/C/D
+transformation. Low-power work remains gated on A acceptance. See
+`results/processed/gate1-engineering-contract.md`.
 
 ---
 

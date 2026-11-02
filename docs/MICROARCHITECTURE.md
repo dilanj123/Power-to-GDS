@@ -1,7 +1,8 @@
 # Power-to-GDS Microarchitecture Contract
 
-Status: proposed comparison boundary and control contract. This document does
-not modify or yet accept the portfolio RTL.
+Status: frozen Gate-1 comparison boundary and logical-control contract. It
+does not modify the imported RTL and does not claim PMU implementation or
+verification has run.
 
 ## Comparison boundary
 
@@ -11,10 +12,14 @@ explicit experiment deltas. The intended boundary is one functional block
 partitioned into an always-on control domain (`PD_AON`) and one logical
 switchable domain (`PD_SW`).
 
-The candidate imported source is the verified
-`rtl_to_pixels_top_pipelined` interface from the immutable source repository.
-The final import remains contingent on the clean-checkout regression recorded
-by Prompt A.
+The accepted immutable source is
+`ad35514c990f6e1c9eb9fa18aee9d906f9df7721`; selected top is
+`rtl_to_pixels_top_pipelined`. The clean-checkout regression is recorded in
+`results/processed/imported-rtl-acceptance.md`. A/B/C/D keep this functional
+RTL commit and the module's public stream/APB interface identical. Project
+wrappers and PMU logic are explicit deltas. The selected top's synchronous
+active-high `rst` must be asserted and clocked before functional clock gating
+and during restart.
 
 ## Proposed domain/control contract
 
@@ -22,27 +27,49 @@ Control sequence:
 
 `ACTIVE -> QUIESCE -> CLOCK_GATED -> ISOLATE -> POWER_OFF -> POWER_ON_WAIT -> DEISOLATE -> ACTIVE`
 
-The minimum interface to be frozen before configuration C is:
+The minimum project-owned control interface is:
 
-- request input: `power_down_req`;
-- functional-domain quiesce indication/assumption: `functional_quiescent`;
-- clock control: `func_clk_en` and a technology-appropriate clock-gate point;
-- isolation control: `isolation_en`, active-high isolation;
-- logical power state: `power_off`;
-- wake control/status: `power_on_ack` and `wake_done`;
-- reset assumptions: control logic reset is always-on; functional reset is
-  asserted for initialization and wake sequencing.
+- request inputs: `power_down_req` and `wake_req`;
+- quiesce indication: `functional_quiescent`, true only after new accepts are
+  blocked and all accepted pixels, pipeline-valid entries, and pending frame
+  completion have drained;
+- clock control: active-high `func_clk_en`; scan test mode bypasses gating;
+- isolation control: `iso_en_n`, asserted low; crossings from `PD_SW` are
+  clamped to zero at the parent boundary;
+- logical switch intent/status: `power_off_intent` and `power_state`;
+- wake status: `wake_done` after the restart sequence;
+- reset: the AON PMU reset is independent; functional reset is synchronous,
+  active-high, and held through shutdown and functional restart.
 
-Names are contract placeholders until matched to the accepted RTL wrapper;
-they are not claims that these signals already exist.
+These are project wrapper signals, not existing source RTL ports. The external
+stream and APB interfaces remain the accepted top's interface. APB and stream
+responses from the switchable block are isolated while it is logically off;
+software must reinitialize the block after wake because retention is out of
+scope.
 
 ## Safety ordering
 
-The proposed PMU must ensure that quiescence precedes clock gating, clock
-gating precedes isolation, isolation precedes logical power-off, logical
-power-on precedes wake completion, and de-isolation occurs only after wake
-completion. The wake delay and reset release policy must be explicit in the
-later formal harness.
+The PMU must enforce the fixed sequence
+`ACTIVE -> QUIESCE -> CLOCK_GATED -> ISOLATE -> POWER_OFF -> POWER_ON_WAIT ->
+DEISOLATE -> ACTIVE`. `power_down_req` is accepted only in `ACTIVE`; elsewhere
+it is ignored. `wake_req` is latched in any non-`ACTIVE` state and cannot skip
+ordering. If it arrives during shutdown, the PMU completes drain, gate, and
+isolation ordering and then honors wake after logical off. APB requests
+concurrent with entry to `QUIESCE` or made in any non-`ACTIVE` state are
+answered at the AON wrapper with `PREADY=1`, `PSLVERR=1`, and `PRDATA=0`; they
+do not reach `PD_SW`. `power_down_req` has priority over a same-cycle APB
+request. There is no shutdown timeout: the environment is assumed fair so
+every accepted pixel eventually drains. If it does not, the PMU remains in
+`QUIESCE` and does not gate the clock or assert off intent.
+
+On wake, the logical off intent is removed, isolation remains asserted for a
+four-AON-cycle guard, then the functional clock runs for two reset cycles
+while the functional reset remains asserted. After reset release, isolation
+may be deasserted and the PMU returns to `ACTIVE`. A reset request in any PMU
+state removes logical off intent, asserts isolation, enables the functional
+clock, holds functional reset for two cycles, then de-isolates into `ACTIVE`.
+These are protocol-cycle guards only; they do not model rail ramp, power-good,
+or electrical wake time.
 
 ## Physical limitation
 
@@ -53,13 +80,19 @@ gating is implied. The existing POWER-000 classification B remains in force.
 
 ## Planned formal properties
 
-Prompt B should prove, under stated quiescence and reset assumptions:
+The later formal harness must prove, under explicit fairness and reset
+assumptions:
 
 - isolation is asserted before logical power-off;
 - the functional clock is disabled before logical power-off;
 - de-isolation cannot occur while logically off;
 - wake delay is observed before de-isolation;
 - only legal state transitions occur;
+- functional reset is held for the restart cycles before de-isolation;
 - return to `ACTIVE` occurs only after the wake sequence.
+
+The wrapper must also expose a meaningful quiescence predicate for the
+streaming pipeline and prove that the scoreboard sees no dropped, duplicated,
+or reordered output transactions across a sleep/wake boundary.
 
 These properties are specified, not formally checked by this document.

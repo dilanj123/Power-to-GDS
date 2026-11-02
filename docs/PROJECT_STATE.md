@@ -1,24 +1,29 @@
 # Power-to-GDS Project State
 
-## Current gate
+## Current gate snapshot — 2026-11-02
 
-Gate 0 — backend qualification.
+**Gate 0: PASS WITH DECLARED SWITCH-INTENT LIMITATION.** The re-established
+10.30 ns implementation passes read-only mission STA at 10.50 ns with WNS
+`+0.061130657792 ns`, TNS `0`, and zero setup/hold violations. It has
+electrical residuals on two data nets: three violating slew pin checks and one
+capacitance check. GDS was generated from the accepted final database; the
+pinned SKY130HD open-deck DRC returned zero violations, and open-deck LVS
+reported `Netlists match`. These are not foundry/production sign-off.
 
-Gate 0 is NOT complete.
+**Gate 1: PASS — engineering contract frozen.** The accepted immutable
+`rtl_to_pixels_top_pipelined` source, domain boundary, logical PMU sequence,
+clock-gating mapping, UPF/isolation subset, DFT scope, timing methodology,
+metrics, fairness controls, and verification/formal plan are recorded in
+`results/processed/gate1-engineering-contract.md` and the Gate-1 authority
+documents. Prompt B may start with conventional Configuration A. B/C/D
+transformations remain gated on A acceptance and preceding evidence review.
 
-Prompt A completed the runtime/platform freeze, minimum authority documents,
-immutable RTL acceptance, bounded reproducibility bundle, and vectorless
-`report_power` capability qualification. The fresh 10.50 ns conventional
-experiment completed the physical flow but failed final extracted STA, so no
-timing-clean baseline is frozen and no A/B/C/D work is authorized.
-
-The explicitly authorized re-established 10.30 ns implementation now provides
-the retained physical database required for margin analysis. Exact read-only
-mission STA at 10.50 ns passed with WNS `+0.061130657792 ns`, TNS `0`, zero
-setup violations, and zero hold violations. One max-slew and one
-max-capacitance violation remain. The candidate is therefore timing-clean with
-electrical residuals at the mission period, but Gate 0 remains open because
-the pinned image lacks KLayout and GDS/open-deck DRC/LVS could not be run.
+Current limits: physical SKY130HD power switching, physical power gating,
+PMU execution/formal proof, activity-based power reduction, scan ATPG/fault
+coverage, production timing/DFT sign-off, and foundry sign-off are unproven or
+out of scope. The pinned power-switch qualification remains classification B;
+power reporting is vectorless only. The ABC9 deterministic assertion remains
+`PASS_WITH_KNOWN_TOOL_WARNING`.
 
 ## Workspace
 
@@ -87,24 +92,22 @@ clone. Its documented lint, unit, integration, real-image, and formal targets
 all returned `0`. This accepts a source baseline for later work; it does not
 claim ASIC suitability or physical implementation success.
 
-## Current claims
+## Current evidence summary
 
-Proven:
-- Power-to-GDS workspace exists.
-- ORFS source checkout exists.
-- planned ORFS/OpenROAD/Yosys source revisions match exactly.
+Proven at the bounded evidence level: conventional Ibex physical flow through
+GDS; 10.50 ns mission timing acceptance for the exact margin-built database;
+zero-violation pinned open-deck DRC and matching open-deck LVS; immutable
+source regression acceptance; bounded UPF isolation and routed scan smokes;
+and vectorless `report_power` execution.
 
-Not proven:
-- complete ASIC implementation flow
-- Yosys execution through a complete production flow
-- KLayout sign-off flow
-- ibex reference implementation
-- real SKY130HD physical power-switch implementation
-- project-owned scan integration into the main design
-- timing cleanliness
-- DRC/LVS cleanliness
-- power reduction
-- GDS generation
+Not proven: foundry sign-off, physical SKY130HD power switching, PMU
+implementation/formal results, activity-based power reduction, ATPG/fault
+coverage, scan-shift timing closure, production timing sign-off, or any later
+A/B/C/D implementation result.
+
+The dated evidence notes below preserve what was known at each earlier stage.
+Statements that Gate 0 was open, KLayout was unavailable, or GDS/DRC/LVS had
+not yet run are historical and are superseded by the current snapshot above.
 
 The fresh 10.50 ns baseline attempt additionally failed final STA: WNS/TNS
 were `-0.0588205 ns`, with one setup violation, zero hold violations, two

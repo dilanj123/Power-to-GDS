@@ -51,21 +51,35 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Gate-0 bounded reproducibility bundle | `results/processed/gate0-reproducibility-bundle.md` | PASS — capability bundle only |
 | Pinned report_power capability | `results/processed/phase0-power-analysis-qualification.md` | QUALIFIED — vectorless estimate methodology |
 | Ibex 10.50 ns conventional baseline | `results/processed/phase0-ibex-10p5ns-baseline.md` | FAIL_TIMING — hard stop, not frozen |
-| Gate-0 closure disposition | `results/processed/gate0-closure-report.md` | NOT CLOSED — timing baseline failed |
+| Gate-0 closure disposition | `results/processed/gate0-closure-report.md` | PASS WITH DECLARED SWITCH-INTENT LIMITATION |
 | Re-established 10.30 ns implementation artifacts | `results/raw/phase0-ibex-10p3ns-reestablished/artifacts/` | IGNORED RAW — retained ODB/SPEF/SDC/DEF and SHA256SUMS |
-| Re-established 10.30 ns margin baseline | `results/processed/phase0-ibex-10p3ns-reestablished.md` | TIMING-CLEAN WITH ELECTRICAL RESIDUALS — 10.50 ns mission STA |
+| Re-established 10.30 ns margin baseline and physical finishing | `results/processed/phase0-ibex-10p3ns-reestablished.md` | TIMING-CLEAN WITH ELECTRICAL RESIDUALS; GDS generated; open-deck DRC/LVS pass |
+| Exact pinned-image GDS/DRC/LVS logs and finish hashes | `results/raw/phase0-ibex-10p3ns-reestablished/` | IGNORED RAW — pinned image digest; finish SHA256SUMS |
+| Gate-0 closure | `results/processed/gate0-closure-report.md` | PASS WITH DECLARED SWITCH-INTENT LIMITATION |
+| Gate-1 engineering contract | `results/processed/gate1-engineering-contract.md` | PASS — intent frozen; no B/C/D implementation claimed |
+| Gate-1 power intent | `docs/POWER_INTENT.md` | FROZEN INTENT — logical switch only; classification B |
+| Gate-1 verification plan | `docs/VERIFICATION_PLAN.md` | FROZEN TEST PLAN — execution pending |
+| Gate-1 formal contract | `docs/FORMAL.md` | SPECIFIED — no formal proof claimed |
+| Gate-1 DFT contract | `docs/DFT.md` | FROZEN BOUNDED SCOPE — no ATPG/coverage claim |
 
-No complete Gate-0 sign-off is claimed. The UPF milestone is limited to the
-documented two-domain isolation qualification smoke and its stated limitations.
-POWER-000 separately closes the switch-feasibility branch as a pinned
-physical-library limitation; it does not establish physical power gating or
-complete Gate-0 sign-off.
+Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
+LIMITATION** and Gate 1 is **PASS**. These are project-gate results, not
+foundry or production sign-off. The UPF milestone remains limited to its
+documented two-domain isolation smoke. POWER-000 classification B records the
+pinned physical-library limitation and does not establish physical power
+gating.
 
 Gate-defining physical experiments must retain their synthesis ODB, final
 routed ODB, SPEF, final SDC, DEF, major timing reports, full flow log, exact
 configuration, and SHA-256 manifest locally under `results/raw/`. These raw
 artifacts are intentionally excluded from Git; processed summaries must point
 to the retained directory and manifest.
+
+## Historical evidence notes
+
+The following detailed paragraphs preserve evidence context from the time the
+individual records were written. Earlier statements that Gate 0 remained open
+are superseded by the current disposition above.
 
 POWER-000 DFT/scan closes the capability branch as classification A: the
 pinned OpenROAD DFT regressions pass and the actual pinned ORFS SKY130HD
@@ -76,8 +90,8 @@ production DFT sign-off, or main-design scan integration.
 The project-owned ORFS scan-integration smoke passed through detailed
 placement: replacement persisted in `1_synth.odb`, one 12-cell chain and scan
 ports persisted in `3_3_place_gp.odb`, and the same topology persisted in
-`3_5_place_dp.odb`. DPL-0387 reported unplaced scan BTerms, so no scan-I/O
-placement/routability or scan-mode timing claim is made. Gate 0 remains open.
+`3_5_place_dp.odb`. DPL-0387 reported unplaced scan BTerms in that earlier
+placement-only smoke; the later routed scan qualification placed them.
 
 The follow-on project-owned scan physical-routing qualification explicitly
 placed the three scan BTerms, removed the DPL-0387 unplaced-BTerm condition,
@@ -99,7 +113,7 @@ code `134`, while the direct helper aborts at `giaTim.c:799` on assertion
 physical flow. This is
 `PASS_WITH_KNOWN_TOOL_WARNING`: ABC did not succeed without error, the
 underlying ABC algorithmic defect remains in the pinned toolchain, and no
-warning-free synthesis or ABC-fix claim is made. Gate 0 remains open.
+warning-free synthesis or ABC-fix claim is made.
 
 The 10.300 ns conventional Ibex experiment changed only the clock-period
 setting from the 10.200 ns run. It completed through final extraction and
@@ -122,7 +136,9 @@ timing strategy is approved.
 
 The re-established 10.30 ns implementation passed precise 10.50 ns mission
 STA with WNS `+0.061130657792 ns`, TNS `0`, and zero setup/hold violations.
-One slew and one capacitance violation remain. The exact physical artifacts
-and manifest are retained locally, but the pinned image has no KLayout, so the
-ORFS `gds` target failed before GDS generation and no open-deck DRC/LVS result
-exists. Gate 0 remains open.
+Detailed high-precision checks enumerate three violating max-slew pin checks
+across two data nets and one max-capacitance check. Exact-image GDS generation,
+open-deck DRC (zero violations), and open-deck LVS (`Netlists match`) are
+recorded in the processed baseline qualification. The earlier missing-KLayout
+attempt is retained as historical evidence; the pinned image's
+`/usr/local/klayout` executable was subsequently used explicitly.
