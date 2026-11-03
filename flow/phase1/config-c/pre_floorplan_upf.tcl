@@ -1,5 +1,5 @@
 puts "PTG_C_PRE_FLOORPLAN_UPF=ENTER"
-# Bounded area attempt inside the frozen A core. A did not record resolved
-# PD_SW coordinates; this is an experiment, not an accepted domain region.
-set_domain_area PD_SW -area {1.840 5.440 262.200 258.400}
-puts "PTG_C_PRE_FLOORPLAN_UPF=AREA_SET_TO_CORE_INTERIOR"
+# D-015: one row/site-aligned region derived from C's measured group area.
+# This proposal is pending the single authorized placement retry.
+set_domain_area PD_SW -area {1.380 2.720 233.220 261.120}
+puts "PTG_C_PRE_FLOORPLAN_UPF=AREA_D015"

@@ -52,9 +52,9 @@ initialization. The attempted explicit PD_SW area fails at
 `3_1_place_gp_skip_io` with a domain-area range error. A separate no-area
 diagnostic proceeds through skip-I/O placement but fails full global placement
 with `GPL-0307` RePlAce divergence. No CTS, routing, final STA, GDS, DRC, or LVS
-result exists for C. The discrepancy between the frozen POWER_INTENT statement
-that PD_SW coordinates were recorded with A and the absence of such coordinates
-in A's evidence remains unresolved. See
+result exists for C. D-015 records that A did not specify the domain region
+and proposes one measured, row/site-aligned split for the single authorized C
+retry; that region is not yet placement-qualified. See
 `results/processed/config-c-isolation.md` and raw attempts under
 `results/raw/phase1-config-c/`.
 

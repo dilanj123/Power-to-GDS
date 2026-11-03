@@ -14,11 +14,13 @@ implementation has been run.
 - Single nominal supply/voltage for this MVP. The primary A/B/C/D physical
   comparison uses the same source commit, platform, core geometry, and
   constraints.
-- `PD_SW` area is assigned within Configuration A's frozen core floorplan,
-  sized to contain the functional block plus isolation/implementation needs;
-  its resolved region coordinates are recorded with A and held fixed for
-  B/C/D. The tiny Gate-0 smoke coordinates are not reused as portfolio-area
-  evidence.
+- The Gate-1 contract originally stated that `PD_SW` coordinates were
+  recorded with A; audit found that A did not record a power-domain region.
+  D-015 proposes a row/site-aligned `PD_SW` region within A's unchanged core,
+  derived from C's measured domain/AON placement demands. It is a C-only
+  proposed experiment and becomes frozen for later variants only if the
+  controlled C placement passes. The tiny Gate-0 smoke coordinates are not
+  reused as portfolio-area evidence.
 
 The wrapper blocks new stream accepts during quiescence. Every crossing from
 `PD_SW` to the AON boundary is clamped to zero while isolation is asserted;

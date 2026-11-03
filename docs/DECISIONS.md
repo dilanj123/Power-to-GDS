@@ -156,3 +156,41 @@ claim, or a claim that A passed at 10.50 ns. The historical 10.50 ns failure
 and the separate Gate-0 Ibex 10.30/10.50 evidence remain unchanged. All later
 variants must independently pass mission STA at 12.00 ns; the change does not
 claim any B/C/D result. Evidence: `results/processed/config-a-timing-recovery.md`.
+
+## D-015 — measured, site-aligned PD_SW region proposal for one C retry
+
+The frozen A core is `(1.380, 2.720)` to `(262.660, 261.120)` µm: 568
+`unithd` site columns at 0.46 µm and 95 rows at 2.72 µm. The C floorplan ODB
+contains 34,506.845 µm² of `PD_SW` mapped cells and 2,014.432 µm² of top-level
+cells, including 37 parent-side `sky130_fd_sc_hd__lpflow_inputiso0n_1` cells
+(231.472 µm²). The later global-placement initialization reports, after its
+port-buffer and pin-density adjustments, region demands of 35,341.185 µm² for
+`PD_SW` and 3,465.875 µm² for AON/top-level cells. Fixed tap-cell overlap for
+the proposed split is 970.931 µm² on the `PD_SW` side and 121.366 µm² on AON.
+
+The prior explicit region `{1.840, 5.440, 262.200, 258.400}` µm was aligned
+to the placement grid and inside the core, but occupied 65,860.666 µm²
+(97.55% of core), leaving only 1,654.086 µm² outside it—less than half the
+3,465.875 µm² measured AON/top-level placement demand. This is evidence of an
+overconstrained domain partition/capacity problem, not evidence of bad
+site/row alignment. Separately, the no-area diagnostic reached global
+placement and failed with `GPL-0324`/`GPL-0307` and extreme timing-repair area
+growth; that remains a distinct placer numerical failure mode.
+
+For one authorized controlled C retry only, propose
+`PD_SW = {1.380, 2.720, 233.220, 261.120}` µm. This is exactly 504 site
+columns by all 95 rows; the remaining right-side AON strip is 64 columns,
+`{233.220, 2.720, 262.660, 261.120}` µm. `PD_SW` area is 59,907.456 µm²;
+after measured tap overlap, its calculated utilization is 59.965% for the
+35,341.185 µm² placement demand. AON area is 7,607.296 µm²; after tap overlap,
+its calculated utilization is 46.299%, giving 1.296× the measured placement
+demand capacity at the unchanged 0.60 density. A 503-column `PD_SW` region
+would exceed 60% after the same measured fixed-cell overlap, so 504 is the
+smallest site-aligned width meeting the frozen density target while reserving
+usable AON capacity. This proposal does not change the outer core,
+utilization, placement settings, source, timing, or library. It is **not a C
+pass**; the single retry must validate region legality and placement. If it
+fails, no further placement tuning is authorized by D-015.
+Raw source evidence: `results/raw/phase1-config-c/inspect-upf-groups.log`,
+`area-capacity-inspect.log`, `domain-capacity-inspect.log`, and the retained
+ORFS placement logs under `results/raw/phase1-config-c/work/logs/`.

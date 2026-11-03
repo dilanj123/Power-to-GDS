@@ -18,11 +18,11 @@ Configuration D was not started.
   `a5af9d690a43744bf6b2cc3dea2717c16b54621c`; image
   `openroad/flow-ubuntu22.04-builder-nogui:26Q3-2276-g4a7cf9b22a-35f109`
   (`sha256:fe2b24e96c6e4088b1ac6d68c83c5089dfdc61d90b00b43361ede064bb37174c`).
-- The attempted `PD_SW` area was `{1.840 5.440 262.200 258.400}` µm, inside
-  the frozen core. This is only a diagnostic area attempt, not an accepted
-  domain region. Gate-1 `POWER_INTENT` says the region coordinates were
-  resolved with A, but A's retained report does not contain them. This
-  missing area decision is an unresolved contract/evidence gap.
+- The prior `PD_SW` area attempt was `{1.840 5.440 262.200 258.400}` µm.
+  D-015 records that this grid-aligned region occupied 97.55% of the core and
+  left insufficient measured capacity for AON placement. A did not record
+  domain coordinates despite the original Gate-1 wording. D-015 now proposes
+  one replacement region for a single controlled retry; it is not yet accepted.
 
 ## Functional and bounded formal evidence
 
@@ -77,3 +77,13 @@ gating, or production sign-off is claimed.
 
 Raw run directories and logs are intentionally excluded from Git; the exact
 attempts are retained locally under `results/raw/phase1-config-c/`.
+
+## D-015 single-retry proposal (not yet executed)
+
+Use `PD_SW = {1.380, 2.720, 233.220, 261.120}` µm: 504 `unithd` site columns
+by 95 full core rows. This leaves 64 columns for AON. The proposal is based on
+the 3_3 GPL group demands (35,341.185 µm² PD_SW; 3,465.875 µm² AON/top-level)
+and measured tap overlap, yielding calculated utilization 59.965% and 46.299%
+respectively against the unchanged 0.60 target. AON has 1.296× the measured
+placement-demand capacity at that target. Full calculations and failure
+diagnosis are in D-015 of `docs/DECISIONS.md`.
