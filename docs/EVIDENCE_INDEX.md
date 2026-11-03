@@ -8,6 +8,10 @@ Raw tool logs and implementation databases are retained locally under
 `results/raw/` and intentionally excluded from Git. Reproducible processed
 evidence and bounded conclusions are stored under `results/processed/`.
 
+Public portfolio entry point: [README](../README.md). Authentic A/B routed
+GDS captures and the ODB-derived incomplete C floorplan are documented in
+[image provenance](../images/README.md).
+
 ## Configuration C placement root-cause audit
 
 - [Full diagnostic report](../results/processed/config-c-root-cause-audit.md)

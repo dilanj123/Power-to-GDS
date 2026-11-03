@@ -98,27 +98,30 @@ power-switch master, so C's switch is logical intent only.
 
 ## CV project entry
 
-**Power-to-GDS — SKY130HD RTL-to-GDS study:** Implemented conventional and
-clock-gated versions of an immutable Sobel streaming pipeline with a pinned
-OpenROAD/SKY130HD flow. Both accepted configurations completed routed
-implementation, passed 12 ns mission STA, generated GDS, and passed pinned
-open-deck DRC/LVS. Built and tested a bounded PMU/UPF isolation case study;
-diagnosed why its fixed-core AON region could not be legalized (4,262.8384
-µm² movable area versus 3,862.4544 µm² legal area). Separately qualified
-scan insertion/routing on a small smoke design; portfolio scan was not run.
-No measured power reduction or physical power gating is claimed.
+**Power-to-GDS — SKY130HD RTL-to-GDS study:** Took an immutable, verified
+Sobel streaming design through synthesis, floorplanning, placement, CTS,
+routing, extraction and GDS with a pinned OpenROAD flow. Built conventional
+and clock-gated variants; both passed 12.00 ns mission STA and pinned
+open-deck DRC/LVS. Mapped one SKY130HD integrated clock gate in B and checked
+drain, idle gating and wake behavior with directed simulation. For C, passed
+directed PMU tests and bounded SAT checks, then diagnosed a fixed-core AON
+capacity deficit of 400.3840 µm² before legalization. Portfolio C was not
+accepted and portfolio D scan was not run. A separate 12-flop scan smoke
+qualified limited tool capability. No measured power reduction or physical
+power-gating claim.
 
 ## Short interview explanation
 
-“I kept an already verified Sobel pipeline’s RTL unchanged and built
-conventional and clock-gated SKY130HD implementations. Both passed the
-project’s 12 ns mission STA and pinned open-deck DRC/LVS. I also tested a
-small PMU and UPF isolation case. Its final fixed-core attempt had about
-400 square microns more movable AON cell area than legal row capacity, so
-detailed placement failed. The later software exception’s exact callsite is
-unknown, and I report it separately from the measured capacity deficit. A
-separate scan smoke demonstrated tool capability; portfolio scan, ATPG, and
-activity-based power reduction were not established.”
+“I used an immutable, already verified Sobel pipeline and built two SKY130HD
+physical implementations: a conventional version and one with a mapped
+integrated clock gate. Both completed through GDS and passed our 12 ns
+mission STA plus the pinned open DRC/LVS decks. I tested a small PMU and UPF
+isolation case, but C did not legalize: its repaired AON movable-cell area
+exceeded the available legal row area by about 400 square microns. A later
+software exception had an unknown callsite, so I keep that separate from
+the measured capacity deficit. I also qualified scan routing on a separate
+small smoke design; portfolio D, ATPG and activity-based power comparison
+were not completed.”
 
 ## Detailed evidence
 
