@@ -71,13 +71,16 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Configuration B clock-gating implementation and simulation | `flow/phase1/config-b/`, `constraints/config-b-mission.sdc`, `scripts/run_config_b_*.sh` | ONE mapped ICG; source and directed frame/gating tests PASS |
 | Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
 | Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
+| Configuration C PMU/UPF isolation attempt | `results/processed/config-c-isolation.md` | NOT_ACCEPTED — bounded simulation/formal pass; isolation inserted; physical global placement fails |
 
 Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
 LIMITATION** and Gate 1 is **PASS with D-014 timing amendment**.
 Configuration A is **PASS_AT_12NS_MISSION** and its geometry/settings are
 frozen. Configuration B is **PASS_AT_12NS_MISSION** for the bounded
-clock-gating scope. C and D have not run. These project results are not foundry or
-production sign-off. The UPF milestone remains limited to its documented
+clock-gating scope. Configuration C is **NOT_ACCEPTED** because the frozen
+physical flow fails at placement; its directed simulation and bounded PMU
+safety checks pass. Configuration D has not started and is blocked on C.
+These project results are not foundry or production sign-off. The UPF milestone remains limited to its documented
 two-domain isolation smoke. POWER-000 classification B records the pinned
 physical-library limitation and does not establish physical power gating.
 

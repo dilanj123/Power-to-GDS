@@ -44,10 +44,27 @@ Vectorless power is estimated at 14.5 mW and is not activity-qualified.
 Evidence: `results/processed/config-b-clock-gating.md`; raw artifacts and
 hashes are retained under `results/raw/phase1-config-b/artifacts/`.
 
-Configuration C and D have not started.
+**Configuration C: NOT ACCEPTED — physical placement gate failed.** The
+project-owned PMU/domain wrapper passes directed simulation and bounded
+18-step safety assertions; the UPF flow retains two domains and a logical
+switch intent and inserts 37 SKY130HD isolation cells during floorplan
+initialization. The attempted explicit PD_SW area fails at
+`3_1_place_gp_skip_io` with a domain-area range error. A separate no-area
+diagnostic proceeds through skip-I/O placement but fails full global placement
+with `GPL-0307` RePlAce divergence. No CTS, routing, final STA, GDS, DRC, or LVS
+result exists for C. The discrepancy between the frozen POWER_INTENT statement
+that PD_SW coordinates were recorded with A and the absence of such coordinates
+in A's evidence remains unresolved. See
+`results/processed/config-c-isolation.md` and raw attempts under
+`results/raw/phase1-config-c/`.
+
+**Configuration D: NOT STARTED / BLOCKED** until C is accepted. No scan was
+added to C.
 
 Current limits: physical SKY130HD power switching, physical power gating,
-PMU execution/formal proof, activity-based power reduction, scan ATPG/fault
+accepted C physical integration (current C placement failure), unbounded PMU
+formal proof beyond the bounded checks recorded for C, activity-based power
+reduction, scan ATPG/fault
 coverage, production timing/DFT sign-off, and foundry sign-off are unproven or
 out of scope. The pinned power-switch qualification remains classification B;
 power reporting is vectorless only. The ABC9 deterministic assertion remains
@@ -130,10 +147,11 @@ source regression acceptance; portfolio Configuration A accepted at its
 amended 12.00 ns mission period with open-deck DRC/LVS; bounded UPF isolation
 and routed scan smokes; and vectorless `report_power` execution.
 
-Not proven: foundry sign-off, physical SKY130HD power switching, PMU
-implementation/formal results, activity-based power reduction, ATPG/fault
-coverage, scan-shift timing closure, production timing sign-off, or any B/C/D
-implementation result.
+Not proven: foundry sign-off, physical SKY130HD power switching, accepted C
+physical integration, unbounded PMU formal proof, activity-based power
+reduction, ATPG/fault
+coverage, scan-shift timing closure, production timing sign-off, or accepted
+C/D implementation. B's bounded clock-gating implementation is accepted.
 
 The portfolio Configuration A history includes an initial 10.50 ns mission
 failure on a deep input-to-register arithmetic path and the subsequent

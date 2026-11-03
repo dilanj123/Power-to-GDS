@@ -1,0 +1,20 @@
+SIM ?= verilator
+TOPLEVEL_LANG = verilog
+
+PTG_ROOT := $(abspath $(dir $(lastword $(MAKEFILE_LIST)))/../../..)
+SOURCE_ROOT ?= $(HOME)/Projects/from-rtl-to-pixels
+SOURCE_RTL := $(PTG_ROOT)/rtl/imported/from-rtl-to-pixels-ad35514
+
+VERILOG_SOURCES = $(sort $(wildcard $(SOURCE_RTL)/*.sv)) \
+	$(PTG_ROOT)/flow/phase1/config-c/config_c_icg_sim.sv \
+	$(PTG_ROOT)/flow/phase1/config-c/config_c_pmu.sv \
+	$(PTG_ROOT)/flow/phase1/config-c/config_c_top.sv
+TOPLEVEL = config_c_top
+COCOTB_TEST_MODULES ?= test_config_c_pmu
+COMPILE_ARGS += -DCONFIG_C_SIM
+PYTHONPATH := $(SOURCE_ROOT):$(SOURCE_ROOT)/tb/tests:$(PTG_ROOT)/flow/phase1/config-c:$(PYTHONPATH)
+export PYTHONPATH
+export IMG_WIDTH=32
+export IMG_HEIGHT=24
+
+include $(shell cocotb-config --makefiles)/Makefile.sim
