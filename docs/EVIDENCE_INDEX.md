@@ -8,6 +8,18 @@ Raw tool logs and implementation databases are retained locally under
 `results/raw/` and intentionally excluded from Git. Reproducible processed
 evidence and bounded conclusions are stored under `results/processed/`.
 
+## Configuration C placement root-cause audit
+
+- [Full diagnostic report](../results/processed/config-c-root-cause-audit.md)
+- [Self-contained engineering review pack](../results/processed/config-c-chatgpt-review-pack.md)
+- [Checkpoint/domain capacity table](../results/processed/config-c-stage-capacity.csv)
+- [Detailed-placement named-cell sample table](../results/processed/config-c-violation-samples.csv)
+
+Read-only query scripts, logs, provenance checks, and checksums are retained
+locally under `results/raw/config-c-root-cause-audit/`. No implementation was
+rerun. C remains NOT ACCEPTED; D remains NOT STARTED; the reduced-scope
+portfolio verdict is unchanged.
+
 | Evidence | File | Classification |
 |---|---|---|
 | Host/path/tool bootstrap inventory | `results/raw/phase0-bootstrap-inventory.log` | EXECUTION OBSERVATION |
