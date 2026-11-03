@@ -2,16 +2,18 @@
 ## 01 — ChatGPT Project Operating Instructions
 
 **Applies to:** all future ChatGPT planning/review work for this repository.  
-**Research snapshot:** 2026-09-20; execution status updated 2026-11-02.
+**Research snapshot:** 2026-09-20; execution status updated 2026-11-03.
 
 ## Current execution status
 
 Gate 0 is **PASS WITH DECLARED SWITCH-INTENT LIMITATION** and Gate 1 is
 **PASS**. The pinned runtime, conventional Ibex margin baseline, GDS,
 open-deck DRC/LVS, immutable RTL source, and engineering contract are recorded
-in the current project state and linked processed evidence. No portfolio
-A/B/C/D implementation has run. Prompt B starts with conventional A; no B/C/D
-transformation may begin until A is accepted and frozen.
+in the current project state and linked processed evidence. Portfolio A and B
+are accepted. C remains not accepted after the D-015 placement failure; D has
+not started. D-016 authorizes exactly one fresh C physical attempt using the
+single region recorded in `docs/DECISIONS.md`. D remains blocked unless C
+passes all required checks. No further C tuning is authorized.
 
 ---
 

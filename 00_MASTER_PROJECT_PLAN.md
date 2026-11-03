@@ -1,12 +1,13 @@
 # Power-to-GDS — Multi-Domain Low-Power ASIC Implementation Study
 ## 00 — Master Project Plan
 
-**Planning research snapshot:** 2026-09-20; execution status updated 2026-11-02.
+**Planning research snapshot:** 2026-09-20; execution status updated 2026-11-03.
 **Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1
-**PASS**; conventional portfolio Configuration A **PASS at the amended 12.00 ns
-mission evaluation period**. B/C/D have not been implemented.
-**Readiness:** **Configuration A accepted; later variants may proceed in
-ordered gates under the amended timing contract.**
+**PASS**; portfolio A and B **PASS at 12.00 ns**; C **NOT ACCEPTED** after its
+D-015 placement failure; D **NOT STARTED**. D-016 authorizes exactly one fresh
+fixed-core C attempt using the region specified in `docs/DECISIONS.md`.
+**Readiness:** One bounded C recovery attempt is authorized. No A/B changes or
+additional C tuning are authorized; D remains blocked unless C passes.
 
 ---
 

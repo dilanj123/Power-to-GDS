@@ -216,3 +216,29 @@ blocked. Raw evidence is in `results/raw/phase1-config-c-recovery/`.
 Raw source evidence: `results/raw/phase1-config-c/inspect-upf-groups.log`,
 `area-capacity-inspect.log`, `domain-capacity-inspect.log`, and the retained
 ORFS placement logs under `results/raw/phase1-config-c/work/logs/`.
+
+## D-016 — authorize one final fixed-core C region attempt
+
+The read-only capacity diagnosis identifies one untested candidate:
+`PD_SW = {1.380, 2.720, 230.920, 261.120}` µm, 499 site columns by 95
+placement rows. This decision explicitly supersedes D-015's proposed
+`{1.380, 2.720, 233.220, 261.120}` µm region for this attempt; D-015's
+historical attempt and failure remain part of the record.
+
+Authorize exactly one fresh C implementation attempt with this sole physical
+configuration delta. Keep the A/B outer die and core, source, 32x24
+parameters, 10.30 ns implementation target, 12.00 ns mission evaluation,
+2.06 ns I/O delays, 1.095 ns virtual-clock latency, tools, image, platform,
+library, placement-density settings (`PLACE_DENSITY_LB_ADDON=0.25`), PDN,
+clocking, pin placement, CTS, routing, DONT_USE policy, and PMU/isolation
+behavior fixed. The capacity numbers in
+`results/processed/config-c-capacity-diagnosis.md` are estimates: they depend
+on the previously observed 36-site row gap and comparable placement
+adjustments; they do not establish a placement pass.
+
+Use a fresh workspace. If FLW-0024 or any placement failure recurs, stop C
+recovery. Do not change the region again, adjust density, resize the core,
+change seed, or tune the placer. Do not start D unless C subsequently passes
+all functional, bounded-formal, physical, mission-timing, GDS, open-deck DRC
+and LVS requirements. This decision makes no claim that placement or C has
+passed.
