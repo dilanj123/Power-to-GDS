@@ -61,6 +61,14 @@ authorized by D-015. See
 `results/processed/config-c-isolation.md` and raw attempts under
 `results/raw/phase1-config-c/`.
 
+A later read-only capacity diagnosis is classified
+`FEASIBLE_REGION_IDENTIFIED`: it derives one untested 499-site-column
+`PD_SW` region (`{1.380, 2.720, 230.920, 261.120}` µm) with estimated AON
+headroom inside the same core. The estimate assumes the observed 36-site row
+gap persists and does not establish placement feasibility. C remains not
+accepted; this diagnosis does not authorize a physical rerun. Details and
+hashes are in `results/processed/config-c-capacity-diagnosis.md`.
+
 **Configuration D: NOT STARTED / BLOCKED** until C is accepted. No scan was
 added to C.
 
