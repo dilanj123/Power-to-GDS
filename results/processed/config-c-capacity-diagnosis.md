@@ -1,10 +1,11 @@
 # Configuration C — fixed-core placement-capacity diagnosis
 
-**Classification: FEASIBLE_REGION_IDENTIFIED.** One row/site-aligned
-`PD_SW` split has an area-based case for both domains in the frozen A/B core.
-It has not been physically tested. **Configuration C remains NOT ACCEPTED;
-Configuration D remains NOT STARTED. This report does not authorize a
-physical rerun.**
+**Original diagnosis: `FEASIBLE_REGION_IDENTIFIED`.** Its one row/site-aligned
+`PD_SW` split had an area-based capacity case, but the estimate did not prove
+placement feasibility. The region was later tested under D-016 and failed
+detailed placement; see `results/processed/config-c-final-recovery.md`. C
+remains **NOT ACCEPTED** and D remains **NOT STARTED**. The D-016 recovery
+budget is exhausted.
 
 ## Scope and provenance
 
@@ -131,20 +132,27 @@ not prove RePlAce convergence, legal placement, timing, or routability.
 
 ## Decision and limits
 
-`FEASIBLE_REGION_IDENTIFIED` means the one proposed split is supported by
-measured row/cell-area accounting but is untested. It is not a C pass and
-does not authorize another implementation. C remains **NOT ACCEPTED**; D
-remains **NOT STARTED**. Physical power switching, routed C isolation,
-mission timing, GDS/DRC/LVS for C, and matched activity-based power remain
-unproven.
+`FEASIBLE_REGION_IDENTIFIED` means the proposed split was supported by
+measured row/cell-area accounting; that estimate was not a C pass. At the
+time, this diagnosis did not authorize an implementation. D-016 later
+authorized one test, which failed detailed placement. C remains **NOT
+ACCEPTED**; D remains **NOT STARTED**. Physical power switching, routed C
+isolation, mission timing, GDS/DRC/LVS for C, and matched activity-based
+power remain unproven.
 
-Recommended next step: make a separate explicit engineering decision whether
-to authorize this single `set_domain_area` delta. If no further fixed-core
-experiment is desired, stop C physical recovery and keep D blocked. Do not
-reduce the density addon, resize the core, or tune the placer as part of this
-diagnosis.
+The original recommendation to review whether to test this region was
+superseded by D-016. That single attempt is now exhausted; do not reduce the
+density addon, resize the core, change the region or seed, or tune the placer.
+Any further C work requires a new reviewed scope decision.
 
-Document note: the status prose near the top of `00_MASTER_PROJECT_PLAN.md`
-and `01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md` still reflects the
-pre-Configuration-B state. This report does not alter those higher-authority
-documents; their status summaries need a separate consistency update.
+## Follow-up — D-016 physical test
+
+D-016 later authorized one fresh attempt using the candidate region described
+above. Skip-I/O placement, I/O placement, and full global placement completed;
+detailed placement did not converge and failed its placement check. The final
+attempt record and raw logs are linked above. This outcome supersedes the
+original “not physically tested” status without changing the measured
+read-only analysis in this diagnosis.
+
+The master-plan and operating-instruction status summaries were updated when
+D-016 was authorized and again after the final attempt result.

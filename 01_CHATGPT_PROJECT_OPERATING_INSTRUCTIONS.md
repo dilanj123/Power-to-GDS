@@ -10,10 +10,10 @@ Gate 0 is **PASS WITH DECLARED SWITCH-INTENT LIMITATION** and Gate 1 is
 **PASS**. The pinned runtime, conventional Ibex margin baseline, GDS,
 open-deck DRC/LVS, immutable RTL source, and engineering contract are recorded
 in the current project state and linked processed evidence. Portfolio A and B
-are accepted. C remains not accepted after the D-015 placement failure; D has
-not started. D-016 authorizes exactly one fresh C physical attempt using the
-single region recorded in `docs/DECISIONS.md`. D remains blocked unless C
-passes all required checks. No further C tuning is authorized.
+are accepted. C remains not accepted after the D-016 detailed-placement
+failure; D has not started. The single fixed-core C recovery budget is
+exhausted. No further C placement attempt or D scan is authorized without a
+reviewed scope decision.
 
 ---
 

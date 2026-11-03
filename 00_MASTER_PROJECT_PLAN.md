@@ -3,11 +3,10 @@
 
 **Planning research snapshot:** 2026-09-20; execution status updated 2026-11-03.
 **Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1
-**PASS**; portfolio A and B **PASS at 12.00 ns**; C **NOT ACCEPTED** after its
-D-015 placement failure; D **NOT STARTED**. D-016 authorizes exactly one fresh
-fixed-core C attempt using the region specified in `docs/DECISIONS.md`.
-**Readiness:** One bounded C recovery attempt is authorized. No A/B changes or
-additional C tuning are authorized; D remains blocked unless C passes.
+**PASS**; portfolio A and B **PASS at 12.00 ns**; C **NOT ACCEPTED** after the
+D-016 detailed-placement failure; D **NOT STARTED**.
+**Readiness:** The fixed-core C recovery budget is exhausted. No further C
+placement attempt or D scan is authorized without a reviewed scope decision.
 
 ---
 

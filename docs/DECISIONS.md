@@ -242,3 +242,17 @@ change seed, or tune the placer. Do not start D unless C subsequently passes
 all functional, bounded-formal, physical, mission-timing, GDS, open-deck DRC
 and LVS requirements. This decision makes no claim that placement or C has
 passed.
+
+### D-016 result — final fixed-core attempt failed at detailed placement
+
+The one fresh attempt used the authorized region and unchanged placement
+settings. Skip-I/O and I/O placement completed; full global placement
+completed without `FLW-0024`. Detailed placement did not converge and failed
+its placement check: 268 legalization violations remained, including 306
+site-alignment problems, 186 overlaps, 232 edge-spacing violations, and 24
+padding violations. The stage ended with `bad_optional_access`. Configuration
+C remains not accepted and D remains not started. The D-016 recovery budget
+is exhausted; no additional region, density, seed, floorplan, or placer
+experiment is authorized. See
+`results/processed/config-c-final-recovery.md` and raw logs under
+`results/raw/phase1-config-c-final-recovery/`.

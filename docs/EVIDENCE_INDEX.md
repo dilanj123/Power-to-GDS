@@ -56,7 +56,7 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Re-established 10.30 ns margin baseline and physical finishing | `results/processed/phase0-ibex-10p3ns-reestablished.md` | TIMING-CLEAN WITH ELECTRICAL RESIDUALS; GDS generated; open-deck DRC/LVS pass |
 | Exact pinned-image GDS/DRC/LVS logs and finish hashes | `results/raw/phase0-ibex-10p3ns-reestablished/` | IGNORED RAW — pinned image digest; finish SHA256SUMS |
 | Gate-0 closure | `results/processed/gate0-closure-report.md` | PASS WITH DECLARED SWITCH-INTENT LIMITATION |
-| Gate-1 engineering contract | `results/processed/gate1-engineering-contract.md` | PASS — intent frozen; no B/C/D implementation claimed |
+| Gate-1 engineering contract | `results/processed/gate1-engineering-contract.md` | PASS — intent frozen before portfolio implementation |
 | Gate-1 power intent | `docs/POWER_INTENT.md` | FROZEN INTENT — logical switch only; classification B |
 | Gate-1 verification plan | `docs/VERIFICATION_PLAN.md` | FROZEN TEST PLAN — execution pending |
 | Gate-1 formal contract | `docs/FORMAL.md` | SPECIFIED — no formal proof claimed |
@@ -71,17 +71,20 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Configuration B clock-gating implementation and simulation | `flow/phase1/config-b/`, `constraints/config-b-mission.sdc`, `scripts/run_config_b_*.sh` | ONE mapped ICG; source and directed frame/gating tests PASS |
 | Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
 | Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
-| Configuration C PMU/UPF isolation attempt | `results/processed/config-c-isolation.md` | NOT_ACCEPTED — bounded simulation/formal pass; isolation inserted; physical global placement fails |
+| Configuration C PMU/UPF isolation attempt | `results/processed/config-c-isolation.md` | NOT_ACCEPTED — bounded simulation/formal pass; prior floorplan isolation evidence; physical placement incomplete |
 | Configuration C single controlled placement retry | `results/raw/phase1-config-c-recovery/` | IGNORED RAW — aligned PD_SW region; skip-I/O/IOP pass; full GP stopped by FLW-0024 density guard; SHA256SUMS |
-| Configuration C fixed-core capacity diagnosis | `results/processed/config-c-capacity-diagnosis.md` | FEASIBLE_REGION_IDENTIFIED — one area-supported, untested split; no rerun authorized |
+| Configuration C fixed-core capacity diagnosis | `results/processed/config-c-capacity-diagnosis.md` | Historical FEASIBLE_REGION_IDENTIFIED estimate; candidate later failed D-016 detailed placement |
+| Configuration C final D-016 recovery | `results/processed/config-c-final-recovery.md` | NOT_ACCEPTED — global placement completed; detailed placement failed; recovery budget exhausted |
 
 Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
 LIMITATION** and Gate 1 is **PASS with D-014 timing amendment**.
 Configuration A is **PASS_AT_12NS_MISSION** and its geometry/settings are
 frozen. Configuration B is **PASS_AT_12NS_MISSION** for the bounded
-clock-gating scope. Configuration C is **NOT_ACCEPTED** because the frozen
-physical flow fails at placement; its directed simulation and bounded PMU
-safety checks pass. Configuration D has not started and is blocked on C.
+clock-gating scope. Configuration C is **NOT_ACCEPTED** because the final
+fixed-core recovery passed global placement but failed detailed placement;
+its directed simulation and bounded PMU safety checks pass. Configuration D
+has not started and is blocked on C. The authorized C recovery budget is
+exhausted.
 These project results are not foundry or production sign-off. The UPF milestone remains limited to its documented
 two-domain isolation smoke. POWER-000 classification B records the pinned
 physical-library limitation and does not establish physical power gating.

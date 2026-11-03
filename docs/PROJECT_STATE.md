@@ -44,38 +44,38 @@ Vectorless power is estimated at 14.5 mW and is not activity-qualified.
 Evidence: `results/processed/config-b-clock-gating.md`; raw artifacts and
 hashes are retained under `results/raw/phase1-config-b/artifacts/`.
 
-**Configuration C: NOT ACCEPTED — physical placement gate failed.** The
-project-owned PMU/domain wrapper passes directed simulation and bounded
-18-step safety assertions; the UPF flow retains two domains and a logical
-switch intent and inserts 37 SKY130HD isolation cells during floorplan
-initialization. The prior near-whole-core region failed at
+**Configuration C: NOT ACCEPTED — final fixed-core attempt failed detailed
+placement.** The project-owned PMU/domain wrapper passes directed simulation
+and bounded 18-step safety assertions; prior qualified C floorplan evidence
+shows two domains, logical switch intent, and 37 SKY130HD isolation cells.
+The prior near-whole-core region failed at
 `3_1_place_gp_skip_io` with a domain-area range error; a no-area diagnostic
 failed full global placement with `GPL-0307` RePlAce divergence. The single
 D-015 row/site-aligned retry loaded its exact region and completed skip-I/O
 placement and I/O pin placement, but full `3_3_place_gp` stopped with
-`FLW-0024 Place density exceeds 1.0` after port buffering. No full global
-placement, CTS, routing, final STA, GDS, DRC, or LVS result exists for C. The
-effective AON region capacity reported by GPL is materially smaller than the
-area-only estimate; its exact source remains unresolved. No further retry is
-authorized by D-015. See
-`results/processed/config-c-isolation.md` and raw attempts under
-`results/raw/phase1-config-c/`.
+`FLW-0024 Place density exceeds 1.0` after port buffering. D-016 moved the
+region left five sites; this final attempt cleared that density guard and
+completed global placement, but detailed placement failed with 268 remaining
+legalization violations, 306 site-alignment problems, 186 overlaps, 232 edge
+spacing violations, and 24 padding violations. No CTS, routing, final STA,
+GDS, DRC, or LVS result exists for C. The D-016 recovery budget is exhausted.
+See `results/processed/config-c-final-recovery.md`; raw runs are under
+`results/raw/phase1-config-c/` and
+`results/raw/phase1-config-c-final-recovery/`.
 
-A later read-only capacity diagnosis is classified
-`FEASIBLE_REGION_IDENTIFIED`: it derives one untested 499-site-column
-`PD_SW` region (`{1.380, 2.720, 230.920, 261.120}` µm) with estimated AON
-headroom inside the same core. The estimate assumes the observed 36-site row
-gap persists and does not establish placement feasibility. The diagnosis
-itself did not authorize a physical rerun; subsequent D-016 now authorizes
-exactly one fresh attempt. Details and hashes are in
+A later read-only capacity diagnosis was classified
+`FEASIBLE_REGION_IDENTIFIED`: it proposed a 499-site-column `PD_SW` region
+(`{1.380, 2.720, 230.920, 261.120}` µm) with estimated AON headroom inside
+the same core. The estimate assumed the observed 36-site row gap persisted
+and did not establish placement feasibility. D-016 tested this region once;
+detailed placement failed. Details and hashes are in
 `results/processed/config-c-capacity-diagnosis.md`.
 
 **Configuration D: NOT STARTED / BLOCKED** until C is accepted. No scan was
-added to C. D-016 authorizes exactly one fresh C physical attempt using
-`PD_SW = {1.380, 2.720, 230.920, 261.120}` µm. This region is an untested
-capacity estimate, not evidence of placement success. The attempt must stop
-on any placement failure, with no further density, geometry, seed, or placer
-tuning.
+added to C. D-016 used `PD_SW = {1.380, 2.720, 230.920, 261.120}` µm but
+failed detailed placement. No further C placement attempt, density/geometry/
+seed change, or placer tuning is authorized without a reviewed scope
+decision.
 
 Current limits: physical SKY130HD power switching, physical power gating,
 accepted C physical integration (current C placement failure), unbounded PMU
