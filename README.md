@@ -20,9 +20,14 @@ provenance record documenting the source copyright terms. The ASIC study uses
   same physical stages and open-deck finishing checks passed; the same mission
   STA acceptance passed.
 - **C — PMU/isolation case study:** directed functional tests, bounded SAT
-  checks, and UPF/isolation capability evidence passed. The fixed-core
-  physical attempt ultimately failed detailed-placement legalization. C is
-  not an accepted physical implementation.
+  checks, and UPF/isolation capability evidence passed. Physical placement
+  failed because repaired AON movable-cell area (4,262.8384 µm²) exceeded
+  available legal row area (3,862.4544 µm²) by 400.3840 µm². The default
+  power-domain margin removed legal row space, and timing-driven buffering
+  increased demand. A later `bad_optional_access` occurred after legalization
+  had already reported violations; its exact software callsite is unknown.
+  C is not an accepted physical implementation. See the detailed
+  [C placement diagnosis](results/processed/config-c-root-cause-audit.md).
 - **Scan capability:** a separate 12-flop qualification smoke demonstrated
   scan replacement, chain stitching, pin placement, and routed scan wiring.
   Scan was not inserted into portfolio C/D.

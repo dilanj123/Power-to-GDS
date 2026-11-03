@@ -66,15 +66,18 @@ unbounded proof. Prior floorplan evidence showed two UPF domains, one logical
 switch intent, and 37 parent-side
 `sky130_fd_sc_hd__lpflow_inputiso0n_1` isolation cells.
 
-The physical investigation found several distinct failures: the initial
-domain rectangle was rejected as out of range; a diagnostic without an area
-encountered RePlAce divergence; a later region triggered the pinned flow's
-density guard; and the one final D-016 region completed global placement but
-left 268 detailed-placement legalization violations, including site
-alignment, overlap, spacing, and padding problems. Evidence does not isolate
-one single root cause. The fixed-core domain partition could not be completed
-within the authorized scope. C did not reach CTS, routing, extracted STA, GDS,
-DRC, or LVS. C remains **NOT ACCEPTED**.
+The final D-016 attempt completed global placement but failed detailed
+placement. The saved checkpoint has 3,862.4544 µm² of free legal AON row area
+and 4,262.8384 µm² of post-repair movable AON cell area, a 400.3840 µm²
+deficit before additional legalization constraints. The pinned default
+power-domain margin removed 36 placement sites per row; timing-driven
+buffering and resizing increased demand after the initial GPL density check.
+Detailed placement reported 268 legalization violations. A later
+`bad_optional_access` occurred during optimize-mirroring, after those
+placement failures; its exact software callsite is unknown and it is not
+established as the primary cause. The fixed-core domain partition could not
+be completed. C did not reach CTS, routing, extracted STA, GDS, DRC, or LVS.
+C remains **NOT ACCEPTED**. See the [full C placement root-cause audit](../results/processed/config-c-root-cause-audit.md) and its [review pack](../results/processed/config-c-chatgpt-review-pack.md).
 
 ## DFT/scan scope
 
@@ -95,24 +98,27 @@ power-switch master, so C's switch is logical intent only.
 
 ## CV project entry
 
-**Power-to-GDS — SKY130HD RTL-to-GDS study:** Implemented and compared
-conventional and clock-gated configurations of an immutable Sobel streaming
-pipeline using a pinned OpenROAD flow; completed synthesis through detailed
-routing, extracted STA, GDS generation, and open-deck DRC/LVS for A/B. Added
-and verified a bounded PMU/UPF isolation experiment, then diagnosed a fixed-
-core placement limitation that prevented physical C acceptance. Separately
-qualified a small OpenROAD scan-routing smoke; portfolio scan was not run.
+**Power-to-GDS — SKY130HD RTL-to-GDS study:** Implemented conventional and
+clock-gated versions of an immutable Sobel streaming pipeline with a pinned
+OpenROAD/SKY130HD flow. Both accepted configurations completed routed
+implementation, passed 12 ns mission STA, generated GDS, and passed pinned
+open-deck DRC/LVS. Built and tested a bounded PMU/UPF isolation case study;
+diagnosed why its fixed-core AON region could not be legalized (4,262.8384
+µm² movable area versus 3,862.4544 µm² legal area). Separately qualified
+scan insertion/routing on a small smoke design; portfolio scan was not run.
+No measured power reduction or physical power gating is claimed.
 
 ## Short interview explanation
 
-“I took an already verified Sobel pipeline, kept its RTL fixed, and built a
-conventional and a clock-gated SKY130HD implementation. Both passed the
-project’s 12 ns mission STA and the pinned open-deck DRC/LVS checks. I also
-verified a small PMU/isolation design logically and with bounded SAT, but its
-power-domain partition could not be legalized in the fixed core, so I stopped
-instead of presenting it as a successful physical implementation. A separate
-small scan smoke qualified the tool capability; I did not claim portfolio
-ATPG or power savings.”
+“I kept an already verified Sobel pipeline’s RTL unchanged and built
+conventional and clock-gated SKY130HD implementations. Both passed the
+project’s 12 ns mission STA and pinned open-deck DRC/LVS. I also tested a
+small PMU and UPF isolation case. Its final fixed-core attempt had about
+400 square microns more movable AON cell area than legal row capacity, so
+detailed placement failed. The later software exception’s exact callsite is
+unknown, and I report it separately from the measured capacity deficit. A
+separate scan smoke demonstrated tool capability; portfolio scan, ATPG, and
+activity-based power reduction were not established.”
 
 ## Detailed evidence
 
