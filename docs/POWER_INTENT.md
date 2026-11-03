@@ -16,11 +16,11 @@ implementation has been run.
   constraints.
 - The Gate-1 contract originally stated that `PD_SW` coordinates were
   recorded with A; audit found that A did not record a power-domain region.
-  D-015 proposes a row/site-aligned `PD_SW` region within A's unchanged core,
-  derived from C's measured domain/AON placement demands. It is a C-only
-  proposed experiment and becomes frozen for later variants only if the
-  controlled C placement passes. The tiny Gate-0 smoke coordinates are not
-  reused as portfolio-area evidence.
+  D-015's one row/site-aligned region attempt did not pass the pinned ORFS
+  global-placement density guard. No accepted PD_SW region is currently
+  established; another region/flow change requires a separate reviewed
+  decision. The tiny Gate-0 smoke coordinates are not reused as
+  portfolio-area evidence.
 
 The wrapper blocks new stream accepts during quiescence. Every crossing from
 `PD_SW` to the AON boundary is clamped to zero while isolation is asserted;

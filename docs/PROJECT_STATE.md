@@ -1,6 +1,6 @@
 # Power-to-GDS Project State
 
-## Current gate snapshot — 2026-11-02
+## Current gate snapshot — 2026-11-03
 
 **Gate 0: PASS WITH DECLARED SWITCH-INTENT LIMITATION.** The re-established
 10.30 ns implementation passes read-only mission STA at 10.50 ns with WNS
@@ -48,13 +48,16 @@ hashes are retained under `results/raw/phase1-config-b/artifacts/`.
 project-owned PMU/domain wrapper passes directed simulation and bounded
 18-step safety assertions; the UPF flow retains two domains and a logical
 switch intent and inserts 37 SKY130HD isolation cells during floorplan
-initialization. The attempted explicit PD_SW area fails at
-`3_1_place_gp_skip_io` with a domain-area range error. A separate no-area
-diagnostic proceeds through skip-I/O placement but fails full global placement
-with `GPL-0307` RePlAce divergence. No CTS, routing, final STA, GDS, DRC, or LVS
-result exists for C. D-015 records that A did not specify the domain region
-and proposes one measured, row/site-aligned split for the single authorized C
-retry; that region is not yet placement-qualified. See
+initialization. The prior near-whole-core region failed at
+`3_1_place_gp_skip_io` with a domain-area range error; a no-area diagnostic
+failed full global placement with `GPL-0307` RePlAce divergence. The single
+D-015 row/site-aligned retry loaded its exact region and completed skip-I/O
+placement and I/O pin placement, but full `3_3_place_gp` stopped with
+`FLW-0024 Place density exceeds 1.0` after port buffering. No full global
+placement, CTS, routing, final STA, GDS, DRC, or LVS result exists for C. The
+effective AON region capacity reported by GPL is materially smaller than the
+area-only estimate; its exact source remains unresolved. No further retry is
+authorized by D-015. See
 `results/processed/config-c-isolation.md` and raw attempts under
 `results/raw/phase1-config-c/`.
 

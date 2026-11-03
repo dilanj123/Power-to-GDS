@@ -21,8 +21,9 @@ Configuration D was not started.
 - The prior `PD_SW` area attempt was `{1.840 5.440 262.200 258.400}` µm.
   D-015 records that this grid-aligned region occupied 97.55% of the core and
   left insufficient measured capacity for AON placement. A did not record
-  domain coordinates despite the original Gate-1 wording. D-015 now proposes
-  one replacement region for a single controlled retry; it is not yet accepted.
+  domain coordinates despite the original Gate-1 wording. D-015 proposed one
+  replacement region for one controlled retry; that retry is complete and
+  failed the full global-placement density guard as detailed below.
 
 ## Functional and bounded formal evidence
 
@@ -52,13 +53,15 @@ initialization checkpoint
 The platform-wide `DONT_USE` policy was not changed. No physical switch
 master is mapped or claimed.
 
-With the explicit interior `PD_SW` area, `3_1_place_gp_skip_io` fails with
-`domain error: argument not in valid range`. A separate diagnostic run with
-the area omitted warns `UPF-0021 No area specified for PD_SW`; its skip-I/O
-placement stage completes, but full `3_3_place_gp` terminates with
-`GPL-0307 RePlAce divergence detected` (preceded by `GPL-0324` divergence and
-large timing-repair area growth). The no-area run is diagnostic, not an
-acceptable implementation configuration. No tuning or retry was performed.
+The original explicit near-whole-core `PD_SW` area made
+`3_1_place_gp_skip_io` fail with `domain error: argument not in valid range`.
+A separate diagnostic run with the area omitted warned `UPF-0021 No area
+specified for PD_SW`; skip-I/O placement completed, but full `3_3_place_gp`
+terminated with `GPL-0307 RePlAce divergence detected` (preceded by
+`GPL-0324` divergence and large timing-repair area growth). The no-area run
+was diagnostic, not an acceptable implementation configuration. The single
+controlled D-015 retry and its distinct density-guard failure are recorded
+below.
 
 Consequently C has no accepted placement checkpoint and did not reach CTS,
 global route, detailed route, mission STA, GDS, DRC, or LVS. There are no final
@@ -75,15 +78,28 @@ reviewed C recovery decision establishes a valid domain-area/placement method
 and C passes its required gates. No scan, ATPG, fault coverage, physical power
 gating, or production sign-off is claimed.
 
-Raw run directories and logs are intentionally excluded from Git; the exact
-attempts are retained locally under `results/raw/phase1-config-c/`.
+Raw run directories and logs are intentionally excluded from Git. The original
+attempts are retained under `results/raw/phase1-config-c/`; the controlled
+retry and its stage ODBs/configuration evidence are retained under
+`results/raw/phase1-config-c-recovery/` with `SHA256SUMS`.
 
-## D-015 single-retry proposal (not yet executed)
+## D-015 single-retry outcome
 
-Use `PD_SW = {1.380, 2.720, 233.220, 261.120}` µm: 504 `unithd` site columns
-by 95 full core rows. This leaves 64 columns for AON. The proposal is based on
-the 3_3 GPL group demands (35,341.185 µm² PD_SW; 3,465.875 µm² AON/top-level)
-and measured tap overlap, yielding calculated utilization 59.965% and 46.299%
-respectively against the unchanged 0.60 target. AON has 1.296× the measured
-placement-demand capacity at that target. Full calculations and failure
-diagnosis are in D-015 of `docs/DECISIONS.md`.
+The single controlled retry used `PD_SW = {1.380, 2.720, 233.220, 261.120}`
+µm (504 site columns × 95 rows), leaving 64 columns for AON. The floorplan ODB
+retained two domains, one logical switch object, 37 parent-side
+`sky130_fd_sc_hd__lpflow_inputiso0n_1` cells, and this exact region. Region
+coordinates align with the core's 0.46 µm site and 2.72 µm row grid. Skip-I/O
+global placement and I/O pin placement returned successfully.
+
+Full `3_3_place_gp` then failed before the global-placement call. ORFS had
+removed 117 buffers and inserted 51 input plus 53 output delay buffers; its
+density helper raised `FLW-0024 Place density exceeds 1.0` with the unchanged
+`PLACE_DENSITY_LB_ADDON=0.25`. The preceding GPL accounting showed only
+3,328.192 µm² available for 2,498.525 µm² of AON movable cells before these
+port buffers. This contradicts the simpler region-complement estimate in the
+original D-015 proposal: exclusive-region accounting and buffer demand leave
+insufficient effective capacity. The exact additional area exclusion is not
+isolated. No further physical attempt, density change, or D scan was made.
+Raw retry logs and ODB checkpoints are under
+`results/raw/phase1-config-c-recovery/`; see D-015 in `docs/DECISIONS.md`.

@@ -72,6 +72,7 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
 | Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
 | Configuration C PMU/UPF isolation attempt | `results/processed/config-c-isolation.md` | NOT_ACCEPTED — bounded simulation/formal pass; isolation inserted; physical global placement fails |
+| Configuration C single controlled placement retry | `results/raw/phase1-config-c-recovery/` | IGNORED RAW — aligned PD_SW region; skip-I/O/IOP pass; full GP stopped by FLW-0024 density guard; SHA256SUMS |
 
 Current disposition: Gate 0 is **PASS WITH DECLARED SWITCH-INTENT
 LIMITATION** and Gate 1 is **PASS with D-014 timing amendment**.

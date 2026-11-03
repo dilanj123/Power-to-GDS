@@ -181,16 +181,38 @@ For one authorized controlled C retry only, propose
 `PD_SW = {1.380, 2.720, 233.220, 261.120}` µm. This is exactly 504 site
 columns by all 95 rows; the remaining right-side AON strip is 64 columns,
 `{233.220, 2.720, 262.660, 261.120}` µm. `PD_SW` area is 59,907.456 µm²;
-after measured tap overlap, its calculated utilization is 59.965% for the
-35,341.185 µm² placement demand. AON area is 7,607.296 µm²; after tap overlap,
-its calculated utilization is 46.299%, giving 1.296× the measured placement
-demand capacity at the unchanged 0.60 density. A 503-column `PD_SW` region
-would exceed 60% after the same measured fixed-cell overlap, so 504 is the
-smallest site-aligned width meeting the frozen density target while reserving
-usable AON capacity. This proposal does not change the outer core,
-utilization, placement settings, source, timing, or library. It is **not a C
-pass**; the single retry must validate region legality and placement. If it
-fails, no further placement tuning is authorized by D-015.
+area-only calculation used measured GPL group area and fixed tap overlap:
+`PD_SW` demand 35,341.185 µm² against 58,936.525 µm² free area (59.965%),
+and AON demand 3,465.875 µm² against 7,485.930 µm² free area (46.299%). The
+calculation omitted other placement exclusions in GPL's exclusive-region
+accounting; it was a capacity estimate, not a demonstrated legal placement.
+The single retry below supersedes that theoretical estimate. This proposal
+does not change the outer core, utilization, placement settings, source,
+timing, or library.
+
+### D-015 retry result — placement not accepted
+
+The one fresh retry used only this area change. Its floorplan ODB retained two
+power domains, one logical power-switch object, 37 parent-side isolation
+cells, and the exact row/site-aligned PD_SW box. `3_1_place_gp_skip_io` and
+`3_2_place_iop` completed. The `3_1` GPL accounting reported a 0.760 lower
+bound for top-level placement and only 3,328.192 µm² available free area for
+2,498.525 µm² of pre-I/O-buffer top-level movable cells. The subsequent full
+`3_3_place_gp` removed 117 buffers, then inserted 51 input and 53 output
+`sky130_fd_sc_hd__clkdlybuf4s50_1` cells. Its pinned ORFS density helper then
+raised `FLW-0024 Place density exceeds 1.0` before calling full global
+placement. With `PLACE_DENSITY_LB_ADDON=0.25`, that guard implies its computed
+uniform-density lower bound exceeded 0.9867. No full-GP placement result was
+produced.
+
+Thus the region's row/site geometry is valid, but the pre-run AON capacity
+estimate did not model GPL's effective exclusive-region capacity and the
+port-buffer demand. The 3_3 ODB/logs do not isolate the additional area
+exclusion that reduces the nominal 7,607.296 µm² AON strip to 3,328.192 µm²
+free area at 3_1. This remains an unresolved pinned-flow/domain-capacity
+limitation. No density, floorplan, seed, or placer setting was changed, and
+the single authorized retry is exhausted. C remains not accepted; D remains
+blocked. Raw evidence is in `results/raw/phase1-config-c-recovery/`.
 Raw source evidence: `results/raw/phase1-config-c/inspect-upf-groups.log`,
 `area-capacity-inspect.log`, `domain-capacity-inspect.log`, and the retained
 ORFS placement logs under `results/raw/phase1-config-c/work/logs/`.
