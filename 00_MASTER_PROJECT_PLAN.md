@@ -5,8 +5,11 @@
 **Status:** Gate 0 **PASS WITH DECLARED SWITCH-INTENT LIMITATION**; Gate 1
 **PASS**; portfolio A and B **PASS at 12.00 ns**; C **NOT ACCEPTED** after the
 D-016 detailed-placement failure; D **NOT STARTED**.
-**Readiness:** The fixed-core C recovery budget is exhausted. No further C
-placement attempt or D scan is authorized without a reviewed scope decision.
+**Original-scope status:** Original Gate 4 and Gate 5 acceptance criteria are
+**NOT COMPLETE**. D-017 establishes a reduced-scope portfolio deliverable; it
+does not retroactively pass C, D, Gate 4, or the original Gate 5.
+**Reduced-scope status:** See D-017 and `docs/PROJECT_STATE.md` for the
+separate reduced-scope verdict and evidence/reproduction boundary.
 
 ---
 
@@ -867,3 +870,23 @@ Primary/current sources checked on 2026-09-20:
 ### Reference-document availability note
 
 The planning brief requested direct review of previously supplied “RTL-to-Pixels” and earlier CPU/summer-project planning documents. Those named planning documents were not accessible in the conversation/project file index or in the allowed Library search during this planning pass. This package therefore preserves the authority hierarchy, evidence discipline, baseline preservation, gate model, controlled comparison and reproducibility requirements explicitly supplied in the Power-to-GDS brief, but it does **not** claim a line-by-line comparison against unavailable reference documents.
+
+## 26. Reduced-scope portfolio deliverable (D-017)
+
+The original Gate 4 remains incomplete because portfolio Configuration C did
+not complete physical implementation and portfolio Configuration D was not
+run. The original Gate 5 criteria also remain incomplete; this amendment does
+not claim its screenshot or canonical clean physical replay requirements
+were met.
+
+D-017 defines a separate reduced-scope deliverable: accepted conventional A
+and clock-gated B physical implementations; C as bounded functional/formal/
+UPF qualification and a documented fixed-core placement-failure case study;
+and the earlier small DFT/scan capability smoke, explicitly not a portfolio D
+implementation. Reduced-scope acceptance requires accurate public results and
+limitations, verified source/tool/platform identity, checked A/B artifact
+manifests, fresh A/B simulation replay with existing runners, and usable
+reproduction instructions. A/B physical implementation replay is not claimed
+by this closeout; archived physical artifacts are identified by their
+manifests. The reduced verdict is separate from original Gate 4/5. See
+`docs/DECISIONS.md` D-017.

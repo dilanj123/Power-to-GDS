@@ -11,9 +11,17 @@ Gate 0 is **PASS WITH DECLARED SWITCH-INTENT LIMITATION** and Gate 1 is
 open-deck DRC/LVS, immutable RTL source, and engineering contract are recorded
 in the current project state and linked processed evidence. Portfolio A and B
 are accepted. C remains not accepted after the D-016 detailed-placement
-failure; D has not started. The single fixed-core C recovery budget is
-exhausted. No further C placement attempt or D scan is authorized without a
-reviewed scope decision.
+failure; portfolio D has not started. The single fixed-core C recovery budget
+is exhausted. D-017 defines a reduced-scope portfolio deliverable using
+accepted A/B, the bounded C case study, and the separate scan capability
+smoke. This does not pass original Gate 4/5 or claim portfolio D. No further C
+placement attempt or portfolio D scan is authorized.
+
+The reduced-scope closeout under D-017 is
+**REDUCED_SCOPE_CV_READY_WITH_LIMITATIONS** after fresh A/B simulation replay,
+source/tool/platform identity checks, and archive manifest checks. Original
+Gate 4 and Gate 5 remain **NOT COMPLETE**; this status does not claim physical
+C or portfolio D.
 
 ---
 

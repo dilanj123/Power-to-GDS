@@ -256,3 +256,44 @@ is exhausted; no additional region, density, seed, floorplan, or placer
 experiment is authorized. See
 `results/processed/config-c-final-recovery.md` and raw logs under
 `results/raw/phase1-config-c-final-recovery/`.
+
+## D-017 — reduced-scope portfolio study
+
+The original full A/B/C/D study is **NOT COMPLETE**. Original Gate 4 requires
+physical C and D; C failed detailed placement after the one authorized D-016
+retry, and portfolio D was not run. Original Gate 5 is also not declared
+passed.
+
+For a clear, appropriately sized public portfolio deliverable, adopt the
+separate `REDUCED_SCOPE_PORTFOLIO_STUDY`:
+
+- A: accepted conventional physical implementation;
+- B: accepted clock-gated physical implementation;
+- C: functional and bounded formal/UPF evidence plus the documented physical
+  placement failure; C remains **NOT ACCEPTED**;
+- D: report the prior small scan capability smoke as capability evidence;
+  portfolio Configuration D remains **NOT RUN**.
+
+Reduced-scope acceptance requires: (1) public results that compare A/B from
+actual reports without causal overclaim, (2) honest C failure and D status,
+(3) verified immutable source/tool/platform identity and A/B artifact
+manifests, (4) fresh passing A/B functional simulation through existing
+runners, (5) concise reproduction and limitation documents, and (6) a clean
+tracked-content audit. Full clean physical replay is not claimed by this
+decision. If these criteria pass, use
+`REDUCED_SCOPE_CV_READY_WITH_LIMITATIONS`; this verdict is not Gate 4 or Gate 5
+completion. No additional C physical attempt, portfolio D implementation,
+RTL change, or hardware development is authorized by D-017.
+
+Evidence and reproduction outcomes are recorded in
+`docs/PROJECT_STATE.md`, `docs/RESULTS.md`, and `docs/REPRODUCE.md`.
+
+### D-017 closeout assessment
+
+The reduced criteria passed: the A/B physical archive manifests and all 20
+runtime/platform hash entries verified; the clean immutable source checkout
+was confirmed; fresh A and B simulation suites passed; public comparison,
+reproduction, and limitation documents were prepared; and the tracked-content
+audit is recorded at closeout. No fresh physical replay is claimed. Verdict:
+**REDUCED_SCOPE_CV_READY_WITH_LIMITATIONS**. Original Gate 4 and Gate 5 remain
+**NOT COMPLETE**.

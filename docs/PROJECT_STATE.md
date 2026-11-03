@@ -1,5 +1,20 @@
 # Power-to-GDS Project State
 
+## Portfolio completion disposition — 2026-11-03
+
+**Reduced deliverable: `REDUCED_SCOPE_CV_READY_WITH_LIMITATIONS`.** D-017
+defines the accepted public scope: physical A/B, C as a verified but
+physically unaccepted PMU/isolation case study, and a separate small DFT/scan
+capability smoke. A/B physical archives passed SHA256 manifest checks and
+fresh A/B functional simulations passed from the clean immutable source
+checkout. The physical A/B flows were not freshly replayed during this
+closeout.
+
+**Original full A/B/C/D scope: NOT COMPLETE. Original Gate 4 and Gate 5 are
+NOT COMPLETE.** C did not pass detailed placement; portfolio D was not run.
+The reduced-scope verdict is not a pass of those original gates. See
+`docs/RESULTS.md`, `docs/REPRODUCE.md`, and `docs/KNOWN_LIMITATIONS.md`.
+
 ## Current gate snapshot — 2026-11-03
 
 **Gate 0: PASS WITH DECLARED SWITCH-INTENT LIMITATION.** The re-established

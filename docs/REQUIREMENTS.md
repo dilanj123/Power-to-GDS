@@ -61,3 +61,27 @@ authority and evidence.
 No power reduction claim is valid without a controlled activity-based or
 otherwise explicitly bounded power comparison. Vectorless reports remain
 estimates.
+
+## Reduced-scope portfolio deliverable (D-017)
+
+The original A/B/C/D study remains the full project objective. Its original
+Gate 4 requires physical C and D, and its original Gate 5 requirements remain
+historical acceptance criteria; neither gate is retroactively marked passed.
+
+For a bounded CV portfolio deliverable, D-017 permits a separate
+`REDUCED_SCOPE_PORTFOLIO_STUDY` consisting of:
+
+1. accepted conventional A and clock-gated B physical implementations;
+2. C functional, bounded-formal, and UPF evidence plus the placement-failure
+   investigation, with C explicitly not physically accepted;
+3. the previously qualified small DFT/scan capability smoke, with no
+   portfolio D scan implementation;
+4. public, evidence-linked results, limitations, and exact reproduction
+   instructions; and
+5. clean A/B simulation replays using the existing runners, plus verified
+   source identity and archived A/B physical artifact manifests.
+
+This reduced deliverable does not require another C or D implementation and
+does not claim a clean A/B physical replay during closeout. Its acceptance is
+reported separately from original Gate 4/5. It does not change RTL, product
+requirements, or the original full-scope acceptance criteria.

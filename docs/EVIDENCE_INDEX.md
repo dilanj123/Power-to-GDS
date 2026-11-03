@@ -1,5 +1,9 @@
 # Power-to-GDS Evidence Index
 
+Current portfolio disposition: **REDUCED_SCOPE_CV_READY_WITH_LIMITATIONS**
+under D-017. Original Gate 4 and Gate 5 remain **NOT COMPLETE**; C physical
+implementation was not accepted and portfolio D was not run.
+
 Raw tool logs and implementation databases are retained locally under
 `results/raw/` and intentionally excluded from Git. Reproducible processed
 evidence and bounded conclusions are stored under `results/processed/`.
@@ -71,6 +75,11 @@ evidence and bounded conclusions are stored under `results/processed/`.
 | Configuration B clock-gating implementation and simulation | `flow/phase1/config-b/`, `constraints/config-b-mission.sdc`, `scripts/run_config_b_*.sh` | ONE mapped ICG; source and directed frame/gating tests PASS |
 | Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
 | Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
+| Reduced-scope public results | `docs/RESULTS.md` | A/B comparison, bounded C case study, scan capability boundary, CV/interview summary |
+| Reduced-scope reproduction instructions | `docs/REPRODUCE.md` | Fresh A/B simulations pass; physical archives hash-verified; no fresh physical replay claimed |
+| Reduced-scope known limitations | `docs/KNOWN_LIMITATIONS.md` | Original Gate 4/5 incomplete; C not accepted; portfolio D not run |
+| Reduced-scope A simulation replay | `results/raw/reduced-scope/repro-a-sim/` | Fresh: 4/4 frame and 5/5 streaming tests PASS |
+| Reduced-scope B simulation replay | `results/raw/reduced-scope/repro-b-sim/` | Fresh: 4/4 frame, 5/5 streaming, 1/1 clock-gate tests PASS |
 | Configuration C PMU/UPF isolation attempt | `results/processed/config-c-isolation.md` | NOT_ACCEPTED — bounded simulation/formal pass; prior floorplan isolation evidence; physical placement incomplete |
 | Configuration C single controlled placement retry | `results/raw/phase1-config-c-recovery/` | IGNORED RAW — aligned PD_SW region; skip-I/O/IOP pass; full GP stopped by FLW-0024 density guard; SHA256SUMS |
 | Configuration C fixed-core capacity diagnosis | `results/processed/config-c-capacity-diagnosis.md` | Historical FEASIBLE_REGION_IDENTIFIED estimate; candidate later failed D-016 detailed placement |
