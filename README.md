@@ -14,18 +14,24 @@ An APB-style register block controls run enable, threshold and bypass, reports p
 
 ```mermaid
 flowchart LR
-    IN[RGB888 ready/valid<br/>SOF and EOL] --> GRAY[RGB to grayscale]
-    GRAY --> LB[Two line buffers<br/>previous rows]
-    LB --> WIN[Sliding 3 by 3 window]
-    WIN --> SOBEL[Sobel Gx and Gy]
-    SOBEL --> MAG[Absolute-sum magnitude<br/>clamp to 8 bits]
-    MAG --> THR[Threshold and border mask]
-    THR --> EL[Output elastic stage]
-    EL --> OUT[8-bit edge ready/valid<br/>SOF and EOL]
-    APB[APB-style registers] -. threshold and bypass .-> THR
-    APB -. run enable .-> IN
-    PC[Pixel and frame control] -. accepted pixel and coordinates .-> LB
-    OC[Output and drain control] -. output position, border .-> EL
+    IN["RGB888 stream<br/>SOF and EOL"] --> GRAY["RGB to grayscale"]
+
+    GRAY --> LB["Two line buffers"]
+    GRAY --> WIN["Sliding 3×3 window"]
+    LB -- "Previous rows" --> WIN
+
+    WIN --> SOBEL["Sobel Gx and Gy"]
+    SOBEL --> ARITH["Arithmetic elastic stage"]
+    ARITH --> MAG["L1 magnitude<br/>8-bit clamp"]
+    MAG --> THR["Threshold and border mask"]
+    THR --> EL["Output elastic stage"]
+    EL --> OUT["8-bit edge stream<br/>SOF and EOL"]
+
+    PC["Pixel and frame control"] -.-> LB
+    PC -.-> WIN
+    OC["Output and drain control"] -.-> ARITH
+    APB["APB registers"] -.-> THR
+    APB -. "Run enable" .-> IN
 ```
 
 The control blocks and datapath stages are in the imported top; the diagram summarizes those connections and does not imply additional hardware.
@@ -80,7 +86,8 @@ See the [C root-cause audit](results/processed/config-c-root-cause-audit.md) for
 ## Source and repository navigation
 
 - `rtl/imported/from-rtl-to-pixels-ad35514/` — immutable source modules, hash manifest and [provenance/copyright terms](rtl/imported/from-rtl-to-pixels-ad35514/PROVENANCE.md).
-- `flow/phase1/config-a/` and `flow/phase1/config-b/` — conventional and clock-gated configurations and wrappers.
+- [`flow/phase1/config-a_top.sv`](flow/phase1/config-a_top.sv) — conventional wrapper; [`flow/phase1/config-a/config.mk`](flow/phase1/config-a/config.mk) — conventional flow configuration.
+- [`flow/phase1/config-b/config_b_top.sv`](flow/phase1/config-b/config_b_top.sv) — clock-gated wrapper and [`flow/phase1/config-b/config.mk`](flow/phase1/config-b/config.mk) — B flow configuration.
 - `flow/phase1/config-c/` and `formal/phase1/config-c/` — PMU/UPF experiment and bounded formal harness.
 - `constraints/` — A/B mission SDC files.
 - `scripts/run_config_a_*` and `scripts/run_config_b_*` — simulation and ORFS entry points.
