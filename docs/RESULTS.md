@@ -96,33 +96,6 @@ Activity-based power comparison is **NOT QUALIFIED**; no power-reduction
 claim is made. The pinned platform also has no valid physical SKY130HD
 power-switch master, so C's switch is logical intent only.
 
-## CV project entry
-
-**Power-to-GDS — SKY130HD RTL-to-GDS study:** Took an immutable, verified
-Sobel streaming design through synthesis, floorplanning, placement, CTS,
-routing, extraction and GDS with a pinned OpenROAD flow. Built conventional
-and clock-gated variants; both passed 12.00 ns mission STA and pinned
-open-deck DRC/LVS. Mapped one SKY130HD integrated clock gate in B and checked
-drain, idle gating and wake behavior with directed simulation. For C, passed
-directed PMU tests and bounded SAT checks, then diagnosed a fixed-core AON
-capacity deficit of 400.3840 µm² before legalization. Portfolio C was not
-accepted and portfolio D scan was not run. A separate 12-flop scan smoke
-qualified limited tool capability. No measured power reduction or physical
-power-gating claim.
-
-## Short interview explanation
-
-“I used an immutable, already verified Sobel pipeline and built two SKY130HD
-physical implementations: a conventional version and one with a mapped
-integrated clock gate. Both completed through GDS and passed our 12 ns
-mission STA plus the pinned open DRC/LVS decks. I tested a small PMU and UPF
-isolation case, but C did not legalize: its repaired AON movable-cell area
-exceeded the available legal row area by about 400 square microns. A later
-software exception had an unknown callsite, so I keep that separate from
-the measured capacity deficit. I also qualified scan routing on a separate
-small smoke design; portfolio D, ATPG and activity-based power comparison
-were not completed.”
-
 ## Detailed evidence
 
 - [Configuration A baseline](../results/processed/config-a-baseline.md) and

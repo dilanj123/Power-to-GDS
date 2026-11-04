@@ -40,7 +40,7 @@ decision and like-for-like comparison methodology.
 - Image: `openroad/flow-ubuntu22.04-builder-nogui:26Q3-2276-g4a7cf9b22a-35f109`
 - Image digest: `sha256:fe2b24e96c6e4088b1ac6d68c83c5089dfdc61d90b00b43361ede064bb37174c`
 - Runtime: Linux/aarch64; KLayout 0.30.12 at `/usr/local/klayout`.
-- Platform: SKY130HD `sky130_fd_sc_hd`, TT 0.025 C, 1.80 V. Platform input
+- Platform: SKY130HD `sky130_fd_sc_hd`, TT 25 °C, 1.80 V. Platform input
   hashes are recorded in `results/processed/runtime-platform-manifest.md`.
 - Existing source regression and 32x24 functional tests remain PASS as recorded
   in `results/processed/config-a-baseline.md`.

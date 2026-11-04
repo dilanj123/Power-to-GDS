@@ -78,8 +78,8 @@ portfolio verdict is unchanged.
 | Gate-0 closure | `results/processed/gate0-closure-report.md` | PASS WITH DECLARED SWITCH-INTENT LIMITATION |
 | Gate-1 engineering contract | `results/processed/gate1-engineering-contract.md` | PASS — intent frozen before portfolio implementation |
 | Gate-1 power intent | `docs/POWER_INTENT.md` | FROZEN INTENT — logical switch only; classification B |
-| Gate-1 verification plan | `docs/VERIFICATION_PLAN.md` | FROZEN TEST PLAN — execution pending |
-| Gate-1 formal contract | `docs/FORMAL.md` | SPECIFIED — no formal proof claimed |
+| Gate-1 verification plan | `docs/VERIFICATION_PLAN.md` | Original A/B/C/D test contract; A/B tests and bounded C checks ran, full planned scope incomplete |
+| Gate-1 formal contract and C bounded checks | `docs/FORMAL.md` | 18-step assertions passed and 22-step trace emitted; no unbounded proof |
 | Gate-1 DFT contract | `docs/DFT.md` | FROZEN BOUNDED SCOPE — no ATPG/coverage claim |
 | CV-ready scope amendment and 32x24 qualification | `results/processed/config-a-scope-qualification.md` | 640x480 source retained; 32x24 parameterized tests PASS |
 | Configuration A source/configuration | `rtl/imported/from-rtl-to-pixels-ad35514/`, `flow/phase1/`, `constraints/config-a-mission.sdc` | Immutable imported source and parameter-only wrapper |
@@ -91,7 +91,7 @@ portfolio verdict is unchanged.
 | Configuration B clock-gating implementation and simulation | `flow/phase1/config-b/`, `constraints/config-b-mission.sdc`, `scripts/run_config_b_*.sh` | ONE mapped ICG; source and directed frame/gating tests PASS |
 | Configuration B physical raw artifacts | `results/raw/phase1-config-b/artifacts/` | IGNORED RAW — ODB/SPEF/SDC/DEF/GDS, logs, reports, SHA256SUMS |
 | Configuration B clock-gating qualification | `results/processed/config-b-clock-gating.md` | PASS_AT_12NS_MISSION; open-deck DRC zero; LVS matches; vectorless estimate only |
-| Reduced-scope public results | `docs/RESULTS.md` | A/B comparison, bounded C case study, scan capability boundary, CV/interview summary |
+| Reduced-scope public results | `docs/RESULTS.md` | A/B comparison, bounded C case study, scan capability boundary and detailed evidence links |
 | Reduced-scope reproduction instructions | `docs/REPRODUCE.md` | Fresh A/B simulations pass; physical archives hash-verified; no fresh physical replay claimed |
 | Reduced-scope known limitations | `docs/KNOWN_LIMITATIONS.md` | Original Gate 4/5 incomplete; C not accepted; portfolio D not run |
 | Reduced-scope A simulation replay | `results/raw/reduced-scope/repro-a-sim/` | Fresh: 4/4 frame and 5/5 streaming tests PASS |

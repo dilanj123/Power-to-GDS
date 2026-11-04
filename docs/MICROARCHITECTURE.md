@@ -1,8 +1,11 @@
 # Power-to-GDS Microarchitecture Contract
 
-Status: frozen Gate-1 comparison boundary and logical-control contract. It
-does not modify the imported RTL and does not claim PMU implementation or
-verification has run.
+Status: this is the frozen Gate-1 comparison boundary and logical-control
+contract; it does not modify the imported RTL. The C PMU wrapper was later
+implemented and exercised with directed simulation and bounded SAT checks,
+but C failed physical detailed placement. See `docs/RESULTS.md` for executed
+evidence; the proposed protocol below is not evidence of physical power
+gating or a fully proven PMU.
 
 ## Comparison boundary
 
