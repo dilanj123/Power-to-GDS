@@ -36,7 +36,9 @@ period-only experiment is 10.50 ns; its result is not predetermined.
 The minimum one-`PD_AON`/one-`PD_SW` control sequence in
 `docs/MICROARCHITECTURE.md` is the proposed architecture boundary for the
 later C experiment. It freezes control semantics for verification planning;
-it does not claim PMU RTL or formal proof exists yet.
+this historical decision did not itself claim PMU RTL or formal proof. The
+later C wrapper, directed tests, and bounded SAT results are recorded in
+`results/processed/config-c-isolation.md`; C did not pass physical placement.
 
 ## D-006 — comparison discipline
 
@@ -87,9 +89,10 @@ and the documented logical switch intent. Clock gating uses the pinned ORFS
 SKY130HD `OPENROAD_CLKGATE` mapping to `sky130_fd_sc_hd__dlclkp_1`; functional
 and scan-test enables have the documented semantics. DFT is limited to the
 proven scan replacement/planning/stitching/physical integration scope, with
-initial chain policy `-max_length 8 -clock_mixing no_mix`. No PMU
-simulation/formal execution or A/B/C/D implementation is claimed by this
-decision.
+initial chain policy `-max_length 8 -clock_mixing no_mix`. This historical
+decision did not itself claim PMU simulation, formal execution, or A/B/C/D
+implementation. Later results are recorded separately; C did not pass
+physical placement and D was not run.
 
 Primary comparisons hold source, tools/image/platform hashes, mission period,
 I/O delays, floorplan geometry, utilization target, synthesis/placement/CTS/
@@ -98,8 +101,10 @@ power-report stage/script, and parsers constant. Configuration A is completed
 and frozen before changes for B, C, or D. The primary power analysis uses
 the shared deterministic source workload; power numbers remain estimates and
 are inadmissible as comparative reduction evidence until activity annotation
-is qualified and coverage is reported. The planned workload is the pinned
-640x480 real image, accepted APB setup, and fixed drained idle window. Evidence:
+is qualified and coverage is reported. At the time, the planned workload was
+the pinned 640x480 real image, accepted APB setup, and fixed drained idle
+window; D-011 later superseded the image dimensions for the reduced study.
+Evidence:
 `docs/POWER_INTENT.md`,
 `docs/VERIFICATION_PLAN.md`, `docs/FORMAL.md`, `docs/DFT.md`, and
 `results/processed/gate1-engineering-contract.md`.
@@ -124,8 +129,10 @@ Latch a sleep request while a frame is active, let that accepted frame and its
 final output transfer complete, prevent admission of the next frame, and only
 then enter PMU QUIESCE. No functional input is accepted after QUIESCE begins.
 This clarifies the frozen PMU contract to match the selected streaming top's
-frame-completion behavior. It defines future implementation intent only; no
-PMU is implemented or proven by this decision.
+frame-completion behavior. This decision recorded intent; it was not evidence
+of implementation or proof. Later PMU implementation and bounded checks are
+documented in `results/processed/config-c-isolation.md`; physical C remains
+not accepted.
 
 ## D-013 — provisional scan chain length for reduced design
 

@@ -43,7 +43,7 @@ implementation was run in the timing-recovery task.
   (`sha256:fe2b24e96c6e4088b1ac6d68c83c5089dfdc61d90b00b43361ede064bb37174c`)
 - Container architecture: Linux/aarch64; KLayout 0.30.12 at
   `/usr/local/klayout`.
-- Platform/library: pinned ORFS SKY130HD, `sky130_fd_sc_hd`, TT 0.025 C,
+- Platform/library: pinned ORFS SKY130HD, `sky130_fd_sc_hd`, TT 25 °C,
   1.80 V. Platform input hashes are in
   `results/processed/runtime-platform-manifest.md`.
 - Implementation target: 10.30 ns. Current mission evaluation period:

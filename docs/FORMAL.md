@@ -1,42 +1,27 @@
-# PMU Formal Contract
+# PMU formal contract and bounded evidence
 
-Status: property and assumption plan only. None of these properties is
-FORMALLY-CHECKED by this document.
+## Status
 
-## Safety properties for later execution
+This file preserves the planned PMU property contract and records the bounded checks that were actually run. It is not an unbounded proof, an induction result, or a proof of the Sobel datapath.
 
-- PMU state transitions follow only the specified sequence.
-- Once `QUIESCE` begins, no new stream transaction is accepted.
-- `CLOCK_GATED` is unreachable while functional work remains in flight.
-- Logical power-off intent is never asserted before the clock is gated.
-- Isolation is asserted before logical off and held through `POWER_OFF` and
-  `POWER_ON_WAIT`.
-- De-isolation cannot occur before logical off is removed, the four-cycle AON
-  wake guard completes, and two functional reset cycles complete.
-- A logically off or isolated functional block cannot emit an externally
-  valid response.
-- Reset in every PMU state leaves clock/isolation/off controls in the
-  documented safe condition.
-- Out-of-state sleep requests are ignored; latched wake requests cannot skip
-  drain, gate, isolation, or reset ordering; a same-cycle sleep/APB conflict
-  rejects the APB request at the AON wrapper.
-- No accepted transaction is dropped, duplicated, or reordered across
-  quiesce/wake, under the interface protocol assumptions.
+## Bounded checks that ran
 
-## Liveness and assumptions
+The pinned Yosys SAT command in `scripts/run_config_c_pmu_formal.sh` ran the PMU and `formal/phase1/config-c/config_c_pmu_formal.sv` for 18 steps with `-prove-asserts -verify`. The run completed successfully with no counterexample to the assertions encoded in that harness. A separate 22-step constrained SAT run emitted `sleep-wake-cover.vcd`, a bounded example trace through sleep and wake. The archived transcript is `results/raw/phase1-config-c/formal-runner.log`; the VCD is under `results/raw/phase1-config-c/formal/`.
 
-The design has no quiesce timeout. Liveness properties require an explicit
-fairness assumption that each accepted transaction eventually completes and
-that the AON clock continues toggling. Under those assumptions, a permitted
-sleep request eventually reaches logical off after drain, and a wake request
-eventually returns the PMU to `ACTIVE` after the defined guard/reset sequence.
-These are logical sequencing assumptions; no physical power-good or rail
-stabilization is modeled.
+The harness instantiates `config_c_pmu` alone. Its assertions check the encoded state range and legal next-state sequence, quiescent indication before entering `CLOCK_GATED`, clock disable before isolation/off, isolation and reset controls in off/wake states, and return to `ACTIVE` after `DEISOLATE`. `functional_quiescent` is an unconstrained harness input. It is not connected to live stream or pipeline state, so these checks do not establish that real accepted work has drained.
 
-The harness must constrain reset release, APB handshakes, stream valid/ready
-stability, and legal request timing. Every proof must review assumptions for
-overconstraint/vacuity and include cover traces for sleep, off, wake, and
-return to active. Bounded checks must state their bound.
+## Planned properties not established by those runs
 
-Formal PMU control does not establish analog power behavior, physical switch
-correctness, UPF tool completeness, or physical power gating.
+The broader contract remains a verification target, not an executed proof of each item:
+
+- The stream interface blocks new accepts during quiesce and preserves every accepted transaction without loss, duplication, reordering, or invalid response.
+- PMU shutdown is safe against the real Sobel pipeline's in-flight work and output backpressure.
+- Reset, APB races, and illegal requests satisfy the complete interface-level contract in all reachable states.
+- Liveness holds under explicit fairness assumptions; no induction or unbounded liveness proof was run.
+- Formal cover properties establish all required sleep/off/wake scenarios. The saved 22-step VCD is one constrained trace, not a cover-property suite.
+
+The directed simulation scenarios are recorded separately in `results/processed/config-c-isolation.md`. C remains physically unaccepted because detailed placement failed; bounded formal results do not change that disposition.
+
+## Assumptions and boundaries
+
+The 18-step harness assumes reset at its initial step and leaves the PMU request and `functional_quiescent` inputs otherwise symbolic. It has no model of analog power-good, supply stabilization, or a physical switch. The actual SKY130HD platform has no qualified physical switch master, so `POWER_OFF` is logical intent only. These checks do not establish UPF completeness, physical power gating, ATPG, fault coverage, or production sign-off.

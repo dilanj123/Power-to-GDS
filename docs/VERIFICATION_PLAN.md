@@ -1,7 +1,12 @@
 # A/B/C/D Verification Plan
 
-Status: frozen verification requirements. No low-power simulation or PMU
-formal result is claimed by this document.
+Status: this is the original frozen A/B/C/D verification contract. The
+scenario list below is intended acceptance scope, not a claim that every case
+ran. A/B source and directed simulations passed; C directed PMU simulation
+and bounded 18-step SAT assertions passed, but C failed physical detailed
+placement; portfolio D was not run. The planned matched activity-based power
+comparison was not completed; available power values are vectorless estimates
+only. See `docs/RESULTS.md` for execution evidence and remaining limits.
 
 ## Immutable functional reference
 
@@ -16,7 +21,7 @@ lost, duplicated, reordered, or corrupted output transactions. Every A/B/C/D
 variant must produce the same functional result for the same accepted input
 and configuration sequence.
 
-## Required directed scenarios
+## Planned directed acceptance scenarios
 
 1. Normal active operation and reset/startup.
 2. Idle sleep request after full drain.
@@ -41,7 +46,7 @@ The no-timeout policy is conditional on fairness: accepted work eventually
 completes. A blocked operation must leave the PMU safely in `QUIESCE`; it may
 not be discarded to force shutdown.
 
-## Activity workload and power stimulus
+## Planned activity workload and power stimulus
 
 The source project's accepted 640x480 real-image regression remains a source
 acceptance test, not the ASIC activity workload. The ASIC experiment uses a
@@ -59,7 +64,7 @@ Configuration D's primary power report is mission mode with scan enable
 inactive. Scan-shift activity/timing is a separate mode and must be labeled
 separately.
 
-The required 32x24 A-baseline simulation reuses the immutable source project's
+The planned 32x24 A-baseline simulation reuses the immutable source project's
 existing parameterized top and streaming tests. It checks complete-frame
 reference equality, input/output transaction counts and metadata, final-output
 backpressure, reset, APB setup, and source gaps. It is not a second

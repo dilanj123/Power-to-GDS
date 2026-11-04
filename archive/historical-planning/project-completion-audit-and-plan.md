@@ -43,8 +43,8 @@ The following authority order was inspected:
 
 | Authority file | Status | Finding |
 |---|---|---|
-| `00_MASTER_PROJECT_PLAN.md` | present | Defines evidence vocabulary, MVP scope, Gate 0–6 gates, fixed-core fairness, PMU contract, and non-claims. |
-| `01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md` | present | Reinforces the authority order, claim boundaries, frozen toolchain, separate mission/scan timing, and power-estimate labels. |
+| `archive/historical-planning/00_MASTER_PROJECT_PLAN.md` | archived | Defines the original evidence vocabulary, scope, gates, fixed-core fairness, PMU contract, and non-claims. It remains historical authority for the original full scope; D-017 explicitly records the reduced deliverable. |
+| `archive/historical-planning/01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md` | archived | Historical operating guidance; not required by implementation or reproduction scripts. |
 | `docs/REQUIREMENTS.md` | created during Prompt A | Minimum project contract and non-claim boundaries recorded; observed results remain in processed evidence. |
 | `docs/MICROARCHITECTURE.md` | created during Prompt A | Proposed imported boundary and PMU/domain contract recorded; not an RTL or formal-proof claim. |
 | `docs/POWER_INTENT.md` | absent | Must be created before the C experiment to define the supported UPF subset and switch abstraction. |

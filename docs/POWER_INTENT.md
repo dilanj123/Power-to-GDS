@@ -1,8 +1,10 @@
 # Power Intent Contract
 
-Status: frozen configuration-C intent for the Gate-1 engineering contract.
-This file specifies a supported subset and does not claim a PMU or C
-implementation has been run.
+Status: frozen configuration-C UPF intent. The project later ran the C PMU,
+UPF and isolation flow, passed bounded functional/formal checks, and failed
+physical detailed placement. This contract specifies the intended subset;
+the failure and evidence are recorded in `docs/RESULTS.md` and
+`results/processed/config-c-root-cause-audit.md`.
 
 ## Domain boundary
 

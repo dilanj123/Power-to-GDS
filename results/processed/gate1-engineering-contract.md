@@ -99,7 +99,7 @@ for these smaller physical comparisons. See `docs/DECISIONS.md` D-011.
 | Random seed | `FLOW_DEFAULT / UNCONTROLLED`; do not invent a seed after baseline |
 | PDN and pins | Pinned `sky130hd/pdn.tcl`; platform horizontal/vertical pin layers met3/met2; any scan BTerms follow the already qualified explicit placement operation |
 | Activity workload | D-011 amendment: deterministic generated 32x24 RGB frame (768 pixels), APB control `0x00=1`, threshold `0x04=128`, bypass `0`; exact generator/seed/frame hash are frozen with A, then 1,000 drained idle cycles. The 640x480 image workload remains source-regression evidence only. Archive the emitted waveform and annotation coverage before comparative power claims |
-| Power analysis | SKY130HD TT 0.025 C / 1.80 V library, 12.00 ns mission evaluation, final extracted stage. Create and hash one project report script/parser before power comparison, then reuse unchanged. Until common VCD/SAIF annotation is qualified, vectorless results are estimates and cannot support a reduction claim |
+| Power analysis | SKY130HD TT 25 °C / 1.80 V library, 12.00 ns mission evaluation, final extracted stage. Create and hash one project report script/parser before power comparison, then reuse unchanged. Until common VCD/SAIF annotation is qualified, vectorless results are estimates and cannot support a reduction claim |
 | Metrics | Cell/sequence/ICG/isolation counts, area/utilization, stage and final WNS/TNS/setup/hold/slew/cap, CTS sinks/buffers/skew, wire/vias, route/antenna, GDS/open-deck DRC/LVS, and bounded power report fields |
 
 The effective core dimensions and resolved floorplan controls are now recorded

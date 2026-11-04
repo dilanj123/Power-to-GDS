@@ -77,7 +77,7 @@ Detailed placement reported 268 legalization violations. A later
 placement failures; its exact software callsite is unknown and it is not
 established as the primary cause. The fixed-core domain partition could not
 be completed. C did not reach CTS, routing, extracted STA, GDS, DRC, or LVS.
-C remains **NOT ACCEPTED**. See the [full C placement root-cause audit](../results/processed/config-c-root-cause-audit.md) and its [review pack](../results/processed/config-c-chatgpt-review-pack.md).
+C remains **NOT ACCEPTED**. See the [full C placement root-cause audit](../results/processed/config-c-root-cause-audit.md).
 
 ## DFT/scan scope
 
@@ -95,30 +95,6 @@ found unannotated objects and did not use a matched VCD/SAIF activity input.
 Activity-based power comparison is **NOT QUALIFIED**; no power-reduction
 claim is made. The pinned platform also has no valid physical SKY130HD
 power-switch master, so C's switch is logical intent only.
-
-## CV project entry
-
-**Power-to-GDS — SKY130HD RTL-to-GDS study:** Implemented conventional and
-clock-gated versions of an immutable Sobel streaming pipeline with a pinned
-OpenROAD/SKY130HD flow. Both accepted configurations completed routed
-implementation, passed 12 ns mission STA, generated GDS, and passed pinned
-open-deck DRC/LVS. Built and tested a bounded PMU/UPF isolation case study;
-diagnosed why its fixed-core AON region could not be legalized (4,262.8384
-µm² movable area versus 3,862.4544 µm² legal area). Separately qualified
-scan insertion/routing on a small smoke design; portfolio scan was not run.
-No measured power reduction or physical power gating is claimed.
-
-## Short interview explanation
-
-“I kept an already verified Sobel pipeline’s RTL unchanged and built
-conventional and clock-gated SKY130HD implementations. Both passed the
-project’s 12 ns mission STA and pinned open-deck DRC/LVS. I also tested a
-small PMU and UPF isolation case. Its final fixed-core attempt had about
-400 square microns more movable AON cell area than legal row capacity, so
-detailed placement failed. The later software exception’s exact callsite is
-unknown, and I report it separately from the measured capacity deficit. A
-separate scan smoke demonstrated tool capability; portfolio scan, ATPG, and
-activity-based power reduction were not established.”
 
 ## Detailed evidence
 

@@ -10,7 +10,7 @@
 - Yosys: `a5af9d690a43744bf6b2cc3dea2717c16b54621c`
 - Image: `openroad/flow-ubuntu22.04-builder-nogui:26Q3-2276-g4a7cf9b22a-35f109`
 - Image digest: `sha256:fe2b24e96c6e4088b1ac6d68c83c5089dfdc61d90b00b43361ede064bb37174c`
-- Platform: ORFS SKY130HD, `sky130_fd_sc_hd`, TT 0.025 °C / 1.80 V.
+- Platform: ORFS SKY130HD, `sky130_fd_sc_hd`, TT 25 °C / 1.80 V.
 
 The exact platform and flow-script input hashes are in
 [`runtime-platform-manifest.md`](../results/processed/runtime-platform-manifest.md).
