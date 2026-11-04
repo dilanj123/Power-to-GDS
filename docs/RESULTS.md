@@ -77,7 +77,7 @@ Detailed placement reported 268 legalization violations. A later
 placement failures; its exact software callsite is unknown and it is not
 established as the primary cause. The fixed-core domain partition could not
 be completed. C did not reach CTS, routing, extracted STA, GDS, DRC, or LVS.
-C remains **NOT ACCEPTED**. See the [full C placement root-cause audit](../results/processed/config-c-root-cause-audit.md) and its [review pack](../results/processed/config-c-chatgpt-review-pack.md).
+C remains **NOT ACCEPTED**. See the [full C placement root-cause audit](../results/processed/config-c-root-cause-audit.md).
 
 ## DFT/scan scope
 

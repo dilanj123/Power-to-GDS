@@ -2,12 +2,12 @@
   "generated": "2026-09-20",
   "files": {
     "00_MASTER_PROJECT_PLAN.md": {
-      "bytes": 34929,
-      "sha256": "05621849790f93be81d6c226f89db6962a8d9aeba80acf3e9ed5e8dcd6c81212"
+      "bytes": 39199,
+      "sha256": "8303fdc1d977eb1ccdb59563e376130f6c03df3fccdf4cec162e408e518ac956"
     },
     "01_CHATGPT_PROJECT_OPERATING_INSTRUCTIONS.md": {
-      "bytes": 9332,
-      "sha256": "703fe0821a297eccd25b6c4fd320ecdfa5b24b309ee34f1e2d06a48f526a4df7"
+      "bytes": 10435,
+      "sha256": "50a9ae3f651f95ea42e7e3ce0659d3f58ed9bb6bb3de109dc1772f3b1e9a00c8"
     },
     "02_PHASE0_BOOTSTRAP_TASK.md": {
       "bytes": 11027,
@@ -25,5 +25,6 @@
       "bytes": 6267,
       "sha256": "aab6c039a3f4bf3a8d8eea7629bdf61ccf1f30146216e41de7c2cd6c83ac2c2d"
     }
-  }
+  },
+  "verified_after_archive_move": "2026-11-04"
 }

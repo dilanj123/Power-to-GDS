@@ -15,7 +15,7 @@ GDS captures and the ODB-derived incomplete C floorplan are documented in
 ## Configuration C placement root-cause audit
 
 - [Full diagnostic report](../results/processed/config-c-root-cause-audit.md)
-- [Self-contained engineering review pack](../results/processed/config-c-chatgpt-review-pack.md)
+- [Archived self-contained review pack](../archive/historical-planning/config-c-engineering-review-pack.md)
 - [Checkpoint/domain capacity table](../results/processed/config-c-stage-capacity.csv)
 - [Detailed-placement named-cell sample table](../results/processed/config-c-violation-samples.csv)
 
@@ -65,7 +65,7 @@ portfolio verdict is unchanged.
 | Ibex 10.20 ns comparison baseline | `results/processed/phase0-ibex-10p2ns-baseline.md` | FAIL_TIMING — not a clean baseline |
 | Ibex 10.30 ns comparison baseline raw implementation | `results/raw/phase0-ibex-10p3ns-baseline/` | IGNORED RAW IMPLEMENTATION DATA |
 | Ibex 10.30 ns comparison baseline | `results/processed/phase0-ibex-10p3ns-baseline.md` | FAIL_TIMING — not a clean baseline |
-| Project completion audit and execution plan | `results/processed/project-completion-audit-and-plan.md` | PLAN — revised after adversarial review |
+| Historical project completion audit and execution plan | `archive/historical-planning/project-completion-audit-and-plan.md` | ARCHIVED PLAN — superseded by D-017 reduced-scope disposition |
 | Runtime and platform freeze manifest | `results/processed/runtime-platform-manifest.md` | EXECUTION FREEZE — image/platform hashes recorded |
 | Immutable imported RTL acceptance | `results/processed/imported-rtl-acceptance.md` | PASS — clean checkout and documented regressions |
 | Gate-0 bounded reproducibility bundle | `results/processed/gate0-reproducibility-bundle.md` | PASS — capability bundle only |
